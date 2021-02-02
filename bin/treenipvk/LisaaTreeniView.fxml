@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="357.0" prefWidth="374.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox layoutX="21.0" layoutY="26.0" prefHeight="40.0" prefWidth="166.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nimi" textAlignment="RIGHT" wrappingWidth="151.41015625" />
+         </children>
+      </HBox>
+      <HBox layoutX="21.0" layoutY="66.0" prefHeight="40.0" prefWidth="166.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Harjoitteet" textAlignment="RIGHT" wrappingWidth="151.41015625" />
+         </children>
+      </HBox>
+      <HBox layoutX="187.0" layoutY="26.0" prefHeight="40.0" prefWidth="166.0">
+         <children>
+            <TextField prefHeight="25.0" prefWidth="129.0" />
+         </children>
+      </HBox>
+      <ListView layoutX="187.0" layoutY="66.0" prefHeight="275.0" prefWidth="129.0" />
+   </children>
+</AnchorPane>
