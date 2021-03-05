@@ -1,4 +1,4 @@
-package treenipvk;
+package fxTreenipvk;
 
 import java.awt.Desktop;
 import java.io.IOException;
