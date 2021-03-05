@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="196.0" prefWidth="285.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox layoutX="21.0" layoutY="26.0" prefHeight="40.0" prefWidth="79.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Työpaino" textAlignment="RIGHT" wrappingWidth="62.41015625" />
+         </children>
+      </HBox>
+      <HBox layoutX="21.0" layoutY="66.0" prefHeight="40.0" prefWidth="79.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Toistot" textAlignment="RIGHT" wrappingWidth="63.41015625" />
+         </children>
+      </HBox>
+      <HBox layoutX="100.0" layoutY="26.0" prefHeight="40.0" prefWidth="166.0">
+         <children>
+            <TextField prefHeight="25.0" prefWidth="129.0" />
+         </children>
+      </HBox>
+      <HBox layoutX="100.0" layoutY="66.0" prefHeight="40.0" prefWidth="166.0">
+         <children>
+            <TextField prefHeight="25.0" prefWidth="129.0" />
+         </children>
+      </HBox>
+      <HBox layoutX="100.0" layoutY="106.0" prefHeight="40.0" prefWidth="166.0">
+         <children>
+            <TextField prefHeight="25.0" prefWidth="129.0" />
+         </children>
+      </HBox>
+      <HBox layoutX="100.0" layoutY="146.0" prefHeight="25.0" prefWidth="129.0">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="138.0" text="OK" />
+         </children></HBox>
+      <HBox layoutX="21.0" layoutY="106.0" prefHeight="40.0" prefWidth="79.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Totetuneet" textAlignment="RIGHT" wrappingWidth="66.41015625" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

@@ -81,17 +81,19 @@ public class Harjoitteet implements Iterable<Harjoite> {
     /**
      * Lukee harjoitteen tiedostosta. Ei vielä valmiina.
      * @param hakemisto tiedoston hakemisto
+     * @throws SailoException jos tiedostosta lukeminen ei vielä onnistu
      */
-    public void lueTiedostosta(String hakemisto) {
+    public void lueTiedostosta(String hakemisto) throws SailoException {
         this.tiedostonimi = hakemisto + "/harjoitteet.dat";
-        //Exception tähän
+        throw new SailoException("Ei osata vielä lukea tiedostoa " + tiedostonimi);
     }
     
     /**
      * Tallentaa sarjat tiedostoon. Ei vielä valmis.
+     * @throws SailoException ei osata vielä tallentaa tiedostoon
      */
-    public void tallenna() {
-        //Tähän exception
+    public void tallenna() throws SailoException{
+        throw new SailoException("Ei osata vielä tallentaa tiedostoon " + tiedostonimi);
     }
     
 

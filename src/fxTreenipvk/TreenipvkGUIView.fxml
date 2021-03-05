@@ -29,7 +29,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#handleLisaaMerkinta" text="Lisää merkintä" />
                   <MenuItem mnemonicParsing="false" onAction="#handleLisaaTreeni" text="Lisää treeni" />
                   <MenuItem mnemonicParsing="false" onAction="#handleLisaaHarjoite" text="Lisää harjoite" />
-                  <MenuItem mnemonicParsing="false" onAction="#handleLisaaSarja" text="Lisää sarja" />
+                  <MenuItem mnemonicParsing="false" text="Lisää sarja" />
                   <MenuItem mnemonicParsing="false" onAction="#handlePoistaMerkinta" text="Poista merkintä" />
                   <MenuItem mnemonicParsing="false" onAction="#handlePoistaTreeni" text="Poista treeni" />
                   <MenuItem mnemonicParsing="false" onAction="#handlePoistaHarjoite" text="Poista harjoite" />
@@ -48,26 +48,26 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <ListView layoutX="26.0" layoutY="28.0" prefHeight="436.0" prefWidth="219.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0" />
+                  <ListView fx:id="chooserLoki" layoutX="26.0" layoutY="28.0" prefHeight="436.0" prefWidth="219.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0" />
                   <Label layoutX="20.0" layoutY="15.0" text="Loki" textAlignment="CENTER" AnchorPane.topAnchor="5.0" />
                </children>
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <ListView layoutX="26.0" layoutY="28.0" prefHeight="436.0" prefWidth="266.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0" />
+                  <ListView fx:id="chooserTreenit" layoutX="26.0" layoutY="28.0" prefHeight="436.0" prefWidth="266.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0" />
                   <Label text="Treeni" textAlignment="CENTER" AnchorPane.topAnchor="5.0" />
                </children>
             </AnchorPane>
             <AnchorPane layoutX="10.0" layoutY="10.0" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <ListView layoutX="26.0" layoutY="28.0" prefHeight="436.0" prefWidth="266.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0" />
+                  <ListView fx:id="chooserHarjoitteet" layoutX="26.0" layoutY="28.0" prefHeight="436.0" prefWidth="266.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0" />
                   <Label text="Harjoite" textAlignment="CENTER" AnchorPane.topAnchor="5.0" />
                </children>
             </AnchorPane>
             <AnchorPane layoutX="10.0" layoutY="10.0" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="208.0">
                <children>
                   <Label text="Sarjat" textAlignment="CENTER" AnchorPane.topAnchor="5.0" />
-                  <TableView layoutY="28.0" prefHeight="415.0" prefWidth="384.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0">
+                  <TableView fx:id="chooserSarjat" layoutY="28.0" prefHeight="415.0" prefWidth="384.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0">
                     <columns>
                       <TableColumn prefWidth="78.0" text="Sarja" />
                       <TableColumn prefWidth="97.0" text="Työpaino" />

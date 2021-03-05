@@ -82,18 +82,20 @@ public class Sarjat implements Iterable<Sarja>{
      * Lukee sarjan tiedostosta. Ei vielä valmiina.
      * TODO Kesken!
      * @param hakemisto tiedoston hakemisto
+     * @throws SailoException jos ei tiedostosta lukeminen onnistu
      */
-    public void lueTiedostosta(String hakemisto) {
+    public void lueTiedostosta(String hakemisto) throws SailoException {
         this.tiedostonimi = hakemisto + "/sarjat.dat";
-        //Exception tähän
+        throw new SailoException("Ei osata vielä lukea tiedostoa " + tiedostonimi);
     }
     
     /**
      * Tallentaa sarjat tiedostoon. Ei vielä valmis.
      * TODO Kesken!
+     * @throws SailoException jos tallentaminen ei onnistu
      */
-    public void tallenna() {
-        //Tähän exception
+    public void tallenna() throws SailoException {
+        throw new SailoException("Ei osata vielä lukea tiedostoa " + tiedostonimi);
     }
 
     /**

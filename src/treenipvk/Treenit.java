@@ -36,10 +36,11 @@ public class Treenit {
     /**
      * 
      * @param treeni Treeni-olio, joka treenit-taulukkoon halutaan lisätä.
+     * @throws SailoException SailoException jos tietorakenne on jo täynnä
      */
-    public void lisaaTreeni(Treeni treeni) {
+    public void lisaaTreeni(Treeni treeni) throws SailoException {
         if(lkm <= treenit.length) {
-            //Exception tähän
+            throw new SailoException("Liikaa alkioita!");
         }
        this. treenit[lkm] = treeni;
        this.lkm++;
@@ -48,10 +49,11 @@ public class Treenit {
     /**
      * @param i halutun treenin indeksinumero.
      * @return palauttaa treenit-taulukosta indeksin mukaisen treenin.
+     * @throws IndexOutOfBoundsException jos haettu indeksi on olemassaolevan ulkopuolella, eli alle 0 tai tietorakenteen koon eli alkioiden lukumäärää suurempi
      */
-    public Treeni getTreeni(int i) {
+    public Treeni getTreeni(int i) throws IndexOutOfBoundsException {
         if(i < 0 || i < lkm) {
-            //Exception tähän
+            throw new IndexOutOfBoundsException("Laiton indeksi: " + i);
         }
         return this.treenit[i];
     }
@@ -66,6 +68,7 @@ public class Treenit {
     
     /**
      * Järjestää treenit päivämäärän eli LocalDate-olion mukaisesti laskevaan järjestykseen.
+     * TODO lisää toinen metodi, jossa haku ja järjestäminen päivämäärän lisäämisen mukaisesti
      * @return palauttaa listan Treenejä.
      */
     public List<Treeni> jarjestaTreeni(){
@@ -93,39 +96,29 @@ public class Treenit {
     }
     
     /**
-     * Järjestää treenit päivämäärän eli LocalDate-olion mukaisesti laskevaan järjestykseen.
-     * @param pvm LocalDate-olio, jonka mukaan halutaan järjestää
-     * @return palauttaa listan Treenejä.
+     * Luetaan treenit tiedostosta
+     * @param hakemisto josta tiedostoa haetaan
+     * @throws SailoException jos tietorakenteen kanssa ongelmia, eli jos ongelmia tiedostosta lukemisen kanssa
      */
-    public List<Treeni> jarjestaTreeni(LocalDate pvm){
-        ArrayList<Treeni> palautettava = new ArrayList<Treeni>();
-        ArrayList<LocalDate> paivamaarat = new ArrayList<LocalDate>();
-        
-        for(Treeni treeni : this.treenit) {
-            if(treeni.getPvm() != null) {
-                paivamaarat.add(treeni.getPvm());
-            }
-        }
-        
-        paivamaarat.sort(null);
-        
-        while(palautettava.size() != paivamaarat.size()) {
-            for(int i = 0; i < this.treenit.length; i++) {
-                if(treenit[i].getPvm() == paivamaarat.get(0)) {
-                    palautettava.add(treenit[i]);
-                    paivamaarat.remove(0);
-                }
-            }
-        }
-        
-        return palautettava;
+    public void lueTiedostosta(String hakemisto) throws SailoException {
+        tiedostonimi = hakemisto + "/treenit.dat";
+        throw new SailoException("Ei osata vielä lukea tiedostosta " + tiedostonimi);
+    }
+    
+    /**
+     * 
+     * @throws SailoException jos tietorakenteen kanssa ongelmia, eli jos tiedostoon tallentaminen ei onnistu
+     */
+    public void tallenna() throws SailoException{
+        throw new SailoException("Ei osata vielä tallentaa tiedostosta " + tiedostonimi);
     }
 
     /**
      * Testataan Treeni-luokkaa
      * @param args ei käytössä
+     * @throws SailoException metodeissa ja funktioissa, joissa tietorakenteen kanssa ongelmia
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SailoException {
         //Testataan Treenit-luokkaa
         Treenit treenit = new Treenit();
         

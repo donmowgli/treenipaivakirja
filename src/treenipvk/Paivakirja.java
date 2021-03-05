@@ -74,6 +74,7 @@ public class Paivakirja {
     /**
      * Lisää treenin treeneihin.
      * @param treeni lisättävä treeni-olio.
+     * @throws SailoException jos tietorakenteen kanssa ongelmia
      * @example
      * <pre name="test">
      *  Paivakirja paivakirja = new Paivakirja();
@@ -83,7 +84,7 @@ public class Paivakirja {
      *  paivakirja.lisaa(treeni2); kerho.getTreeneja() === 2;
      *  </pre>
      */
-    public void lisaa(Treeni treeni) {
+    public void lisaa(Treeni treeni) throws SailoException {
         treenit.lisaaTreeni(treeni);
     }
     

@@ -67,6 +67,11 @@ public class TreenipvkGUIController implements Initializable  {
     }
     
     @FXML
+    private void handleLisaaSarja() {
+        ModalController.showModal(TreenipvkGUIController.class.getResource("LisaaSarjaView.fxml"), "Sarja", null, "");
+    }
+    
+    @FXML
     private void handlePoistaMerkinta() {
         ModalController.showModal(TreenipvkGUIController.class.getResource("PoistoView.fxml"), "Merkinta", null, "");
     }
@@ -90,6 +95,9 @@ public class TreenipvkGUIController implements Initializable  {
     private void handleApua() {
         avustus();
     }
+    
+  //=========================================================================================== 
+  // Käyttöliittymään suoraa liittyvä koodi loppuu tähän
     
     private void avaa() {
         Dialogs.showMessageDialog("Avaaminen ei toimi vielä");
