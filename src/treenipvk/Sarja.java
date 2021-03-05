@@ -94,6 +94,11 @@ public class Sarja {
         out.println("Sarjan ID: " + this.sarid + ", Työpaino: " + this.tyopaino  + ", Toistojen lukumäärä: " +this.toistot + ", Toteutuneiden toistojen lukumäärä:  " + this.toteutuneet);
     }
     
+    @Override
+    public String toString() {
+        return String.valueOf(this.tyopaino) + " " + String.valueOf(this.toistot) + " " + String.valueOf(this.toteutuneet);
+    }
+    
     /** Pääohjelma testaamaan luokkaa
      * @param args ei käytössä
      */

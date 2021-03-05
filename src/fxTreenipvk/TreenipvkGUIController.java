@@ -5,13 +5,29 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 import fi.jyu.mit.fxgui.Dialogs;
+import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import Treenipvk.Sarja;
+import Treenipvk.Sarjat;
+import Treenipvk.Harjoite;
+import Treenipvk.Harjoitteet;
+import Treenipvk.Treeni;
+import Treenipvk.Treenit;
+import Treenipvk.Paivakirja;
+import Treenipvk.SailoException;
 
 /**
  * @author Akseli Jaara
@@ -20,14 +36,15 @@ import javafx.fxml.Initializable;
  */
 public class TreenipvkGUIController implements Initializable  {
     
-    //@FXML private TextField hakuehto;
-    //kentät tähän
-    //@FXML private Label labelVirhe;
+    @FXML private TextField hakuehto;
+    @FXML private Label labelVirhe;
+    @FXML private ListView<String> sarjaLista;
+    @FXML private ListView<String> harjoiteLista;
+    @FXML private ListChooser<String> chooserHarjoitteet = new ListChooser<String>();
 
     @Override
-    public void initialize(URL arg0, ResourceBundle arg1) {
-        // TODO Auto-generated method stub
-        
+    public void initialize(URL url, ResourceBundle bundle) {
+        alusta();
     }
     
     @FXML
@@ -63,7 +80,7 @@ public class TreenipvkGUIController implements Initializable  {
     
     @FXML
     private void handleLisaaHarjoite() {
-        ModalController.showModal(TreenipvkGUIController.class.getResource("LisaaHarjoiteView.fxml"), "Harjoite", null, "");
+        uusiHarjoite();
     }
     
     @FXML
@@ -98,6 +115,115 @@ public class TreenipvkGUIController implements Initializable  {
     
   //=========================================================================================== 
   // Käyttöliittymään suoraa liittyvä koodi loppuu tähän
+    
+    private Paivakirja paivakirja = new Paivakirja();
+    private String harjoitteenKohdalla;
+    
+    
+    /**
+     * Alustetaan harrastelistan kuuntelija
+     */
+    protected void alusta() {
+        try{
+            chooserHarjoitteet.clear();
+            chooserHarjoitteet.addSelectionListener(e -> naytaSarjat());
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * Näytetään kaikki sarjat listassa valitun harjoituksen mukaan. Väliaikainen
+     */
+    protected void naytaSarjat() {
+        harjoitteenKohdalla = chooserHarjoitteet.getSelectedObject();
+        sarjaLista.getItems().clear();
+        
+        if (harjoitteenKohdalla == null) return;
+        ObservableList<String> data = FXCollections.observableArrayList();
+        for(Sarja sarja : paivakirja.getSarjat()) {
+            if(sarja.getHarid() == paivakirja.getHarjoitteet().getHarjoite(harjoitteenKohdalla).getHarid()) {
+                data.add(sarja.toString());
+            }
+        }
+        sarjaLista.setItems(data);
+    }
+    
+    /**
+     * Näytetään kaikki harjoitteet listassa. Väliaikainen
+     */
+    protected void naytaHarjoitteet() {
+        ObservableList<String> data = FXCollections.observableArrayList();
+        try {
+            for(Harjoite harjoite : paivakirja.getHarjoitteet()) {
+                data.add(harjoite.getNimi());
+                if(data.size() == paivakirja.getSarjoja()) {
+                    break;
+                }
+            }
+            harjoiteLista.setItems(data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+
+    /**
+     * Hakee harjoitteen tiedot listaan
+     * @param id harjoitteen numero, joka aktivoidaan haun jälkeen
+     */
+    protected void hae(int id) {
+        chooserHarjoitteet.clear();
+
+        int index = 0;
+        for (int i = 0; i < paivakirja.getHarjoitteita(); i++) {
+            Harjoite harjoite = paivakirja.getHarjoite(i);
+            if (harjoite.getHarid() == id) index = i;
+            chooserHarjoitteet.add(harjoite.getNimi());
+        }
+        chooserHarjoitteet.setSelectedIndex(index); // tästä tulee muutosviesti joka näyttää jäsenen
+    }
+
+    
+    /**
+     * Luo uuden harjoitteen jota aletaan editoimaan 
+     */
+    protected void uusiHarjoite() {
+        try {
+            Harjoite harjoite = new Harjoite();
+            harjoite.setNimi("Penkki");
+            harjoite.rekisteroi();
+            
+            Random rand = new Random();
+            
+            Sarja sarja1 = new Sarja(rand.nextInt(80), rand.nextInt(10));
+            Sarja sarja2 = new Sarja(rand.nextInt(80), rand.nextInt(10));
+            Sarja sarja3 = new Sarja(rand.nextInt(80), rand.nextInt(10));
+            
+            sarja1.rekisteroi();
+            sarja2.rekisteroi();
+            sarja3.rekisteroi();
+            
+            sarja1.setHarid(harjoite.getHarid());
+            sarja2.setHarid(harjoite.getHarid());
+            sarja3.setHarid(harjoite.getHarid());
+            
+            paivakirja.getSarjat().lisaaSarja(sarja1);
+            paivakirja.getSarjat().lisaaSarja(sarja2);
+            paivakirja.getSarjat().lisaaSarja(sarja3);
+            
+            paivakirja.lisaa(harjoite);
+            
+            naytaHarjoitteet();
+            
+            hae(harjoite.getHarid());
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     
     private void avaa() {
         Dialogs.showMessageDialog("Avaaminen ei toimi vielä");

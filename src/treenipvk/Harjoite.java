@@ -45,6 +45,22 @@ public class Harjoite {
     }
     
     /**
+     * Haetaan harjoitteen nimi.
+     * @return palauttaa harjoitteen nimen.
+     */
+    public String getNimi() {
+        return this.nimi;
+    }
+    
+    /**
+     * Haetaan harjoituksen yksilöivä id, harid
+     * @return palauttaa yksilöivän id:n harid-numeron.
+     */
+    public int getHarid() {
+        return this.harid;
+    }
+    
+    /**
      * Treenin ID:n asettaminen
      * @param trid treenin id.
      */

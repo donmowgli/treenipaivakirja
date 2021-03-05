@@ -56,6 +56,20 @@ public class Harjoitteet implements Iterable<Harjoite> {
     }
     
     /**
+     * Haetaan harjoituksista haluttu harjoite nimen perusteella.
+     * @param nimi nimi, jonka mukaan harjoitusta haetaan
+     * @return palauttaa halutun Harjoite-olion. Paluttaa null-olion, jos ei ole olemassa.
+     */
+    public Harjoite getHarjoite(String nimi) {
+        for(Harjoite harjoite : this.harjoitteet) {
+            if(harjoite.getNimi().equals(nimi)) {
+                return harjoite;
+            }
+        }
+        return null;
+    }
+    
+    /**
      * Etsitään treenin harjoitukset vertailemalla treenin yksilöivää trid-tunnusta harjoituksen trid-tunnukseen.
      * @param trid harjoituksen yksilöivä harid tunnus.
      * @return palauttaa listana vastaavat sarjat.

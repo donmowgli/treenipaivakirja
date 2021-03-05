@@ -16,6 +16,23 @@ public class Paivakirja {
     private Sarjat sarjat = new Sarjat();
     
     /**
+     * Lisää treenin treeneihin.
+     * @param treeni lisättävä treeni-olio.
+     * @throws SailoException jos tietorakenteen kanssa ongelmia
+     * @example
+     * <pre name="test">
+     *  Paivakirja paivakirja = new Paivakirja();
+     *  Treeni treeni1 = new Treeni(); treeni1.rekisteroi();
+     *  Treeni treeni2 = new Treeni(); treeni2.rekisteroi();
+     *  paivakirja.lisaa(treeni1); kerho.getTreeneja() === 1;
+     *  paivakirja.lisaa(treeni2); kerho.getTreeneja() === 2;
+     *  </pre>
+     */
+    public void lisaa(Treeni treeni) throws SailoException {
+        treenit.lisaaTreeni(treeni);
+    }
+    
+    /**
      * Treenien kokonaislukumäärän palauttaminen.
      * @return palauttaa treenien lukumäärän
      */
@@ -24,27 +41,12 @@ public class Paivakirja {
     }
     
     /**
-     * Lisää sarjan sarjoihin.
-     * @param sarja lisättävä sarja-olio
-     * @example
-     * <pre name="test">
-     *  Paivakirja paivakirja = new Paivakirja();
-     *  Sarja sarja1 = new Sarja(); sarja1.rekisteroi();
-     *  Sarja sarja2 = new Sarja(); sarja2.rekisteroi();
-     *  paivakirja.lisaa(sarja1); kerho.getSarjoja() === 1;
-     *  paivakirja.lisaa(sarja2); kerho.getSarjoja() === 2;
-     *  </pre>
+     * Haetaan indeksin mukainen sarja taulukosta
+     * @param i halutun sarjan indeksi
+     * @return palauttaa indeksin mukaisen sarjan taulukosta
      */
-    public void lisaa(Sarja sarja) {
-        sarjat.lisaaSarja(sarja);
-    }
-    
-    /**
-     * Sarjojen kokonaislukumäärän palauttaminen
-     * @return palauttaa sarjojen kokonaislukumäärän.
-     */
-    public int getSarjoja() {
-        return sarjat.getSarjatLkm();
+    public Treeni getTreeni(int i) {
+        return this.treenit.getTreeni(i);
     }
     
     /**
@@ -72,20 +74,61 @@ public class Paivakirja {
     }
     
     /**
-     * Lisää treenin treeneihin.
-     * @param treeni lisättävä treeni-olio.
-     * @throws SailoException jos tietorakenteen kanssa ongelmia
+     * Haetaan Paivakirja-olion harjoitteet-olio
+     * @return Paivakirja-olion harjoitteet-olion
+     */
+    public Harjoitteet getHarjoitteet() {
+        return this.harjoitteet;
+    }
+    
+    /**
+     * Haetaan indeksin mukainen sarja taulukosta
+     * @param i halutun sarjan indeksi
+     * @return palauttaa indeksin mukaisen sarjan taulukosta
+     */
+    public Harjoite getHarjoite(int i) {
+        return this.harjoitteet.getHarjoite(i);
+    }
+    
+    /**
+     * Lisää sarjan sarjoihin.
+     * @param sarja lisättävä sarja-olio
      * @example
      * <pre name="test">
      *  Paivakirja paivakirja = new Paivakirja();
-     *  Treeni treeni1 = new Treeni(); treeni1.rekisteroi();
-     *  Treeni treeni2 = new Treeni(); treeni2.rekisteroi();
-     *  paivakirja.lisaa(treeni1); kerho.getTreeneja() === 1;
-     *  paivakirja.lisaa(treeni2); kerho.getTreeneja() === 2;
+     *  Sarja sarja1 = new Sarja(); sarja1.rekisteroi();
+     *  Sarja sarja2 = new Sarja(); sarja2.rekisteroi();
+     *  paivakirja.lisaa(sarja1); kerho.getSarjoja() === 1;
+     *  paivakirja.lisaa(sarja2); kerho.getSarjoja() === 2;
      *  </pre>
      */
-    public void lisaa(Treeni treeni) throws SailoException {
-        treenit.lisaaTreeni(treeni);
+    public void lisaa(Sarja sarja) {
+        sarjat.lisaaSarja(sarja);
+    }
+    
+    /**
+     * Sarjojen kokonaislukumäärän palauttaminen
+     * @return palauttaa sarjojen kokonaislukumäärän.
+     */
+    public int getSarjoja() {
+        return sarjat.getSarjatLkm();
+    }
+    
+    /**'
+     * Palauttaa Paivakirja-olion Sarjat-olion.
+     * @return palauttaa sarjat-olion.
+     */
+    public Sarjat getSarjat() {
+        return this.sarjat;
+    }
+    
+    /**
+     * Haetaan indeksin mukainen sarja taulukosta
+     * @param i halutun sarjan indeksi
+     * @return palauttaa indeksin mukaisen sarjan taulukosta
+     */
+    public Sarja getSarja(int i) {
+        return this.sarjat.getSarja(i);
     }
     
     /**

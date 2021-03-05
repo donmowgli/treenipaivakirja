@@ -7,8 +7,6 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -48,33 +46,26 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <ListView fx:id="chooserLoki" layoutX="26.0" layoutY="28.0" prefHeight="436.0" prefWidth="219.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0" />
+                  <ListView layoutX="26.0" layoutY="28.0" prefHeight="436.0" prefWidth="219.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0" />
                   <Label layoutX="20.0" layoutY="15.0" text="Loki" textAlignment="CENTER" AnchorPane.topAnchor="5.0" />
                </children>
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <ListView fx:id="chooserTreenit" layoutX="26.0" layoutY="28.0" prefHeight="436.0" prefWidth="266.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0" />
+                  <ListView layoutX="26.0" layoutY="28.0" prefHeight="436.0" prefWidth="266.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0" />
                   <Label text="Treeni" textAlignment="CENTER" AnchorPane.topAnchor="5.0" />
                </children>
             </AnchorPane>
             <AnchorPane layoutX="10.0" layoutY="10.0" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <ListView fx:id="chooserHarjoitteet" layoutX="26.0" layoutY="28.0" prefHeight="436.0" prefWidth="266.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0" />
+                  <ListView fx:id="harjoiteLista" layoutX="26.0" layoutY="28.0" prefHeight="436.0" prefWidth="266.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0" />
                   <Label text="Harjoite" textAlignment="CENTER" AnchorPane.topAnchor="5.0" />
                </children>
             </AnchorPane>
             <AnchorPane layoutX="10.0" layoutY="10.0" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="208.0">
                <children>
                   <Label text="Sarjat" textAlignment="CENTER" AnchorPane.topAnchor="5.0" />
-                  <TableView fx:id="chooserSarjat" layoutY="28.0" prefHeight="415.0" prefWidth="384.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0">
-                    <columns>
-                      <TableColumn prefWidth="78.0" text="Sarja" />
-                      <TableColumn prefWidth="97.0" text="Työpaino" />
-                        <TableColumn prefWidth="97.0" text="Toistot" />
-                        <TableColumn prefWidth="111.0" text="Toteutuneet" />
-                    </columns>
-                  </TableView>
+                  <ListView fx:id="sarjaLista" layoutX="119.0" layoutY="28.0" prefHeight="399.0" prefWidth="384.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0" />
                </children>
             </AnchorPane>
         </items>
