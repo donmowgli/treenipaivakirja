@@ -225,12 +225,21 @@ public class TreenipvkGUIController implements Initializable  {
     }
 
     
-    private void avaa() {
-        Dialogs.showMessageDialog("Avaaminen ei toimi vielä");
+    /**
+     * Ohjelmaa avatessa avaa tiedostosta ladatut tiedot käyttöliittymään
+     * TODO: Onko tarpeellinen ollenkaan jos ei ominaisuutta eri treeniohjelmille?
+     */
+    public void avaa(){
+        //onko tarpeellinen?
     }
     
     private void tallenna() {
-        Dialogs.showMessageDialog("Tallennus, ei toimi vielä");
+        try {
+            paivakirja.tallenna();
+        } catch (SailoException e) {
+            Dialogs.showMessageDialog("Tallennuksessa ongelmia!" + e.getMessage());
+        }
+        
     }
     
     /**

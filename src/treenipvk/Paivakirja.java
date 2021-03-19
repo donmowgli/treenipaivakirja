@@ -132,6 +132,30 @@ public class Paivakirja {
     }
     
     /**
+     * Luetaan tiedostosta tiedot koko Paivakirja-olioon, sarjoihin, harjoitteisiin, ja treeneihin. Alustettu perusnimillä, ei tarvetta toistaiseksi tarvetta nimetä tiedostoja erikseen, vaikka valmius luokissa on olemassa.
+     * @throws SailoException jos ongelmia tiedoston ja siitä lukemisen kanssa.
+     */
+    public void lueTiedostosta() throws SailoException {
+        this.sarjat.setTiedostonNimi("sarjat.dat");
+        this.harjoitteet.setTiedostonNimi("harjoitteet.dat");
+        this.treenit.setTiedostonNimi("treenit.dat");
+        
+        this.sarjat.lueTiedostosta("sarjat.dat");
+        this.harjoitteet.lueTiedostosta("harjoitteet.dat");
+        this.treenit.lueTiedostosta("treenit.dat");
+    }
+    
+    /**
+     * Tallennetaan Paivakirja-olion Treenit, Harjoitteet ja Sarjat-oliot erillisiin tiedostoihinsa luokkien omia apumetodeja hyödyntäen.
+     * @throws SailoException jos tiedostoon tallentaminen ei onnistu.
+     */
+    public void tallenna() throws SailoException{
+        this.sarjat.tallenna();
+        this.harjoitteet.tallenna();
+        this.treenit.tallenna();
+    }
+    
+    /**
      * Poistaa halutulla numerolla löytyvän treenin, harjoitteen tai sarjan. Kesken!
      * TODO täydennä!
      * @param id jonka mukaisesti halutaan poistaa

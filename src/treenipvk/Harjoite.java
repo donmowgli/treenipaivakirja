@@ -101,6 +101,23 @@ public class Harjoite {
         return harid;
     }
     
+    @Override
+    public String toString() {
+        return this.nimi + "|" + this.harid + "|" + this.trid  + "|" + this.sarlkm;
+    }
+    
+    /**
+     * String-oliota luettaessa alustetaan tiedot halutulle sarjalle.
+     * @param jono josta halutaan tarvittavat tiedot sarjalle
+     */
+    public void parse(String jono) {
+        String[] arvot = jono.split("//|");
+        this.nimi = arvot[0];
+        this.harid = Integer.parseInt(arvot[1]);
+        this.trid = Integer.parseInt(arvot[2]);
+        this.sarlkm = Integer.parseInt(arvot[3]);
+    }
+    
     /**
      * Testataan Harjoite-luokkaa.
      * @param args ei käytössä

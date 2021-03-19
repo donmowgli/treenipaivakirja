@@ -96,7 +96,20 @@ public class Sarja {
     
     @Override
     public String toString() {
-        return String.valueOf(this.tyopaino) + " " + String.valueOf(this.toistot) + " " + String.valueOf(this.toteutuneet);
+        return this.sarid + "|" + this.harid + "|" + this.tyopaino  + "|" + this.toistot  + "|" + this.toteutuneet;
+    }
+    
+    /**
+     * String-oliota luettaessa alustetaan tiedot halutulle sarjalle.
+     * @param jono josta halutaan tarvittavat tiedot sarjalle
+     */
+    public void parse(String jono) {
+        String[] arvot = jono.split("//|");
+        this.sarid = Integer.parseInt(arvot[0]);
+        this.harid = Integer.parseInt(arvot[1]);
+        this.tyopaino = Integer.parseInt(arvot[2]);
+        this.toistot = Integer.parseInt(arvot[3]);
+        this.toteutuneet = Integer.parseInt(arvot[4]);
     }
     
     /** Pääohjelma testaamaan luokkaa

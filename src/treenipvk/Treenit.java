@@ -3,6 +3,13 @@
  */
 package Treenipvk;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -96,21 +103,56 @@ public class Treenit {
     }
     
     /**
-     * Luetaan treenit tiedostosta
-     * @param hakemisto josta tiedostoa haetaan
-     * @throws SailoException jos tietorakenteen kanssa ongelmia, eli jos ongelmia tiedostosta lukemisen kanssa
+     * Asetetaan Treenit-oliolle tiedostonimi
+     * @param nimi tiedoston nimi, joka asetetaan
      */
-    public void lueTiedostosta(String hakemisto) throws SailoException {
-        tiedostonimi = hakemisto + "/treenit.dat";
-        throw new SailoException("Ei osata vielä lukea tiedostosta " + tiedostonimi);
+    public void setTiedostonNimi(String nimi) {
+        this.tiedostonimi = nimi;
     }
     
     /**
-     * 
-     * @throws SailoException jos tietorakenteen kanssa ongelmia, eli jos tiedostoon tallentaminen ei onnistu
+     * Haetaan Treenit-olion tiedoston nimi
+     * @return palauttaa Harjoite-olion tiedoston nimen
      */
-    public void tallenna() throws SailoException{
-        throw new SailoException("Ei osata vielä tallentaa tiedostosta " + tiedostonimi);
+    public String getTiedostoNimi() {
+        return this.tiedostonimi;
+    }
+    
+    /**
+     * Lukee treenit tiedostosta Treenit-olioon.
+     * @param tiedNimi tiedoston nimi, josta halutaan lukea
+     * @throws SailoException jos ei tiedostosta lukeminen onnistu
+     */
+    public void lueTiedostosta(String tiedNimi) throws SailoException {
+        try(BufferedReader lukija = new BufferedReader(new FileReader(tiedNimi))){
+            String rivi;
+            while((rivi = lukija.readLine()) != null) {
+                Treeni treeni = new Treeni();
+                treeni.parse(rivi);
+                this.lisaaTreeni(treeni);
+            }
+        } catch (FileNotFoundException e) {
+            throw new SailoException("Tiedosto ei aukea");
+        } catch (IOException e) {
+            throw new SailoException("Tiedoston kanssa on ongelmia!");
+        }
+    }
+    
+    /**
+     * Tallentaa harjoitteet tiedostoon.
+     * @throws SailoException jos tallentaminen ei onnistu.
+     */
+    public void tallenna() throws SailoException {
+        File tiedosto = new File(this.getTiedostoNimi());
+        try {
+            tiedosto.createNewFile();
+            PrintWriter fo = new PrintWriter(new FileWriter(tiedosto.getCanonicalPath()));
+            for(int i = 0; i < this.treenit.length; i++) {
+                fo.println(this.treenit[i].toString());
+            }
+        } catch(IOException e) {
+            throw new SailoException("Tiedosto ei aukea");
+        }
     }
 
     /**

@@ -3,6 +3,13 @@
  */
 package Treenipvk;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -79,23 +86,56 @@ public class Sarjat implements Iterable<Sarja>{
     }
     
     /**
-     * Lukee sarjan tiedostosta. Ei vielä valmiina.
-     * TODO Kesken!
-     * @param hakemisto tiedoston hakemisto
-     * @throws SailoException jos ei tiedostosta lukeminen onnistu
+     * Asetetaan Sarjat-oliolle tiedostonimi
+     * @param nimi tiedoston nimi, joka asetetaan
      */
-    public void lueTiedostosta(String hakemisto) throws SailoException {
-        this.tiedostonimi = hakemisto + "/sarjat.dat";
-        throw new SailoException("Ei osata vielä lukea tiedostoa " + tiedostonimi);
+    public void setTiedostonNimi(String nimi) {
+        this.tiedostonimi = nimi;
     }
     
     /**
-     * Tallentaa sarjat tiedostoon. Ei vielä valmis.
-     * TODO Kesken!
+     * Haetaan Sarjat-olion tiedoston nimi
+     * @return palauttaa Sarjat-olion tiedoston nimen
+     */
+    public String getTiedostoNimi() {
+        return this.tiedostonimi;
+    }
+    
+    /**
+     * Lukee sarjat tiedostosta Sarjat-olioon.
+     * @param tiedNimi tiedoston nimi, josta halutaan lukea
+     * @throws SailoException jos ei tiedostosta lukeminen onnistu
+     */
+    public void lueTiedostosta(String tiedNimi) throws SailoException {
+        try(BufferedReader lukija = new BufferedReader(new FileReader(tiedNimi))){
+            String rivi;
+            while((rivi = lukija.readLine()) != null) {
+                Sarja sarja = new Sarja();
+                sarja.parse(rivi);
+                this.lisaaSarja(sarja);
+            }
+        } catch (FileNotFoundException e) {
+            throw new SailoException("Tiedosto ei aukea");
+        } catch (IOException e) {
+            throw new SailoException("Tiedoston kanssa on ongelmia!");
+        }
+    }
+    
+    /**
+     * Tallentaa sarjat tiedostoon.
      * @throws SailoException jos tallentaminen ei onnistu
      */
     public void tallenna() throws SailoException {
-        throw new SailoException("Ei osata vielä lukea tiedostoa " + tiedostonimi);
+        File tiedosto = new File(this.getTiedostoNimi());
+        try {
+            tiedosto.createNewFile();
+            PrintWriter fo = new PrintWriter(new FileWriter(tiedosto.getCanonicalPath()));
+            for(Sarja sarja : this) {
+                fo.println(sarja.toString());
+            }
+        } catch(IOException e) {
+            throw new SailoException("Tiedosto ei aukea");
+        }
     }
 
     /**

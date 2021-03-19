@@ -76,6 +76,22 @@ public class Treeni {
         out.println(this.nimi + " " + this.trid + " " + this.pvm);
     }
     
+    @Override
+    public String toString() {
+        return this.nimi + "|" + this.trid + "|" + this.pvm.toString();
+    }
+    
+    /**
+     * String-oliota luettaessa alustetaan tiedot halutulle treenille.
+     * @param jono josta halutaan tarvittavat tiedot treenille
+     */
+    public void parse(String jono) {
+        String[] arvot = jono.split("//|");
+        this.nimi = arvot[0];
+        this.trid = Integer.parseInt(arvot[1]);
+        this.pvm = LocalDate.parse(arvot[2]);
+    }
+    
     /**
      * Testataan treeni-luokkaa
      * @param args ei käytössä
