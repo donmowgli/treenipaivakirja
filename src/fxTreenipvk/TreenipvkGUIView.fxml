@@ -27,7 +27,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#handleLisaaMerkinta" text="Lisää merkintä" />
                   <MenuItem mnemonicParsing="false" onAction="#handleLisaaTreeni" text="Lisää treeni" />
                   <MenuItem mnemonicParsing="false" onAction="#handleLisaaHarjoite" text="Lisää harjoite" />
-                  <MenuItem mnemonicParsing="false" text="Lisää sarja" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleLisaaSarja" text="Lisää sarja" />
                   <MenuItem mnemonicParsing="false" onAction="#handlePoistaMerkinta" text="Poista merkintä" />
                   <MenuItem mnemonicParsing="false" onAction="#handlePoistaTreeni" text="Poista treeni" />
                   <MenuItem mnemonicParsing="false" onAction="#handlePoistaHarjoite" text="Poista harjoite" />

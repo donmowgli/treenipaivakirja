@@ -59,6 +59,14 @@ public class Treeni {
     }
     
     /**
+     * Haetaan treenin id
+     * @return palautetaan Treeni-olion trid integer-numerona.
+     */
+    public int getTrid() {
+        return this.trid;
+    }
+    
+    /**
      * Rekisteröidään treeni
      * @return palauttaa treenin uuden trid:n 
      */

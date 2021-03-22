@@ -41,6 +41,14 @@ public class Paivakirja {
     }
     
     /**
+     * Haetaan päiväkirjan Treenit-olio
+     * @return palautetaan päiväkirjan treenit.
+     */
+    public Treenit getTreenit() {
+        return this.treenit;
+    }
+    
+    /**
      * Haetaan indeksin mukainen sarja taulukosta
      * @param i halutun sarjan indeksi
      * @return palauttaa indeksin mukaisen sarjan taulukosta

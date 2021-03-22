@@ -7,27 +7,27 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="357.0" prefWidth="374.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="357.0" prefWidth="374.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxTreenipvk.LisaaMerkintaGUIController">
    <children>
       <HBox layoutX="21.0" layoutY="26.0" prefHeight="40.0" prefWidth="166.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nimi" textAlignment="RIGHT" wrappingWidth="151.41015625" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Päivämäärä (pp.kk.vvvv)" textAlignment="RIGHT" wrappingWidth="151.41015625" />
          </children>
       </HBox>
       <HBox layoutX="21.0" layoutY="66.0" prefHeight="40.0" prefWidth="166.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Harjoitteet" textAlignment="RIGHT" wrappingWidth="151.41015625" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Treeni" textAlignment="RIGHT" wrappingWidth="151.41015625" />
          </children>
       </HBox>
       <HBox layoutX="187.0" layoutY="26.0" prefHeight="40.0" prefWidth="166.0">
          <children>
-            <TextField prefHeight="25.0" prefWidth="129.0" />
+            <TextField fx:id="pvm" prefHeight="25.0" prefWidth="129.0" />
          </children>
       </HBox>
-      <ListView layoutX="187.0" layoutY="66.0" prefHeight="243.0" prefWidth="129.0" />
+      <ListView fx:id="treenit" layoutX="187.0" layoutY="66.0" prefHeight="243.0" prefWidth="129.0" />
       <HBox layoutX="187.0" layoutY="316.0" prefHeight="25.0" prefWidth="129.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="131.0" text="OK" />
+            <Button fx:id="ok" mnemonicParsing="false" onAction="#handleOK" prefHeight="25.0" prefWidth="131.0" text="OK" />
          </children>
       </HBox>
    </children>

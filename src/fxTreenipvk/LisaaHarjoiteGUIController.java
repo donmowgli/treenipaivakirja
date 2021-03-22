@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import Treenipvk.Harjoite;
-import Treenipvk.Sarja;
 import fi.jyu.mit.fxgui.Dialogs;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Modality;
@@ -17,16 +15,25 @@ import javafx.stage.Stage;
 
 /**
  * Controller-luokka harjoitteen lisäämiselle
+ * TODO bugin korjaaminen, jossa stage.hide() ei toimi.
  * @author Akseli Jaara
  * @version 20 Mar 2021
  *
  */
 public class LisaaHarjoiteGUIController {
-    private Harjoite harjoite = new Harjoite();
-    private static Stage stage = new Stage();
+    private Harjoite harjoite;
+    private Stage stage;
     
     @FXML private TextField nimi;
     @FXML private TextField lkm;
+    
+    /**
+     * Controllerin muodostaja
+     */
+    public LisaaHarjoiteGUIController() {
+        this.harjoite = new Harjoite();
+        this.stage = new Stage();
+    }
     
     /**
      * Handle-funktio OK-napin painallukselle
@@ -38,7 +45,7 @@ public class LisaaHarjoiteGUIController {
             harjoite.setSarlkm(Integer.parseInt(lkm.getText()));
             stage.hide();
         }catch (NumberFormatException e) {
-            Dialogs.showMessageDialog("Sarjojen lukumäärä tulee olla numeroina!" + e.getMessage());
+            Dialogs.showMessageDialog("Sarjojen lukumäärä tulee olla numeroina!");
         }
     }
     
@@ -55,7 +62,7 @@ public class LisaaHarjoiteGUIController {
      * @param modalityStage modaalisuus, joka halutaan: ollaanko modaalisia jollekin toiselle ikkunalle.
      * @return palauttaa lisätyn Harjoite-olion.
      */
-    public static Harjoite lisaa(Stage modalityStage) {
+    public Harjoite lisaa(Stage modalityStage) {
         try {
             URL url = LisaaHarjoiteGUIController.class.getResource("LisaaHarjoiteView.fxml");
             FXMLLoader loader = new FXMLLoader(url);

@@ -74,6 +74,13 @@ public class Treenit {
     }
     
     /**
+     * @return palauttaa Treeni-olion Treeni[] -taulukon
+     */
+    public Treeni[] getTreenit() {
+        return this.treenit;
+    }
+    
+    /**
      * Järjestää treenit päivämäärän eli LocalDate-olion mukaisesti laskevaan järjestykseen.
      * TODO lisää toinen metodi, jossa haku ja järjestäminen päivämäärän lisäämisen mukaisesti
      * @return palauttaa listan Treenejä.

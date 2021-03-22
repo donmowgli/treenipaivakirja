@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URL;
 import Treenipvk.Sarja;
 import fi.jyu.mit.fxgui.Dialogs;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Modality;
@@ -15,17 +14,26 @@ import javafx.stage.Stage;
 
 /**
  * Controller-luokka sarjan lisäämiselle
+ * TODO bugin korjaaminen, jossa stage.hide() ei toimi.
  * @author Akseli Jaara
  * @version 20 Mar 2021
  *
  */
 public class LisaaSarjaGUIController {
-    private Sarja sarja = new Sarja();
-    private static Stage stage = new Stage();
+    private Sarja sarja;
+    private Stage stage;
     
     @FXML private TextField tyopaino;
     @FXML private TextField toistot;
     @FXML private TextField toteutuneet;
+    
+    /**
+     * Controllerin muodostaja
+     */
+    public LisaaSarjaGUIController() {
+        this.sarja = new Sarja();
+        this.stage = new Stage();
+    }
     
     /**
      * Handle-funktio OK-napin painallukselle
@@ -36,9 +44,9 @@ public class LisaaSarjaGUIController {
             sarja.setTyopaino(Integer.parseInt(tyopaino.getText()));
             sarja.setToistot(Integer.parseInt(toistot.getText()));
             sarja.setToteutuneet(Integer.parseInt(toteutuneet.getText()));
-            stage.hide();
+            stage.close();
         }catch (NumberFormatException e) {
-            Dialogs.showMessageDialog("Tiedot tulee olla numeroina!" + e.getMessage());
+            Dialogs.showMessageDialog("Tiedot tulee olla numeroina!");
         }
     }
     
@@ -55,7 +63,7 @@ public class LisaaSarjaGUIController {
      * @param modalityStage modaalisuus, joka halutaan: ollaanko modaalisia jollekin toiselle ikkunalle.
      * @return palauttaa lisätyn sarja-olion.
      */
-    public static Sarja lisaa(Stage modalityStage) {
+    public Sarja avaa(Stage modalityStage) {
         try {
             URL url = LisaaSarjaGUIController.class.getResource("LisaaSarjaView.fxml");
             FXMLLoader loader = new FXMLLoader(url);

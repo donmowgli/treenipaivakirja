@@ -5,20 +5,16 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Random;
 import java.util.ResourceBundle;
 
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import Treenipvk.Sarja;
 import Treenipvk.Sarjat;
@@ -58,7 +54,7 @@ public class TreenipvkGUIController implements Initializable  {
     }
     
     @FXML
-    private void handleAvaa() {
+    private void handleAvaa() throws SailoException {
         avaa();
     }
     
@@ -70,12 +66,12 @@ public class TreenipvkGUIController implements Initializable  {
     
     @FXML
     private void handleLisaaMerkinta() {
-        ModalController.showModal(TreenipvkGUIController.class.getResource("LisaaMerkintaView.fxml"), "Merkintä", null, "");
+        uusiMerkinta();
     }
     
     @FXML
     private void handleLisaaTreeni() {
-        ModalController.showModal(TreenipvkGUIController.class.getResource("LisaaTreeniView.fxml"), "Treeni", null, "");
+        uusiTreeni();
     }
     
     @FXML
@@ -120,6 +116,7 @@ public class TreenipvkGUIController implements Initializable  {
     
     /**
      * Alustetaan harrastelistan kuuntelija
+     * TODO tiedostonimien alustaminen tähän lataamista ja tallentamista varten. Alustettu nyt Paivakirja-luokassa, sieltä poistoon ja tähän! (Tai kutsulla toinen metodi siellä, jossa alustetaan tiedostonimet jokaiselle tiedostolle).
      */
     protected void alusta() {
         try{
@@ -132,45 +129,72 @@ public class TreenipvkGUIController implements Initializable  {
     
     /**
      * Luo uuden harjoitteen jota aletaan editoimaan 
+     * TODO Näyttäminen aina lisäämisen jälkeen
+     * TODO rekisteröinnin lisääminen tilanteissa jolloin se tarvitaan
      */
     protected void uusiMerkinta() {
-        //Tähän modaali ja muut tarpeelliset
+        try {
+            LisaaMerkintaGUIController cntrl = new LisaaMerkintaGUIController();
+            paivakirja = cntrl.avaa(null, paivakirja);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     /**
      * Luo uuden harjoitteen jota aletaan editoimaan 
+     * TODO Näyttäminen aina lisäämisen jälkeen
+     * TODO rekisteröinnin lisääminen tilanteissa jolloin se tarvitaan
      */
     protected void uusiTreeni() {
-        //Tähän modaali ja muut tarpeelliset
+        LisaaTreeniGUIController cntrl = new LisaaTreeniGUIController();
+        paivakirja = cntrl.avaa(null, paivakirja);
     }
     
     /**
-     * Luo uuden harjoitteen jota aletaan editoimaan 
+     * Luo uuden harjoitteen jota aletaan editoimaan
+     * TODO Näyttäminen aina lisäämisen jälkeen
+     * TODO rekisteröinnin lisääminen tilanteissa jolloin se tarvitaan
      */
     protected void uusiHarjoite() {
-        paivakirja.getHarjoitteet().lisaaHarjoite(LisaaHarjoiteGUIController.lisaa(null));
+        LisaaHarjoiteGUIController cntrl = new LisaaHarjoiteGUIController();
+        paivakirja.getHarjoitteet().lisaaHarjoite(cntrl.lisaa(null));
     }
     
     /**
-     * Luo uuden harjoitteen jota aletaan editoimaan 
+     * Luo uuden harjoitteen jota aletaan editoimaan.
+     * TODO Näyttäminen aina lisäämisen jälkeen
+     * TODO rekisteröinnin lisääminen tilanteissa jolloin se tarvitaan
      */
     protected void uusiSarja() {
-        paivakirja.getSarjat().lisaaSarja(LisaaSarjaGUIController.lisaa(null));
+        LisaaSarjaGUIController cntrl = new LisaaSarjaGUIController();
+        paivakirja.getSarjat().lisaaSarja(cntrl.avaa(null));
     }
 
     /**
-     * Ohjelmaa avatessa avaa tiedostosta ladatut tiedot käyttöliittymään
-     * TODO: Onko tarpeellinen ollenkaan jos ei ominaisuutta eri treeniohjelmille?
+     * Ohjelmaa avatessa avaa tiedostosta ladatut tiedot käyttöliittymään oletuslokaatiosta. Valmius useammillekin tiedostoille.
+     * TODO tiedostojen näyttäminen lukemisen jälkeen, lukemisen alustaminen - pitää olla olemassaolevat tiedostot, josta voidaan lukea! Lisäksi tiedostonimet voidaan alustaa erillisessä metodissa. Sama pätee tallenna-funktiolle. HUOM alustus tällä hetkellä päiväkirjan luetiedostosta-funktiossa, josta tulee siirtää pois yleistetympään muotoon.
+     * @throws SailoException jos tiedostosta lukemisessa ongelmia
      */
-    public void avaa(){
-        //onko tarpeellinen?
+    public void avaa() throws SailoException{
+        try {
+            paivakirja.lueTiedostosta();
+        } catch (Exception e) {
+            Dialogs.showMessageDialog("Tiedostoa ei vielä tallennettu - ei voida vielä lukea." + e.getMessage());
+            e.printStackTrace();
+        }
     }
     
+    /**
+     * Kaiken tiedon tallentaminen erillisinä tiedostoina.
+     * TODO HUOM alustus tällä hetkellä päiväkirjan luetiedostosta-funktiossa, josta tulee siirtää pois yleistetympään muotoon.
+     */
     private void tallenna() {
         try {
             paivakirja.tallenna();
         } catch (SailoException e) {
             Dialogs.showMessageDialog("Tallennuksessa ongelmia!" + e.getMessage());
+            e.printStackTrace();
         }
         
     }
