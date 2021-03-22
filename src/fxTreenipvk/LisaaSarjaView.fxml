@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="196.0" prefWidth="285.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="196.0" prefWidth="285.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxTreenipvk.LisaaSarjaGUIController">
    <children>
       <HBox layoutX="21.0" layoutY="26.0" prefHeight="40.0" prefWidth="79.0">
          <children>
@@ -20,22 +20,22 @@
       </HBox>
       <HBox layoutX="100.0" layoutY="26.0" prefHeight="40.0" prefWidth="166.0">
          <children>
-            <TextField prefHeight="25.0" prefWidth="129.0" />
+            <TextField fx:id="tyopaino" prefHeight="25.0" prefWidth="129.0" />
          </children>
       </HBox>
       <HBox layoutX="100.0" layoutY="66.0" prefHeight="40.0" prefWidth="166.0">
          <children>
-            <TextField prefHeight="25.0" prefWidth="129.0" />
+            <TextField fx:id="toistot" prefHeight="25.0" prefWidth="129.0" />
          </children>
       </HBox>
       <HBox layoutX="100.0" layoutY="106.0" prefHeight="40.0" prefWidth="166.0">
          <children>
-            <TextField prefHeight="25.0" prefWidth="129.0" />
+            <TextField fx:id="toteutuneet" prefHeight="25.0" prefWidth="129.0" />
          </children>
       </HBox>
       <HBox layoutX="100.0" layoutY="146.0" prefHeight="25.0" prefWidth="129.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="138.0" text="OK" />
+            <Button fx:id="OKbutton" mnemonicParsing="false" onAction="#handleOK" prefHeight="25.0" prefWidth="138.0" text="OK" />
          </children></HBox>
       <HBox layoutX="21.0" layoutY="106.0" prefHeight="40.0" prefWidth="79.0">
          <children>

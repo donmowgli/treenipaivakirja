@@ -84,6 +84,14 @@ public class Harjoite {
     }
     
     /**
+     * Haetaan sarjojen lukumäärä Sarja-oliolta
+     * @return palautetaan Sarja-olion sarjojen lukumäärä
+     */
+    public int getSarlkm() {
+        return this.sarlkm;
+    }
+    
+    /**
      * Tulostetaan harjoite kokonaisudessaan.
      * @param out tietovirta ulos
      */

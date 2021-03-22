@@ -62,6 +62,22 @@ public class Sarja {
     }
     
     /**
+     * Työpainon lisääminen Sarja-olioon
+     * @param paino joka halutaan lisätä työpainoksi
+     */
+    public void setTyopaino(int paino) {
+        this.tyopaino = paino;
+    }
+    
+    /**
+     * Toteutuneiden toistojen lisääminen Sarja-olioon
+     * @param toistot jotka halutaan lisätä sarjaan
+     */
+    public void setToistot(int toistot) {
+        this.toistot = toistot;
+    }
+    
+    /**
      * Asetetaan toteutuneiden toistojen lukumäärä sarjassa.
      * @param toteutuneet toteutuneiden toistojen lukumäärä sarjassa.
      */

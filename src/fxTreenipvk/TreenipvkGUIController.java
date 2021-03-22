@@ -85,7 +85,7 @@ public class TreenipvkGUIController implements Initializable  {
     
     @FXML
     private void handleLisaaSarja() {
-        ModalController.showModal(TreenipvkGUIController.class.getResource("LisaaSarjaView.fxml"), "Sarja", null, "");
+        uusiSarja();
     }
     
     @FXML
@@ -100,7 +100,7 @@ public class TreenipvkGUIController implements Initializable  {
     
     @FXML
     private void handlePoistaHarjoite() {
-        ModalController.showModal(TreenipvkGUIController.class.getResource("PoistoView.fxml"), "Harjoiite", null, "");
+        ModalController.showModal(TreenipvkGUIController.class.getResource("PoistoView.fxml"), "Harjoite", null, "");
     }
     
     @FXML
@@ -117,8 +117,6 @@ public class TreenipvkGUIController implements Initializable  {
   // Käyttöliittymään suoraa liittyvä koodi loppuu tähän
     
     private Paivakirja paivakirja = new Paivakirja();
-    private String harjoitteenKohdalla;
-    
     
     /**
      * Alustetaan harrastelistan kuuntelija
@@ -126,105 +124,40 @@ public class TreenipvkGUIController implements Initializable  {
     protected void alusta() {
         try{
             chooserHarjoitteet.clear();
-            chooserHarjoitteet.addSelectionListener(e -> naytaSarjat());
+            //chooserHarjoitteet.addSelectionListener(e -> naytaSarjat());
         }catch(Exception e) {
             e.printStackTrace();
         }
     }
-
-
+    
     /**
-     * Näytetään kaikki sarjat listassa valitun harjoituksen mukaan. Väliaikainen
+     * Luo uuden harjoitteen jota aletaan editoimaan 
      */
-    protected void naytaSarjat() {
-        harjoitteenKohdalla = chooserHarjoitteet.getSelectedObject();
-        sarjaLista.getItems().clear();
-        
-        if (harjoitteenKohdalla == null) return;
-        ObservableList<String> data = FXCollections.observableArrayList();
-        for(Sarja sarja : paivakirja.getSarjat()) {
-            if(sarja.getHarid() == paivakirja.getHarjoitteet().getHarjoite(harjoitteenKohdalla).getHarid()) {
-                data.add(sarja.toString());
-            }
-        }
-        sarjaLista.setItems(data);
+    protected void uusiMerkinta() {
+        //Tähän modaali ja muut tarpeelliset
     }
     
     /**
-     * Näytetään kaikki harjoitteet listassa. Väliaikainen
+     * Luo uuden harjoitteen jota aletaan editoimaan 
      */
-    protected void naytaHarjoitteet() {
-        ObservableList<String> data = FXCollections.observableArrayList();
-        try {
-            for(Harjoite harjoite : paivakirja.getHarjoitteet()) {
-                data.add(harjoite.getNimi());
-                if(data.size() == paivakirja.getSarjoja()) {
-                    break;
-                }
-            }
-            harjoiteLista.setItems(data);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    protected void uusiTreeni() {
+        //Tähän modaali ja muut tarpeelliset
     }
-    
-
-    /**
-     * Hakee harjoitteen tiedot listaan
-     * @param id harjoitteen numero, joka aktivoidaan haun jälkeen
-     */
-    protected void hae(int id) {
-        chooserHarjoitteet.clear();
-
-        int index = 0;
-        for (int i = 0; i < paivakirja.getHarjoitteita(); i++) {
-            Harjoite harjoite = paivakirja.getHarjoite(i);
-            if (harjoite.getHarid() == id) index = i;
-            chooserHarjoitteet.add(harjoite.getNimi());
-        }
-        chooserHarjoitteet.setSelectedIndex(index); // tästä tulee muutosviesti joka näyttää jäsenen
-    }
-
     
     /**
      * Luo uuden harjoitteen jota aletaan editoimaan 
      */
     protected void uusiHarjoite() {
-        try {
-            Harjoite harjoite = new Harjoite();
-            harjoite.setNimi("Penkki");
-            harjoite.rekisteroi();
-            
-            Random rand = new Random();
-            
-            Sarja sarja1 = new Sarja(rand.nextInt(80), rand.nextInt(10));
-            Sarja sarja2 = new Sarja(rand.nextInt(80), rand.nextInt(10));
-            Sarja sarja3 = new Sarja(rand.nextInt(80), rand.nextInt(10));
-            
-            sarja1.rekisteroi();
-            sarja2.rekisteroi();
-            sarja3.rekisteroi();
-            
-            sarja1.setHarid(harjoite.getHarid());
-            sarja2.setHarid(harjoite.getHarid());
-            sarja3.setHarid(harjoite.getHarid());
-            
-            paivakirja.getSarjat().lisaaSarja(sarja1);
-            paivakirja.getSarjat().lisaaSarja(sarja2);
-            paivakirja.getSarjat().lisaaSarja(sarja3);
-            
-            paivakirja.lisaa(harjoite);
-            
-            naytaHarjoitteet();
-            
-            hae(harjoite.getHarid());
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        paivakirja.getHarjoitteet().lisaaHarjoite(LisaaHarjoiteGUIController.lisaa(null));
+    }
+    
+    /**
+     * Luo uuden harjoitteen jota aletaan editoimaan 
+     */
+    protected void uusiSarja() {
+        paivakirja.getSarjat().lisaaSarja(LisaaSarjaGUIController.lisaa(null));
     }
 
-    
     /**
      * Ohjelmaa avatessa avaa tiedostosta ladatut tiedot käyttöliittymään
      * TODO: Onko tarpeellinen ollenkaan jos ei ominaisuutta eri treeniohjelmille?
