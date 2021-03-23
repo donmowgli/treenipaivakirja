@@ -22,7 +22,7 @@ import javafx.stage.Stage;
  */
 public class LisaaHarjoiteGUIController {
     private Harjoite harjoite;
-    private Stage stage;
+    private static Stage stage;
     
     @FXML private TextField nimi;
     @FXML private TextField lkm;
@@ -32,7 +32,7 @@ public class LisaaHarjoiteGUIController {
      */
     public LisaaHarjoiteGUIController() {
         this.harjoite = new Harjoite();
-        this.stage = new Stage();
+        LisaaHarjoiteGUIController.stage = new Stage();
     }
     
     /**

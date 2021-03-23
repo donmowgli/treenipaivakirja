@@ -20,7 +20,6 @@ import javafx.stage.Stage;
 
 /**
  * Controller-luokka Treenin lisäämiselle
- * TODO bugin korjaaminen, jossa stage.hide() ei toimi.
  * @author Akseli Jaara
  * @version 20 Mar 2021
  *
@@ -28,11 +27,11 @@ import javafx.stage.Stage;
 public class LisaaTreeniGUIController {
     private  Paivakirja paivakirja;
     private  Treeni treeni;
-    private  Stage stage;
+    private  static Stage stage;
     
     @FXML private TextField nimi;
-    @FXML private ListView<Harjoite> harjoitteet = new ListView<Harjoite>();
-    @FXML private ListView<Harjoite> lisattava = new ListView<Harjoite>();
+    @FXML private static ListView<String> harjoitteet = new ListView<String>();
+    @FXML private static ListView<String> lisattava = new ListView<String>();
     
     /**
      * Testi
@@ -40,7 +39,7 @@ public class LisaaTreeniGUIController {
     public LisaaTreeniGUIController() {
         this.paivakirja = new Paivakirja();
         this.treeni = new Treeni();
-        this.stage = new Stage();
+        LisaaTreeniGUIController.stage = new Stage();
     }
     
     /**
@@ -50,10 +49,14 @@ public class LisaaTreeniGUIController {
     private void handleOK() {
         try {
             this.treeni.setNimi(nimi.getText());
-            for(Harjoite har : lisattava.getItems()) {
-                har.setTrid(treeni.getTrid());
-                paivakirja.getHarjoitteet().lisaaHarjoite(har);
+            for(String tNimi : lisattava.getItems()) {
+                for(Harjoite harjoite : paivakirja.getHarjoitteet()) {
+                    if(tNimi == harjoite.getNimi() && harjoite.getHarid() == 0) {
+                        paivakirja.getHarjoitteet().lisaaHarjoite(harjoite);
+                    }
+                }
             }
+            paivakirja.getTreenit().lisaaTreeni(treeni);
             stage.hide();
         }catch (Exception e) {
             Dialogs.showMessageDialog("Valitse ainakin yksi treeniin lisättävä harjoite.");
@@ -65,7 +68,7 @@ public class LisaaTreeniGUIController {
      */
     @FXML
     private void handleTyhjenna() {
-        ObservableList<Harjoite> tyhja = FXCollections.observableArrayList();
+        ObservableList<String> tyhja = FXCollections.observableArrayList();
         lisattava.setItems(tyhja);
     }
     
@@ -73,12 +76,18 @@ public class LisaaTreeniGUIController {
      * Näytetään kaikki lisättävissä olevat harjoitteet listalla. Valitaan vain alustetut harjoitteet, joita ei sidottu vielä erikseen mihinkään treeniin, eli joiden trid == 0.
      */
     private void nayta() {
-        for(Harjoite har : paivakirja.getHarjoitteet()) {
-            if(har.getTrid() == 0) {
-                harjoitteet.getItems().add(har);
+        try {
+            ObservableList<String> naytto = FXCollections.observableArrayList();
+            for(Harjoite har : paivakirja.getHarjoitteet()) {
+                if(har.getTrid() == 0) {
+                    System.out.println(har.getNimi());
+                    naytto.add(har.getNimi());
+                }
             }
+            harjoitteet.setItems(naytto);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        harjoitteet.refresh();
     }
     
     /**
@@ -87,11 +96,6 @@ public class LisaaTreeniGUIController {
      */
     private Paivakirja getResult() {
         return paivakirja;
-    }
-    
-    private void alusta() {
-        harjoitteet.setCellFactory(null);
-        lisattava.setCellFactory(null);
     }
     
     /**
@@ -114,7 +118,6 @@ public class LisaaTreeniGUIController {
             } else {
                 stage.initModality(Modality.APPLICATION_MODAL);
             }
-            alusta();
             paivakirja = pvk;
             nayta();
             

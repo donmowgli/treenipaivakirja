@@ -14,14 +14,13 @@ import javafx.stage.Stage;
 
 /**
  * Controller-luokka sarjan lisäämiselle
- * TODO bugin korjaaminen, jossa stage.hide() ei toimi.
  * @author Akseli Jaara
  * @version 20 Mar 2021
  *
  */
 public class LisaaSarjaGUIController {
     private Sarja sarja;
-    private Stage stage;
+    private static Stage stage;
     
     @FXML private TextField tyopaino;
     @FXML private TextField toistot;
@@ -32,7 +31,7 @@ public class LisaaSarjaGUIController {
      */
     public LisaaSarjaGUIController() {
         this.sarja = new Sarja();
-        this.stage = new Stage();
+        LisaaSarjaGUIController.stage = new Stage();
     }
     
     /**

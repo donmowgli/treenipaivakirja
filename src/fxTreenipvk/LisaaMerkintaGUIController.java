@@ -19,7 +19,6 @@ import javafx.stage.Stage;
 
 /**
  * Controller-luokka merkinnän lisäämiselle
- * TODO bugin korjaaminen, jossa stage.hide() ei toimi.
  * @author Akseli Jaara
  * @version 22 Mar 2021
  *
@@ -27,7 +26,7 @@ import javafx.stage.Stage;
 public class LisaaMerkintaGUIController {
     private Paivakirja paivakirja;
     private Treeni treeni;
-    private Stage stage;
+    private static Stage stage;
     
     private TextField pvm;
     private ListView<Treeni> treenit;
@@ -39,7 +38,7 @@ public class LisaaMerkintaGUIController {
         this.paivakirja = new Paivakirja();
         this.treeni = new Treeni();
         this.treeni.setPvm(LocalDate.now());
-        this.stage =new Stage();
+        LisaaMerkintaGUIController.stage =new Stage();
     }
     
     /**
