@@ -46,13 +46,13 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <ListView layoutX="26.0" layoutY="28.0" prefHeight="436.0" prefWidth="219.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0" />
+                  <ListView fx:id="merkintaLista" layoutX="26.0" layoutY="28.0" prefHeight="436.0" prefWidth="219.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0" />
                   <Label layoutX="20.0" layoutY="15.0" text="Loki" textAlignment="CENTER" AnchorPane.topAnchor="5.0" />
                </children>
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <ListView layoutX="26.0" layoutY="28.0" prefHeight="436.0" prefWidth="266.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0" />
+                  <ListView fx:id="treeniLista" layoutX="26.0" layoutY="28.0" prefHeight="436.0" prefWidth="266.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0" />
                   <Label text="Treeni" textAlignment="CENTER" AnchorPane.topAnchor="5.0" />
                </children>
             </AnchorPane>

@@ -11,6 +11,8 @@ import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -36,6 +38,8 @@ public class TreenipvkGUIController implements Initializable  {
     @FXML private Label labelVirhe;
     @FXML private ListView<String> sarjaLista;
     @FXML private ListView<String> harjoiteLista;
+    @FXML private ListView<String> treeniLista;
+    @FXML private ListView<String> merkintaLista;
     @FXML private ListChooser<String> chooserHarjoitteet = new ListChooser<String>();
 
     @Override
@@ -84,21 +88,33 @@ public class TreenipvkGUIController implements Initializable  {
         uusiSarja();
     }
     
+    /**
+     * TODO: poistamisen lisääminen
+     */
     @FXML
     private void handlePoistaMerkinta() {
         ModalController.showModal(TreenipvkGUIController.class.getResource("PoistoView.fxml"), "Merkinta", null, "");
     }
     
+    /**
+     * TODO: poistamisen lisääminen
+     */
     @FXML
     private void handlePoistaTreeni() {
         ModalController.showModal(TreenipvkGUIController.class.getResource("PoistoView.fxml"), "Treeni", null, "");
     }
     
+    /**
+     * TODO: poistamisen lisääminen
+     */
     @FXML
     private void handlePoistaHarjoite() {
         ModalController.showModal(TreenipvkGUIController.class.getResource("PoistoView.fxml"), "Harjoite", null, "");
     }
     
+    /**
+     * TODO: poistamisen lisääminen
+     */
     @FXML
     private void handlePoistaSarja() {
         ModalController.showModal(TreenipvkGUIController.class.getResource("PoistoView.fxml"), "Sarja", null, "");
@@ -117,6 +133,7 @@ public class TreenipvkGUIController implements Initializable  {
     /**
      * Alustetaan harrastelistan kuuntelija
      * TODO tiedostonimien alustaminen tähän lataamista ja tallentamista varten. Alustettu nyt Paivakirja-luokassa, sieltä poistoon ja tähän! (Tai kutsulla toinen metodi siellä, jossa alustetaan tiedostonimet jokaiselle tiedostolle).
+     * TODO choosereiden alustaminen merkinnälle, treenille, harjoitteelle ja sarjalle
      */
     protected void alusta() {
         try{
@@ -170,13 +187,65 @@ public class TreenipvkGUIController implements Initializable  {
         LisaaSarjaGUIController cntrl = new LisaaSarjaGUIController();
         paivakirja.getSarjat().lisaaSarja(cntrl.avaa(null));
     }
+    
+    /**
+     * Merkintöjen näyttäminen käyttöliittymässä
+     */
+    protected void naytaMerkinnat() {
+        ObservableList<String> naytto = FXCollections.observableArrayList();
+        for(Treeni trn : paivakirja.getTreenit().getTreenit()) {
+            if(trn.getPvm() != null) {
+                naytto.add(trn.getPvm().toString());
+            }
+        }
+        merkintaLista.setItems(naytto);
+        merkintaLista.refresh();
+    }
+    
+    /**
+     * Treenien näyttäminen käyttöliittymässä
+     * TODO funktion yleistäminen valintaa varten
+     */
+    protected void naytaTreenit() {
+        ObservableList<String> naytto = FXCollections.observableArrayList();
+        for(Treeni trn : paivakirja.getTreenit().getTreenit()) {
+            if(trn.getPvm() == null && trn.getTrid() == 0) {
+                naytto.add(trn.getNimi());
+            }
+        }
+        treeniLista.setItems(naytto);
+        treeniLista.refresh();
+    }
+    
+    /**
+     * Harjoitteiden näyttäminen käyttöliittymässä
+     * TODO funktion yleistäminen valintaa varten
+     */
+    protected void naytaHarjoitteet() {
+        ObservableList<String> naytto = FXCollections.observableArrayList();
+        for(Harjoite har : paivakirja.getHarjoitteet()) {
+            if(har.getHarid() == 0) {
+                naytto.add(har.getNimi());
+            }
+        }
+        harjoiteLista.setItems(naytto);
+        harjoiteLista.refresh();
+    }
+    
+    /**
+     * Sarjojen näyttäminen käyttöliittymässä
+     * TODO sarjojen näyttäminen käyttöliittymässä
+     */
+    protected void naytaSarjat() {
+        //koodi tähän, jahka taulukon sielunelämä selviää
+    }
 
     /**
      * Ohjelmaa avatessa avaa tiedostosta ladatut tiedot käyttöliittymään oletuslokaatiosta. Valmius useammillekin tiedostoille.
      * TODO tiedostojen näyttäminen lukemisen jälkeen, lukemisen alustaminen - pitää olla olemassaolevat tiedostot, josta voidaan lukea! Lisäksi tiedostonimet voidaan alustaa erillisessä metodissa. Sama pätee tallenna-funktiolle. HUOM alustus tällä hetkellä päiväkirjan luetiedostosta-funktiossa, josta tulee siirtää pois yleistetympään muotoon.
      * @throws SailoException jos tiedostosta lukemisessa ongelmia
      */
-    public void avaa() throws SailoException{
+    private void avaa() throws SailoException{
         try {
             paivakirja.lueTiedostosta();
         } catch (Exception e) {

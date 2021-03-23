@@ -70,6 +70,7 @@ public class LisaaTreeniGUIController {
     private void handleTyhjenna() {
         ObservableList<String> tyhja = FXCollections.observableArrayList();
         lisattava.setItems(tyhja);
+        lisattava.refresh();
     }
     
     /**
@@ -84,7 +85,10 @@ public class LisaaTreeniGUIController {
                     naytto.add(har.getNimi());
                 }
             }
+            System.out.println(naytto.get(0));
             harjoitteet.setItems(naytto);
+            System.out.println(harjoitteet.getItems().get(0));
+            harjoitteet.refresh();
         } catch (Exception e) {
             e.printStackTrace();
         }

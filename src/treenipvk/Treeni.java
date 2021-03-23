@@ -44,6 +44,14 @@ public class Treeni {
     }
     
     /**
+     * Haetaan Treeni-olion nimi
+     * @return palauttaa Treeni-olion nimen
+     */
+    public String getNimi() {
+        return this.nimi;
+    }
+    
+    /**
      * Asetetaan päivämäärä treenille.
      * @param pvm LocalDate-olio, joka asetetaan pvm:ksi Treeniin.
      */
