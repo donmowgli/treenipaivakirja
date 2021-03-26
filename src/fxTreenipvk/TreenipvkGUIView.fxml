@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import fi.jyu.mit.fxgui.ListChooser?>
+<?import fi.jyu.mit.fxgui.StringGrid?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -46,26 +47,38 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <ListView fx:id="merkintaLista" layoutX="26.0" layoutY="28.0" prefHeight="436.0" prefWidth="219.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0" />
                   <Label layoutX="20.0" layoutY="15.0" text="Loki" textAlignment="CENTER" AnchorPane.topAnchor="5.0" />
+                  <HBox layoutX="-40.0" layoutY="28.0" prefHeight="399.0" prefWidth="146.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0">
+                     <children>
+                        <ListChooser fx:id="merkintaLista" />
+                     </children>
+                  </HBox>
                </children>
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <ListView fx:id="treeniLista" layoutX="26.0" layoutY="28.0" prefHeight="436.0" prefWidth="266.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0" />
                   <Label text="Treeni" textAlignment="CENTER" AnchorPane.topAnchor="5.0" />
+                  <HBox layoutX="-57.0" layoutY="28.0" prefHeight="399.0" prefWidth="143.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0">
+                     <children>
+                        <ListChooser fx:id="treeniLista" />
+                     </children>
+                  </HBox>
                </children>
             </AnchorPane>
             <AnchorPane layoutX="10.0" layoutY="10.0" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <ListView fx:id="harjoiteLista" layoutX="26.0" layoutY="28.0" prefHeight="436.0" prefWidth="266.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0" />
                   <Label text="Harjoite" textAlignment="CENTER" AnchorPane.topAnchor="5.0" />
+                  <HBox layoutX="-47.0" layoutY="28.0" prefHeight="399.0" prefWidth="144.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0">
+                     <children>
+                        <ListChooser fx:id="harjoiteLista" />
+                     </children>
+                  </HBox>
                </children>
             </AnchorPane>
             <AnchorPane layoutX="10.0" layoutY="10.0" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="208.0">
                <children>
                   <Label text="Sarjat" textAlignment="CENTER" AnchorPane.topAnchor="5.0" />
-                  <ListView fx:id="sarjaLista" layoutX="119.0" layoutY="28.0" prefHeight="399.0" prefWidth="384.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0" />
+                  <StringGrid fx:id="sarjaLista" layoutY="29.0" prefHeight="393.0" prefWidth="384.0" />
                </children>
             </AnchorPane>
         </items>

@@ -15,7 +15,6 @@ import javafx.stage.Stage;
 
 /**
  * Controller-luokka harjoitteen lisäämiselle
- * TODO bugin korjaaminen, jossa stage.hide() ei toimi.
  * @author Akseli Jaara
  * @version 20 Mar 2021
  *
@@ -37,6 +36,7 @@ public class LisaaHarjoiteGUIController {
     
     /**
      * Handle-funktio OK-napin painallukselle
+     * TODO milloin rekisteröidään ja milloin asetetaan treenin id?
      */
     @FXML
     private void handleOK() {

@@ -60,7 +60,7 @@ public class Sarja {
     public int getSarid() {
         return this.sarid;
     }
-    
+
     /**
      * Työpainon lisääminen Sarja-olioon
      * @param paino joka halutaan lisätä työpainoksi
@@ -70,11 +70,34 @@ public class Sarja {
     }
     
     /**
+     * Työpainojen palauttaminen
+     * @return palauttaa työpainon
+     */
+    public int getTyopaino() {
+        return this.tyopaino;
+    }
+    
+    /**
      * Toteutuneiden toistojen lisääminen Sarja-olioon
      * @param toistot jotka halutaan lisätä sarjaan
      */
     public void setToistot(int toistot) {
         this.toistot = toistot;
+    }
+    
+    /**
+     * Haetaan sarjan toistot
+     * @return palauttaa sarjan toistot
+     */
+    public int getToistot() {
+        return this.toistot;
+    }
+    
+    /**
+     * @return palautetaan toteutuneet toistot
+     */
+    public int getToteutuneet() {
+        return this.toteutuneet;
     }
     
     /**

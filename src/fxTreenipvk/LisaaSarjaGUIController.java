@@ -36,6 +36,7 @@ public class LisaaSarjaGUIController {
     
     /**
      * Handle-funktio OK-napin painallukselle
+     * TODO Milloin rekisteröidään ja milloin asetetaan harjoitteen id?
      */
     @FXML
     private void handleOK() {

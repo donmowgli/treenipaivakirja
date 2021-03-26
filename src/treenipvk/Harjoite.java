@@ -102,6 +102,7 @@ public class Harjoite {
     /**
      * Asetetaan harjoitukselle oma id.
      * @return harjoituksen uuden harjoitusid:n eli harid:n.
+     * TODO korjaa
      */
     public int rekisteroi() {
         this.harid = seuraavaNro;
@@ -138,6 +139,12 @@ public class Harjoite {
         harjoite.setSarlkm(3);
         harjoite.rekisteroi();
         harjoite.tulosta(System.out);
+        
+        Harjoite harjoite1 = new Harjoite();
+        harjoite1.setNimi("Penkki");
+        harjoite1.setSarlkm(3);
+        harjoite1.rekisteroi();
+        harjoite1.tulosta(System.out);
     }
 
 }

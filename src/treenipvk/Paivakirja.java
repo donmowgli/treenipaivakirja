@@ -144,13 +144,9 @@ public class Paivakirja {
      * @throws SailoException jos ongelmia tiedoston ja siitä lukemisen kanssa.
      */
     public void lueTiedostosta() throws SailoException {
-        this.sarjat.setTiedostonNimi("sarjat.dat");
-        this.harjoitteet.setTiedostonNimi("harjoitteet.dat");
-        this.treenit.setTiedostonNimi("treenit.dat");
-        
-        this.sarjat.lueTiedostosta("sarjat.dat");
-        this.harjoitteet.lueTiedostosta("harjoitteet.dat");
-        this.treenit.lueTiedostosta("treenit.dat");
+        this.sarjat.lueTiedostosta(sarjat.getTiedostoNimi());
+        this.harjoitteet.lueTiedostosta(harjoitteet.getTiedostoNimi());
+        this.treenit.lueTiedostosta(treenit.getTiedostoNimi());
     }
     
     /**
@@ -164,8 +160,17 @@ public class Paivakirja {
     }
     
     /**
+     * Alustetaan tallennustiedostojen nimet. Valmius myös muokkaamiselle ja voidaan muokata tarpeen vaatiessa esimerkiksi ohjelmaa laajentaessa entisestään treeniohjelmille.
+     */
+    public void alustaTiedostoNimet() {
+        this.sarjat.setTiedostonNimi("sarjat.dat");
+        this.harjoitteet.setTiedostonNimi("harjoitteet.dat");
+        this.treenit.setTiedostonNimi("treenit.dat");
+    }
+    
+    /**
      * Poistaa halutulla numerolla löytyvän treenin, harjoitteen tai sarjan. Kesken!
-     * TODO täydennä!
+     * TODO täydennä poistaminen, onko yleistetty funktio kaikille tietotyypeille vai oma funktionsa jokaiselle?
      * @param id jonka mukaisesti halutaan poistaa
      * @return palauttaa poistettujen alkioiden lukumäärän
      */
@@ -178,7 +183,7 @@ public class Paivakirja {
      */
     public static void main(String[] args) {
     // TODO Auto-generated method stub
-    
+    // TODO testailua
     }
 
 }

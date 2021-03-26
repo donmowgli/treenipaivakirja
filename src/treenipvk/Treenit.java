@@ -46,7 +46,7 @@ public class Treenit {
      * @throws SailoException SailoException jos tietorakenne on jo täynnä
      */
     public void lisaaTreeni(Treeni treeni) throws SailoException {
-        if(lkm <= treenit.length) {
+        if (lkm <= treenit.length) {
             throw new SailoException("Liikaa alkioita!");
         }
        this. treenit[lkm] = treeni;
@@ -59,7 +59,7 @@ public class Treenit {
      * @throws IndexOutOfBoundsException jos haettu indeksi on olemassaolevan ulkopuolella, eli alle 0 tai tietorakenteen koon eli alkioiden lukumäärää suurempi
      */
     public Treeni getTreeni(int i) throws IndexOutOfBoundsException {
-        if(i < 0 || i < lkm) {
+        if (i < 0 || i < lkm) {
             throw new IndexOutOfBoundsException("Laiton indeksi: " + i);
         }
         return this.treenit[i];
@@ -75,6 +75,7 @@ public class Treenit {
     
     /**
      * @return palauttaa Treeni-olion Treeni[] -taulukon
+     * TODO muokkaa palauttamaan listana
      */
     public Treeni[] getTreenit() {
         return this.treenit;
@@ -83,6 +84,7 @@ public class Treenit {
     /**
      * Järjestää treenit päivämäärän eli LocalDate-olion mukaisesti laskevaan järjestykseen.
      * TODO lisää toinen metodi, jossa haku ja järjestäminen päivämäärän lisäämisen mukaisesti
+     * TODO tarkista onko lkm vai treenit.length
      * @return palauttaa listan Treenejä.
      */
     public List<Treeni> jarjestaTreeni(){
@@ -154,7 +156,7 @@ public class Treenit {
         try {
             tiedosto.createNewFile();
             PrintWriter fo = new PrintWriter(new FileWriter(tiedosto.getCanonicalPath()));
-            for(int i = 0; i < this.treenit.length; i++) {
+            for(int i = 0; i < this.lkm; i++) {
                 fo.println(this.treenit[i].toString());
             }
         } catch(IOException e) {

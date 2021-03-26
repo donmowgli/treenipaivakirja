@@ -10,20 +10,15 @@ import java.util.ResourceBundle;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController;
+import fi.jyu.mit.fxgui.StringGrid;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import Treenipvk.Sarja;
-import Treenipvk.Sarjat;
 import Treenipvk.Harjoite;
-import Treenipvk.Harjoitteet;
 import Treenipvk.Treeni;
-import Treenipvk.Treenit;
 import Treenipvk.Paivakirja;
 import Treenipvk.SailoException;
 
@@ -36,11 +31,11 @@ public class TreenipvkGUIController implements Initializable  {
     
     @FXML private TextField hakuehto;
     @FXML private Label labelVirhe;
-    @FXML private ListView<String> sarjaLista;
-    @FXML private ListView<String> harjoiteLista;
-    @FXML private ListView<String> treeniLista;
-    @FXML private ListView<String> merkintaLista;
-    @FXML private ListChooser<String> chooserHarjoitteet = new ListChooser<String>();
+    
+    @FXML private StringGrid<Sarja> sarjaLista;
+    @FXML private ListChooser<Harjoite> harjoiteLista;
+    @FXML private ListChooser<Treeni> treeniLista;
+    @FXML private ListChooser<Treeni> merkintaLista;
 
     @Override
     public void initialize(URL url, ResourceBundle bundle) {
@@ -132,12 +127,15 @@ public class TreenipvkGUIController implements Initializable  {
     
     /**
      * Alustetaan harrastelistan kuuntelija
-     * TODO tiedostonimien alustaminen tähän lataamista ja tallentamista varten. Alustettu nyt Paivakirja-luokassa, sieltä poistoon ja tähän! (Tai kutsulla toinen metodi siellä, jossa alustetaan tiedostonimet jokaiselle tiedostolle).
-     * TODO choosereiden alustaminen merkinnälle, treenille, harjoitteelle ja sarjalle
+     * TODO loput listchooserit ja event listener
      */
     protected void alusta() {
         try{
-            chooserHarjoitteet.clear();
+            paivakirja.alustaTiedostoNimet();
+            sarjaLista.clear();
+            harjoiteLista.clear();
+            treeniLista.clear();
+            merkintaLista.clear();
             //chooserHarjoitteet.addSelectionListener(e -> naytaSarjat());
         }catch(Exception e) {
             e.printStackTrace();
@@ -147,21 +145,17 @@ public class TreenipvkGUIController implements Initializable  {
     /**
      * Luo uuden harjoitteen jota aletaan editoimaan 
      * TODO Näyttäminen aina lisäämisen jälkeen
-     * TODO rekisteröinnin lisääminen tilanteissa jolloin se tarvitaan
+     * TODO palauttaa oletusolion jos suljetaan, korjaa
      */
     protected void uusiMerkinta() {
-        try {
-            LisaaMerkintaGUIController cntrl = new LisaaMerkintaGUIController();
-            paivakirja = cntrl.avaa(null, paivakirja);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        LisaaMerkintaGUIController cntrl = new LisaaMerkintaGUIController();
+        paivakirja = cntrl.avaa(null, paivakirja);
     }
     
     /**
      * Luo uuden harjoitteen jota aletaan editoimaan 
      * TODO Näyttäminen aina lisäämisen jälkeen
-     * TODO rekisteröinnin lisääminen tilanteissa jolloin se tarvitaan
+     * TODO palauttaa oletusolion jos suljetaan, korjaa
      */
     protected void uusiTreeni() {
         LisaaTreeniGUIController cntrl = new LisaaTreeniGUIController();
@@ -171,73 +165,76 @@ public class TreenipvkGUIController implements Initializable  {
     /**
      * Luo uuden harjoitteen jota aletaan editoimaan
      * TODO Näyttäminen aina lisäämisen jälkeen
-     * TODO rekisteröinnin lisääminen tilanteissa jolloin se tarvitaan
+     * TODO palauttaa oletusolion jos suljetaan, korjaa
      */
     protected void uusiHarjoite() {
         LisaaHarjoiteGUIController cntrl = new LisaaHarjoiteGUIController();
         paivakirja.getHarjoitteet().lisaaHarjoite(cntrl.lisaa(null));
+        naytaHarjoitteet();
     }
     
     /**
      * Luo uuden harjoitteen jota aletaan editoimaan.
      * TODO Näyttäminen aina lisäämisen jälkeen
-     * TODO rekisteröinnin lisääminen tilanteissa jolloin se tarvitaan
+     * TODO palauttaa oletusolion jos suljetaan, korjaa
      */
     protected void uusiSarja() {
         LisaaSarjaGUIController cntrl = new LisaaSarjaGUIController();
         paivakirja.getSarjat().lisaaSarja(cntrl.avaa(null));
+        naytaSarjat();
     }
     
     /**
      * Merkintöjen näyttäminen käyttöliittymässä
      */
     protected void naytaMerkinnat() {
-        ObservableList<String> naytto = FXCollections.observableArrayList();
         for(Treeni trn : paivakirja.getTreenit().getTreenit()) {
-            if(trn.getPvm() != null) {
-                naytto.add(trn.getPvm().toString());
+            if (trn.getPvm() != null) {
+                merkintaLista.add(trn.getPvm().toString(), trn);
             }
         }
-        merkintaLista.setItems(naytto);
-        merkintaLista.refresh();
     }
     
     /**
      * Treenien näyttäminen käyttöliittymässä
-     * TODO funktion yleistäminen valintaa varten
+     * TODO funktion yleistäminen valintaa varten ja karsiminen ID:n mukaan
      */
     protected void naytaTreenit() {
-        ObservableList<String> naytto = FXCollections.observableArrayList();
+        treeniLista.clear();
         for(Treeni trn : paivakirja.getTreenit().getTreenit()) {
-            if(trn.getPvm() == null && trn.getTrid() == 0) {
-                naytto.add(trn.getNimi());
+            if (trn.getTrid() == 0) {
+                treeniLista.add(trn.getNimi(), trn);
             }
         }
-        treeniLista.setItems(naytto);
-        treeniLista.refresh();
     }
     
     /**
      * Harjoitteiden näyttäminen käyttöliittymässä
-     * TODO funktion yleistäminen valintaa varten
+     * TODO funktion yleistäminen valintaa varten ja karsiminen ID:n mukaan
      */
     protected void naytaHarjoitteet() {
-        ObservableList<String> naytto = FXCollections.observableArrayList();
+        harjoiteLista.clear();
         for(Harjoite har : paivakirja.getHarjoitteet()) {
             if(har.getHarid() == 0) {
-                naytto.add(har.getNimi());
+                harjoiteLista.add(har.getNimi(), har);
             }
         }
-        harjoiteLista.setItems(naytto);
-        harjoiteLista.refresh();
     }
     
     /**
      * Sarjojen näyttäminen käyttöliittymässä
-     * TODO sarjojen näyttäminen käyttöliittymässä
+     * TODO karsiminen id:n mukaan
      */
     protected void naytaSarjat() {
-        //koodi tähän, jahka taulukon sielunelämä selviää
+        sarjaLista.clear();
+        String[] headings = {"Työpaino", "Toistot", "Toteutuneet"};
+        sarjaLista.initTable(headings);
+        for(Sarja sarja : paivakirja.getSarjat()) {
+            String tp = String.valueOf(sarja.getTyopaino());
+            String toistot = String.valueOf(sarja.getToistot());
+            String toteutuneet = String.valueOf(sarja.getToteutuneet());
+            sarjaLista.add(sarja, tp, toistot, toteutuneet);
+        }
     }
 
     /**

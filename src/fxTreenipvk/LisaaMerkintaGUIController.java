@@ -8,11 +8,11 @@ import Treenipvk.Paivakirja;
 import Treenipvk.SailoException;
 import Treenipvk.Treeni;
 import fi.jyu.mit.fxgui.Dialogs;
+import fi.jyu.mit.fxgui.ListChooser;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -29,7 +29,7 @@ public class LisaaMerkintaGUIController {
     private static Stage stage;
     
     private TextField pvm;
-    private ListView<Treeni> treenit;
+    private ListChooser<Treeni> treenit;
     
     /**
      * Controllerin muodostaja
@@ -52,6 +52,7 @@ public class LisaaMerkintaGUIController {
             String[] arvot = pvm.getText().split("//.");
             LocalDate annettu = LocalDate.of(Integer.parseInt(arvot[0]), Integer.parseInt(arvot[1]), Integer.parseInt(arvot[2]));
             this.treeni.setPvm(annettu);
+            this.treeni.rekisteroi();
         } catch(Exception e) {
             Dialogs.showMessageDialog("Anna päivämäärä halutussa muodossa!" + e.getMessage());
         }
@@ -64,12 +65,11 @@ public class LisaaMerkintaGUIController {
      */
     private void nayta() {
         try {
-            for(int i = 0; i < paivakirja.getTreenit().getTreenit().length; i++) {
+            for(int i = 0; i < paivakirja.getTreenit().getTreeniLkm(); i++) {
                 if(paivakirja.getTreenit().getTreenit()[i].getPvm() == null) {
-                    treenit.getItems().add(paivakirja.getTreenit().getTreenit()[i]);
+                    treenit.add(paivakirja.getTreenit().getTreenit()[i].getNimi(), paivakirja.getTreenit().getTreenit()[i]);
                 }
             }
-            treenit.refresh();
         } catch (NullPointerException e) {
             Dialogs.showMessageDialog("Lisää ensin treenejä, jotta voit lisätä merkinnän!");
             stage.close();
