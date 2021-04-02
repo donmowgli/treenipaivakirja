@@ -7,9 +7,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.PrintStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,11 +42,16 @@ public class Treenit {
     /**
      * 
      * @param treeni Treeni-olio, joka treenit-taulukkoon halutaan lisätä.
-     * @throws SailoException SailoException jos tietorakenne on jo täynnä
      */
-    public void lisaaTreeni(Treeni treeni) throws SailoException {
-        if (lkm <= treenit.length) {
-            throw new SailoException("Liikaa alkioita!");
+    public void lisaaTreeni(Treeni treeni) {
+        if (lkm >= treenit.length) {
+            int uLkm = this.lkm + 1;
+            Treeni [] uusi = new Treeni[uLkm];
+            for(int i = 0; i < this.lkm; i++) {
+                uusi[i] = this.treenit[i];
+            }
+            this.treenit = uusi;
+            this.lkm = uLkm;
         }
        this. treenit[lkm] = treeni;
        this.lkm++;
@@ -74,17 +78,18 @@ public class Treenit {
     }
     
     /**
-     * @return palauttaa Treeni-olion Treeni[] -taulukon
-     * TODO muokkaa palauttamaan listana
+     * @return palauttaa Treenit-olion treenit-taulukon ArrayListinä.
      */
-    public Treeni[] getTreenit() {
-        return this.treenit;
+    public ArrayList<Treeni> getTreenit() {
+        ArrayList<Treeni> palautettava = new ArrayList<Treeni>();
+        for (int i = 0; i < this.lkm; i++) {
+            palautettava.add(treenit[i]);
+        }
+        return palautettava;
     }
     
     /**
      * Järjestää treenit päivämäärän eli LocalDate-olion mukaisesti laskevaan järjestykseen.
-     * TODO lisää toinen metodi, jossa haku ja järjestäminen päivämäärän lisäämisen mukaisesti
-     * TODO tarkista onko lkm vai treenit.length
      * @return palauttaa listan Treenejä.
      */
     public List<Treeni> jarjestaTreeni(){
@@ -129,11 +134,13 @@ public class Treenit {
     
     /**
      * Lukee treenit tiedostosta Treenit-olioon.
-     * @param tiedNimi tiedoston nimi, josta halutaan lukea
      * @throws SailoException jos ei tiedostosta lukeminen onnistu
      */
-    public void lueTiedostosta(String tiedNimi) throws SailoException {
-        try(BufferedReader lukija = new BufferedReader(new FileReader(tiedNimi))){
+    public void lueTiedostosta() throws SailoException {
+        this.treenit = new Treeni[this.lkm];
+        this.lkm = 0;
+        File tiedosto = new File(this.tiedostonimi);
+        try(BufferedReader lukija = new BufferedReader(new FileReader(tiedosto))){
             String rivi;
             while((rivi = lukija.readLine()) != null) {
                 Treeni treeni = new Treeni();
@@ -144,21 +151,23 @@ public class Treenit {
             throw new SailoException("Tiedosto ei aukea");
         } catch (IOException e) {
             throw new SailoException("Tiedoston kanssa on ongelmia!");
-        }
+        } 
     }
     
     /**
      * Tallentaa harjoitteet tiedostoon.
      * @throws SailoException jos tallentaminen ei onnistu.
      */
+    @SuppressWarnings("resource")
     public void tallenna() throws SailoException {
         File tiedosto = new File(this.getTiedostoNimi());
         try {
             tiedosto.createNewFile();
-            PrintWriter fo = new PrintWriter(new FileWriter(tiedosto.getCanonicalPath()));
+            PrintStream stream = new PrintStream(tiedosto);
             for(int i = 0; i < this.lkm; i++) {
-                fo.println(this.treenit[i].toString());
+                stream.println(this.treenit[i].toString());
             }
+            stream.close();
         } catch(IOException e) {
             throw new SailoException("Tiedosto ei aukea");
         }
@@ -179,6 +188,7 @@ public class Treenit {
         
         Treeni treeni2 = new Treeni();
         treeni2.setNimi("Vetävä");
+        treeni2.setPvm(LocalDate.now());
         
         treeni.rekisteroi();
         treeni2.rekisteroi();
@@ -186,8 +196,17 @@ public class Treenit {
         treenit.lisaaTreeni(treeni);
         treenit.lisaaTreeni(treeni2);
         
-        for(Treeni trn : treenit.treenit) {
-            trn.tulosta(System.out);
+        treenit.setTiedostonNimi("treenit.dat");
+        
+        for(int i = 0; i < treenit.getTreeniLkm(); i++) {
+            treenit.treenit[i].tulosta(System.out);
+        }
+        
+        treenit.tallenna();
+        treenit.lueTiedostosta();
+        
+        for(int i = 0; i < treenit.getTreeniLkm(); i++) {
+            treenit.treenit[i].tulosta(System.out);
         }
         
     }

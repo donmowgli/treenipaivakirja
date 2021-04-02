@@ -19,20 +19,13 @@ import javafx.stage.Stage;
  *
  */
 public class LisaaSarjaGUIController {
-    private Sarja sarja;
-    private static Stage stage;
+    private static int id = 0;
+    private Sarja sarja = new Sarja();
+    private static Stage stage = new Stage();
     
     @FXML private TextField tyopaino;
     @FXML private TextField toistot;
     @FXML private TextField toteutuneet;
-    
-    /**
-     * Controllerin muodostaja
-     */
-    public LisaaSarjaGUIController() {
-        this.sarja = new Sarja();
-        LisaaSarjaGUIController.stage = new Stage();
-    }
     
     /**
      * Handle-funktio OK-napin painallukselle
@@ -44,31 +37,25 @@ public class LisaaSarjaGUIController {
             sarja.setTyopaino(Integer.parseInt(tyopaino.getText()));
             sarja.setToistot(Integer.parseInt(toistot.getText()));
             sarja.setToteutuneet(Integer.parseInt(toteutuneet.getText()));
+            sarja.setHarid(id);
+            sarja.rekisteroi();
             stage.close();
+            TreenipvkGUIController.paivakirja.getSarjat().lisaaSarja(sarja);
         }catch (NumberFormatException e) {
             Dialogs.showMessageDialog("Tiedot tulee olla numeroina!");
         }
     }
     
     /**
-     * Palautetaan lisätty Sarja-olio
-     * @return Controllerin Sarja-olio
-     */
-    private Sarja getResult() {
-        return sarja;
-    }
-    
-    /**
      * Avataan Sarja-dialogi ja sarjan lisäämiselle.
      * @param modalityStage modaalisuus, joka halutaan: ollaanko modaalisia jollekin toiselle ikkunalle.
-     * @return palauttaa lisätyn sarja-olion.
+     * @param harid harjoituksen id, joka sarjalle halutaan asettaa.
      */
-    public Sarja avaa(Stage modalityStage) {
+    public static void avaa(Stage modalityStage, int harid) {
         try {
             URL url = LisaaSarjaGUIController.class.getResource("LisaaSarjaView.fxml");
             FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
-            final LisaaSarjaGUIController dialogCtrl = (LisaaSarjaGUIController)loader.getController();
             stage.setScene(new Scene(root));
             stage.setTitle("Sarja");
             if ( modalityStage != null ) {
@@ -77,13 +64,11 @@ public class LisaaSarjaGUIController {
             } else {
                 stage.initModality(Modality.APPLICATION_MODAL);
             }
+            id = harid;
             stage.showAndWait();
             stage = new Stage();
-            return dialogCtrl.getResult();
-            
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
     }
 }

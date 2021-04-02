@@ -20,29 +20,24 @@ import javafx.stage.Stage;
  *
  */
 public class LisaaHarjoiteGUIController {
-    private Harjoite harjoite;
-    private static Stage stage;
+    private static int id = 0;
+    private Harjoite harjoite = new Harjoite();
+    private static Stage stage = new Stage();
     
     @FXML private TextField nimi;
     @FXML private TextField lkm;
     
     /**
-     * Controllerin muodostaja
-     */
-    public LisaaHarjoiteGUIController() {
-        this.harjoite = new Harjoite();
-        LisaaHarjoiteGUIController.stage = new Stage();
-    }
-    
-    /**
      * Handle-funktio OK-napin painallukselle
-     * TODO milloin rekisteröidään ja milloin asetetaan treenin id?
      */
     @FXML
     private void handleOK() {
         try {
             harjoite.setNimi(nimi.getText());
             harjoite.setSarlkm(Integer.parseInt(lkm.getText()));
+            harjoite.setTrid(id);
+            harjoite.rekisteroi();
+            TreenipvkGUIController.paivakirja.getHarjoitteet().lisaaHarjoite(harjoite);
             stage.hide();
         }catch (NumberFormatException e) {
             Dialogs.showMessageDialog("Sarjojen lukumäärä tulee olla numeroina!");
@@ -50,24 +45,15 @@ public class LisaaHarjoiteGUIController {
     }
     
     /**
-     * Palautetaan lisätty Harjoite-olio
-     * @return Controllerin Harjoite-olio
-     */
-    private Harjoite getResult() {
-        return harjoite;
-    }
-    
-    /**
      * Avataan Harjoite-dialogi ja sarjan lisäämiselle.
      * @param modalityStage modaalisuus, joka halutaan: ollaanko modaalisia jollekin toiselle ikkunalle.
-     * @return palauttaa lisätyn Harjoite-olion.
+     * @param trid Treenin id, jolle sarja halutaan asettaa
      */
-    public Harjoite lisaa(Stage modalityStage) {
+    public static void avaa(Stage modalityStage, int trid) {
         try {
             URL url = LisaaHarjoiteGUIController.class.getResource("LisaaHarjoiteView.fxml");
             FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
-            final LisaaHarjoiteGUIController dialogCtrl = (LisaaHarjoiteGUIController)loader.getController();
             stage.setScene(new Scene(root));
             stage.setTitle("Harjoite");
             if ( modalityStage != null ) {
@@ -76,14 +62,12 @@ public class LisaaHarjoiteGUIController {
             } else {
                 stage.initModality(Modality.APPLICATION_MODAL);
             }
-            
+            id = trid;
             stage.showAndWait();
             stage = new Stage();
-            return dialogCtrl.getResult();
             
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
     }
 }

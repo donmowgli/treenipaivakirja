@@ -17,7 +17,7 @@ public class Treeni {
     private int trid;
     private LocalDate pvm;
     
-    private static int seuraavaNro;
+    private static int seuraavaNro = 0;
     
     /**
      * Treeni-olion muodostaja. Säilöö Harjoite-olioita ja edelleen Sarja-olioita, ja muodostaa siten täyden harjoitteen.
@@ -67,6 +67,13 @@ public class Treeni {
     }
     
     /**
+     * @param trid treenin id, joka halutaan asettaa
+     */
+    public void setTrid(int trid) {
+        this.trid = trid;
+    }
+    
+    /**
      * Haetaan treenin id
      * @return palautetaan Treeni-olion trid integer-numerona.
      */
@@ -92,9 +99,17 @@ public class Treeni {
         out.println(this.nimi + " " + this.trid + " " + this.pvm);
     }
     
+    /**
+     * ToString-metodi, joka palauttaa merkkijonon jossa arvot eroteltu "|"-merkinnällä.
+     * Asettaa päivämäärälle merkkijonona "null" jos this.pvm == null.
+     */
     @Override
     public String toString() {
-        return this.nimi + "|" + this.trid + "|" + this.pvm.toString();
+        String sPvm;
+        if (this.pvm == null) {
+            sPvm = "null";
+        } else sPvm = pvm.toString();
+        return this.nimi + "|" + this.trid + "|" + sPvm;
     }
     
     /**
@@ -102,10 +117,12 @@ public class Treeni {
      * @param jono josta halutaan tarvittavat tiedot treenille
      */
     public void parse(String jono) {
-        String[] arvot = jono.split("//|");
+        String[] arvot = jono.split("\\|");
         this.nimi = arvot[0];
         this.trid = Integer.parseInt(arvot[1]);
-        this.pvm = LocalDate.parse(arvot[2]);
+        if (arvot[2] == "null") {
+            this.pvm = null;
+        } else this.pvm = LocalDate.parse(arvot[2]);
     }
     
     /**

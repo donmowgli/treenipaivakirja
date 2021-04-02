@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import Treenipvk.Harjoite;
-import Treenipvk.Paivakirja;
 import Treenipvk.Treeni;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
@@ -25,32 +24,27 @@ import javafx.stage.Stage;
  *
  */
 public class LisaaTreeniGUIController implements Initializable {
-    private Paivakirja paivakirja;
-    private Treeni treeni;
-    private static Stage stage;
+    private Treeni treeni = new Treeni();
+    private static Stage stage = new Stage();
     
     @FXML private TextField nimi;
     @FXML private ListChooser<Harjoite> harjoitteet;
     @FXML private ListChooser<Harjoite> lisattava;
     
-    /**
-     * Testi
-     */
-    public LisaaTreeniGUIController() {
-        LisaaTreeniGUIController.stage = new Stage();
-    }
-    
     @Override
     public void initialize(URL url, ResourceBundle bundle) {
-        harjoitteet = new ListChooser<Harjoite>();
-        lisattava = new ListChooser<Harjoite>();
         harjoitteet.clear();
+        harjoitteet.setOnMouseClicked(e ->{ if (e.getClickCount() > 1) lisaaListaan(harjoitteet.getSelectedObject()); });
         lisattava.clear();
+        nayta();
+    }
+    
+    private void lisaaListaan(Harjoite harjoite) {
+        lisattava.add(harjoite.getNimi(), harjoite);
     }
     
     /**
      * Handle-funktio OK-napin painallukselle
-     * TODO Milloin rekisteröidään?
      */
     @FXML
     private void handleOK() {
@@ -60,12 +54,13 @@ public class LisaaTreeniGUIController implements Initializable {
             for(Harjoite harjoite : lisattava.getObjects()) {
                 if(harjoite.getHarid() == 0) {
                     harjoite.setTrid(treeni.getTrid());
-                    paivakirja.getHarjoitteet().lisaaHarjoite(harjoite);
+                    TreenipvkGUIController.paivakirja.getHarjoitteet().lisaaHarjoite(harjoite);
                 }
             }
-            paivakirja.getTreenit().lisaaTreeni(treeni);
+            TreenipvkGUIController.paivakirja.getTreenit().lisaaTreeni(treeni);
             stage.hide();
         }catch (Exception e) {
+            e.printStackTrace();
             Dialogs.showMessageDialog("Valitse ainakin yksi treeniin lisättävä harjoite.");
         }
     }
@@ -83,9 +78,8 @@ public class LisaaTreeniGUIController implements Initializable {
      */
     private void nayta() {
         try {
-            for(Harjoite har : paivakirja.getHarjoitteet()) {
+            for(Harjoite har : TreenipvkGUIController.paivakirja.getHarjoitteet()) {
                 if(har.getTrid() == 0) {
-                    System.out.println(har.getNimi());
                     harjoitteet.add(har.getNimi(), har);
                 }
             }
@@ -95,25 +89,14 @@ public class LisaaTreeniGUIController implements Initializable {
     }
     
     /**
-     * Palautetaan lisätty Harjoite-olio
-     * @return Controllerin Harjoite-olio
-     */
-    private Paivakirja getResult() {
-        return paivakirja;
-    }
-    
-    /**
      * Avataan Treeni-dialogi ja sarjan lisäämiselle.
      * @param modalityStage modaalisuus, joka halutaan: ollaanko modaalisia jollekin toiselle ikkunalle.
-     * @param pvk Päiväkirja-olio, johon muokkauksia halutaan tehdä
-     * @return palauttaa lisätyn Harjoite-olion.
      */
-    public Paivakirja avaa(Stage modalityStage, Paivakirja pvk) {
+    public static void avaa(Stage modalityStage) {
         try {
             URL url = LisaaHarjoiteGUIController.class.getResource("LisaaTreeniView.fxml");
             FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
-            final LisaaTreeniGUIController dialogCtrl = (LisaaTreeniGUIController)loader.getController();
             stage.setScene(new Scene(root));
             stage.setTitle("Treeni");
             if ( modalityStage != null ) {
@@ -122,17 +105,11 @@ public class LisaaTreeniGUIController implements Initializable {
             } else {
                 stage.initModality(Modality.APPLICATION_MODAL);
             }
-            
-            paivakirja = pvk;
-            nayta();
-            
             stage.showAndWait();
             stage = new Stage();
-            return dialogCtrl.getResult();
             
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
     }
 }

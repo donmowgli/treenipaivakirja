@@ -16,7 +16,7 @@ public class Harjoite {
     private int trid;
     private int sarlkm;
     
-    private int seuraavaNro;
+    private int seuraavaNro = 0;
     
     /**
      * @param nimi harjoitteen nimi, joka sille halutaan asettaa
@@ -58,6 +58,14 @@ public class Harjoite {
      */
     public int getHarid() {
         return this.harid;
+    }
+    
+    /**
+     * Asetetaan harjoitukselle id
+     * @param harid harjoituksen id, joka sille halutaan asettaa.
+     */
+    public void setHarid(int harid) {
+        this.harid = harid;
     }
     
     /**
@@ -120,7 +128,7 @@ public class Harjoite {
      * @param jono josta halutaan tarvittavat tiedot sarjalle
      */
     public void parse(String jono) {
-        String[] arvot = jono.split("//|");
+        String[] arvot = jono.split("\\|");
         this.nimi = arvot[0];
         this.harid = Integer.parseInt(arvot[1]);
         this.trid = Integer.parseInt(arvot[2]);

@@ -4,7 +4,7 @@
 package Treenipvk;
 
 /**
- * Päiväkirja-luokka, joka huolehtii treeneistä. Tulee huolehtimaan luokkien välisestä yhteistyöstä.
+ * Päiväkirja-luokka, joka huolehtii treeneistä, harjoitteista ja sarjoista. Tulee huolehtimaan luokkien välisestä yhteistyöstä.
  * 
  * @author Akseli Jaara
  * @version 4 Mar 2021
@@ -144,9 +144,9 @@ public class Paivakirja {
      * @throws SailoException jos ongelmia tiedoston ja siitä lukemisen kanssa.
      */
     public void lueTiedostosta() throws SailoException {
-        this.sarjat.lueTiedostosta(sarjat.getTiedostoNimi());
-        this.harjoitteet.lueTiedostosta(harjoitteet.getTiedostoNimi());
-        this.treenit.lueTiedostosta(treenit.getTiedostoNimi());
+        this.sarjat.lueTiedostosta();
+        this.harjoitteet.lueTiedostosta();
+        this.treenit.lueTiedostosta();
     }
     
     /**
@@ -154,6 +154,14 @@ public class Paivakirja {
      * @throws SailoException jos tiedostoon tallentaminen ei onnistu.
      */
     public void tallenna() throws SailoException{
+        System.out.println(this.sarjat.getTiedostoNimi());
+        System.out.println(this.harjoitteet.getTiedostoNimi());
+        System.out.println(this.treenit.getTiedostoNimi());
+        
+        this.sarjat = new Sarjat();
+        this.harjoitteet = new Harjoitteet();
+        this.treenit = new Treenit();
+        
         this.sarjat.tallenna();
         this.harjoitteet.tallenna();
         this.treenit.tallenna();
