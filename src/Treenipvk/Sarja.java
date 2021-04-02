@@ -133,6 +133,18 @@ public class Sarja {
         out.println("Sarjan ID: " + this.sarid + ", Työpaino: " + this.tyopaino  + ", Toistojen lukumäärä: " +this.toistot + ", Toteutuneiden toistojen lukumäärä:  " + this.toteutuneet);
     }
     
+    /**
+     * Kloonataan haluttu Sarja-olio
+     */
+    @Override
+    public Sarja clone() {
+        Sarja sarja = new Sarja(this.getTyopaino(), this.getToteutuneet());
+        sarja.toistot = this.getToistot();
+        sarja.sarid = this.getSarid();
+        sarja.harid = this.getHarid();
+        return sarja;
+    }
+    
     @Override
     public String toString() {
         return this.sarid + "|" + this.harid + "|" + this.tyopaino  + "|" + this.toistot  + "|" + this.toteutuneet;
@@ -143,7 +155,7 @@ public class Sarja {
      * @param jono josta halutaan tarvittavat tiedot sarjalle
      */
     public void parse(String jono) {
-        String[] arvot = jono.split("//|");
+        String[] arvot = jono.split("\\|");
         this.sarid = Integer.parseInt(arvot[0]);
         this.harid = Integer.parseInt(arvot[1]);
         this.tyopaino = Integer.parseInt(arvot[2]);
@@ -160,6 +172,7 @@ public class Sarja {
         sarja.setToteutuneet(6);
         sarja.rekisteroi();
         sarja.tulosta(System.out);
+        sarja.parse(sarja.toString());
     }
 
 }

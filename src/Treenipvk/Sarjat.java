@@ -7,9 +7,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -103,11 +102,12 @@ public class Sarjat implements Iterable<Sarja>{
     
     /**
      * Lukee sarjat tiedostosta Sarjat-olioon.
-     * @param tiedNimi tiedoston nimi, josta halutaan lukea
      * @throws SailoException jos ei tiedostosta lukeminen onnistu
      */
-    public void lueTiedostosta(String tiedNimi) throws SailoException {
-        try(BufferedReader lukija = new BufferedReader(new FileReader(tiedNimi))){
+    public void lueTiedostosta() throws SailoException {
+        this.sarjat = new ArrayList<Sarja>();
+        File tiedosto = new File(this.tiedostonimi);
+        try(BufferedReader lukija = new BufferedReader(new FileReader(tiedosto))){
             String rivi;
             while((rivi = lukija.readLine()) != null) {
                 Sarja sarja = new Sarja();
@@ -125,14 +125,16 @@ public class Sarjat implements Iterable<Sarja>{
      * Tallentaa sarjat tiedostoon.
      * @throws SailoException jos tallentaminen ei onnistu
      */
+    @SuppressWarnings("resource")
     public void tallenna() throws SailoException {
         File tiedosto = new File(this.getTiedostoNimi());
         try {
             tiedosto.createNewFile();
-            PrintWriter fo = new PrintWriter(new FileWriter(tiedosto.getCanonicalPath()));
-            for(Sarja sarja : this) {
-                fo.println(sarja.toString());
+            PrintStream stream = new PrintStream(tiedosto);
+            for(Sarja sarja : this.sarjat) {
+                stream.println(sarja.toString());
             }
+            stream.close();
         } catch(IOException e) {
             throw new SailoException("Tiedosto ei aukea");
         }
@@ -180,8 +182,9 @@ public class Sarjat implements Iterable<Sarja>{
     /**
      * Testataan sarjat-luokkaa
      * @param args ei käytössä
+     * @throws SailoException jos tallentamisen kanssa ongelmia
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SailoException {
         //Testataan Sarjat-luokkaa
         Sarja sarja1 = new Sarja(80, 4);
         Sarja sarja2 = new Sarja(70, 6);
@@ -197,7 +200,7 @@ public class Sarjat implements Iterable<Sarja>{
         
         sarja1.setHarid(0);
         sarja2.setHarid(1);
-        sarja1.setHarid(2);
+        sarja3.setHarid(2);
         
         Sarjat sarjat = new Sarjat();
         
@@ -205,10 +208,12 @@ public class Sarjat implements Iterable<Sarja>{
         sarjat.lisaaSarja(sarja2);
         sarjat.lisaaSarja(sarja3);
         
+        sarjat.setTiedostonNimi("sarjat.dat");
+        sarjat.tallenna();
+        sarjat.lueTiedostosta();
+        
         for(Sarja sarja : sarjat) {
             sarja.tulosta(System.out);
         }
-        
-        sarjat.getSarja(0).tulosta(System.out);
     }
 }
