@@ -156,7 +156,7 @@ public class Sarjat implements Iterable<Sarja>{
      *  Sarja sarja4 = new Sarja(50, 12); sarja4.rekisteroi(); sarjat.lisaa(sarja4);
      *  Sarja sarja5 = new Sarja(40, 16); sarja5.rekisteroi(); sarjat.lisaa(sarja5);
      *  
-     *  Iterator<Sarja> i = harrasteet.iterator();
+     *  Iterator<Sarja> i = sarjat.iterator();
      *  i.next() === sarja1;
      *  i.next() === sarja2;
      *  i.next() === sarja3;

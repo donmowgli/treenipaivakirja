@@ -38,7 +38,7 @@
           <Menu mnemonicParsing="false" text="Apua">
             <items>
                   <MenuItem mnemonicParsing="false" text="Ohje" />
-              <MenuItem mnemonicParsing="false" text="Tietoja" />
+              <MenuItem mnemonicParsing="false" onAction="#handleApua" text="Tietoja" />
             </items>
           </Menu>
         </menus>

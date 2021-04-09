@@ -5,7 +5,6 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-import Treenipvk.SailoException;
 import Treenipvk.Treeni;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
@@ -28,29 +27,31 @@ public class LisaaMerkintaGUIController implements Initializable{
     private Treeni treeni = new Treeni();
     private static Stage stage = new Stage();
     
-    private TextField pvm;
-    private ListChooser<Treeni> treenit;
+    @FXML private TextField pvm;
+    @FXML private ListChooser<Treeni> treenit;
     
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        treenit.addSelectionListener(null);
+        treenit.clear();
         nayta();
     }
     
     /**
      * Handle OK-painikkeelle
-     * TODO kloonaus!
      */
     @FXML
     private void handleOK() {
         try {
-            String[] arvot = pvm.getText().split("//.");
-            LocalDate annettu = LocalDate.of(Integer.parseInt(arvot[0]), Integer.parseInt(arvot[1]), Integer.parseInt(arvot[2]));
-            //pitääkö kloonata?
+            String[] arvot = pvm.getText().split("\\.");
+            System.out.println(arvot[0]);
+            System.out.println(arvot[1]);
+            System.out.println(arvot[2]);
+            LocalDate annettu = LocalDate.of(Integer.parseInt(arvot[2]), Integer.parseInt(arvot[1]), Integer.parseInt(arvot[0]));
+            this.treeni = treenit.getSelectedObject().clone();
             this.treeni.setPvm(annettu);
             this.treeni.rekisteroi();
         } catch(Exception e) {
-            Dialogs.showMessageDialog("Anna päivämäärä halutussa muodossa!" + e.getMessage());
+            Dialogs.showMessageDialog("Tarkista päivämäärän muoto ja oikeellisuus!");
         }
         TreenipvkGUIController.paivakirja.getTreenit().lisaaTreeni(this.treeni);
         stage.hide();

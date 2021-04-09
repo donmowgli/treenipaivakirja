@@ -156,7 +156,37 @@ public class Harjoitteet implements Iterable<Harjoite> {
     
 
     /**
-     * Iteraattori kaikkien harjoitteiden läpikäymiseen.
+     * Iteraattori kaikkien harjoitteiden läpikäymiseen
+     * @return harjoiteiteraattori
+     * 
+     * @example
+     * <pre name= "test">
+     * #PACKAGEIMPORT
+     * #import java.util*;
+     *  
+     *  Harjoite harjoitteet = new Harjoitteet();
+     *  Harjoite harjoite1 = new Harjoite("testi1", 3); harjoite1.rekisteroi(); harjoitteet.lisaa(harjoite1);
+     *  Harjoite harjoite2 = new Harjoite("testi2", 4); harjoite2.rekisteroi(); harjoitteet.lisaa(harjoite2);
+     *  Harjoite harjoite3 = new Harjoite("testi3", 5); harjoite3.rekisteroi(); harjoitteet.lisaa(harjoite3);
+     *  Harjoite harjoite4 = new Harjoite("testi4", 6); harjoite4.rekisteroi(); harjoitteet.lisaa(harjoite4);
+     *  Harjoite harjoite5 = new Harjoite("testi5", 7); harjoite5.rekisteroi(); harjoitteet.lisaa(harjoite5);
+     *  
+     *  Iterator<Harjoite> i = harjoitteet.iterator();
+     *  i.next() === harjoite1;
+     *  i.next() === harjoite2;
+     *  i.next() === harjoite3;
+     *  i.next() === harjoite4;
+     *  i.next() === harjoite5;
+     *  i.next() === harjoite4; #THROWS NoSuchElementException
+     *  
+     *  int n = 0;
+     *  int harids [] = {0, 1, 2, 3, 4};
+     *  
+     *  for(Sarja sarja : sarjat){
+     *      sarja.getSarid() === sarids[n]; n++;
+     *  }
+     *  
+     *  </pre>
      */
     @Override
     public Iterator<Harjoite> iterator() {

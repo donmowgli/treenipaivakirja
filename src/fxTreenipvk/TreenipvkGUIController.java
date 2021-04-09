@@ -130,9 +130,6 @@ public class TreenipvkGUIController implements Initializable  {
     
     /**
      * Alustetaan harrastelistan kuuntelija
-     * TODO Gridperkeleen chooseri?
-     * TODO hiiren kaksoisklikkauksen avaamiset
-     * TODO korjaa valitun kloonaaminen
      */
     protected void alusta() {
         try{
@@ -142,15 +139,11 @@ public class TreenipvkGUIController implements Initializable  {
            treeniLista.clear();
            harjoiteLista.clear();
            sarjaLista.clear();
-            
-           merkintaLista.addSelectionListener(e -> naytaTreenit(0));
-           treeniLista.addSelectionListener(e -> naytaHarjoitteet(0));
-           harjoiteLista.addSelectionListener(e -> naytaSarjat(0));
            
-           merkintaLista.setOnMouseClicked(e ->{ if (e.getClickCount() > 1) naytaTreenit(merkintaLista.getSelectedObject().getTrid()); });
-           treeniLista.setOnMouseClicked(e ->{ if (e.getClickCount() > 1) naytaHarjoitteet(treeniLista.getSelectedObject().getTrid()); });
-           harjoiteLista.setOnMouseClicked(e ->{ if (e.getClickCount() > 1) naytaSarjat(harjoiteLista.getSelectedObject().getHarid()); });
-           sarjaLista.setOnMouseClicked(e ->{ if (e.getClickCount() > 1) kloonaaValittu(sarjaLista.getObject(sarjaLista.getRowNr())); naytaSarjat(sarjaLista.getObject(sarjaLista.getRowNr()).getHarid()); });
+           merkintaLista.setOnMouseClicked(e ->{ if (e.getClickCount() > 1) naytaTreenit(merkintaLista.getSelectedObject().getTrid(), false); });
+           treeniLista.setOnMouseClicked(e ->{ if (e.getClickCount() > 1) naytaHarjoitteet(treeniLista.getSelectedObject().getTrid(), false); });
+           harjoiteLista.setOnMouseClicked(e ->{ if (e.getClickCount() > 1) naytaSarjat(harjoiteLista.getSelectedObject().getHarid(), false); });
+           sarjaLista.setOnMouseClicked(e ->{ if (e.getClickCount() > 1) kloonaaValittu(sarjaLista.getObject(sarjaLista.getRowNr())); naytaSarjat(sarjaLista.getObject(sarjaLista.getRowNr()).getHarid(), false); });
            
            alustaValinnat();
            
@@ -161,8 +154,6 @@ public class TreenipvkGUIController implements Initializable  {
     
     /**
      * Alustetaan valinnat choosereille
-     * TODO Gridperkeleen chooserin alustus
-     * TODO toimiiko tällaisenaan ja voiko yleistää?
      */
     protected void alustaValinnat() {
         merkintaLista.setSelectedIndex(0);
@@ -173,7 +164,6 @@ public class TreenipvkGUIController implements Initializable  {
     /**
      * Luo uuden harjoitteen jota aletaan editoimaan
      * TODO palauttaa oletusolion jos suljetaan, korjaa
-     * TODO valinnan alustus
      */
     protected void uusiMerkinta() {
         try {
@@ -187,125 +177,121 @@ public class TreenipvkGUIController implements Initializable  {
     /**
      * Luo uuden harjoitteen jota aletaan editoimaan 
      * TODO palauttaa oletusolion jos suljetaan, korjaa
-     * TODO valinnan alustus
      */
     protected void uusiTreeni() {
         LisaaTreeniGUIController.avaa(null);
         try {
             treeniLista.setSelectedIndex(paivakirja.getTreenit().getTreeniLkm());
-            naytaTreenit(merkintaLista.getSelectedObject().getTrid());
+            naytaTreenit(merkintaLista.getSelectedObject().getTrid(), true);
         } catch(Exception e) {
-            naytaTreenit(0);
+            naytaTreenit(0, true);
         }
     }
     
     /**
      * Luo uuden harjoitteen jota aletaan editoimaan
      * TODO palauttaa oletusolion jos suljetaan, korjaa
-     * TODO valinnan alustus
      */
     protected void uusiHarjoite() {
         try {
             LisaaHarjoiteGUIController.avaa(null, treeniLista.getSelectedObject().getTrid());
             harjoiteLista.setSelectedIndex(paivakirja.getHarjoitteet().getHarjoitteetLkm());
-            naytaHarjoitteet(treeniLista.getSelectedObject().getTrid());
+            naytaHarjoitteet(treeniLista.getSelectedObject().getTrid(), true);
         } catch (Exception e) {
             LisaaHarjoiteGUIController.avaa(null, 0);
-            naytaHarjoitteet(0);
+            naytaHarjoitteet(0, true);
         }
     }
     
     /**
      * Luo uuden harjoitteen jota aletaan editoimaan.
      * TODO palauttaa oletusolion jos suljetaan, korjaa
-     * valinnan alustus
      */
     protected void uusiSarja() {
         try {
             LisaaSarjaGUIController.avaa(null, harjoiteLista.getSelectedObject().getHarid());
-            naytaSarjat(harjoiteLista.getSelectedObject().getHarid());
+            naytaSarjat(harjoiteLista.getSelectedObject().getHarid(), true);
         } catch (Exception e) {
             LisaaSarjaGUIController.avaa(null, 0);
-            naytaSarjat(0);
+            naytaSarjat(0, true);
         }
     }
     
     /**
      * Merkintöjen näyttäminen käyttöliittymässä
-     * TODO booleanilla näytetäänkö kaikki
      */
     protected void naytaMerkinnat() {
         merkintaLista.clear();
         for(Treeni trn : paivakirja.getTreenit().getTreenit()) {
             if (trn.getPvm() != null) {
-                merkintaLista.add(trn.getPvm().toString(), trn);
+                merkintaLista.add(trn.pvmToString(), trn);
             }
         }
         
         try {
-            naytaTreenit(merkintaLista.getSelectedObject().getTrid());
+            naytaTreenit(merkintaLista.getSelectedObject().getTrid(), false);
         } catch (Exception e) {
-            naytaTreenit(0);
+            naytaTreenit(0, true);
         }
     }
     
     /**
      * Treenien näyttäminen käyttöliittymässä
-     * TODO booleanilla näytetäänkö kaikki
      * @param id Treenin id joka tuodaan valitulta pvm-oliolta.
+     * @param naytaKaikki boolean-arvo, näytetäänkö kaikki treenit listassa
      * @throws NullPointerException jos valitsijan palauttava olio null
      */
-    protected void naytaTreenit(int id) throws NullPointerException{
+    protected void naytaTreenit(int id, boolean naytaKaikki) throws NullPointerException{
         treeniLista.clear();
         for(Treeni trn : paivakirja.getTreenit().getTreenit()) {
-            if (id == trn.getTrid()) {
+            if (id == trn.getTrid() && naytaKaikki == false) {
                 treeniLista.add(trn.getNimi(), trn);
-            } else if (trn.getTrid() == 0) {
+            } else {
                 treeniLista.add(trn.getNimi(), trn);
             }
         }
         
         try {
-            naytaHarjoitteet(treeniLista.getSelectedObject().getTrid());
+            naytaHarjoitteet(treeniLista.getSelectedObject().getTrid(), false);
         } catch (Exception e) {
-            naytaHarjoitteet(0);
+            naytaHarjoitteet(0, true);
         }
     }
     
     /**
      * Harjoitteiden näyttäminen käyttöliittymässä
-     * TODO booleanilla näytetäänkö kaikki
      * @param id Treenin id, jonka treenit halutaan näyttää
+     * @param naytaKaikki boolean-arvo, näytetäänkö kaikki harjoitteet listassa
      * @throws NullPointerException jos valitsijan palauttava olio null
      */
-    protected void naytaHarjoitteet(int id) throws NullPointerException{
+    protected void naytaHarjoitteet(int id, boolean naytaKaikki) throws NullPointerException{
         harjoiteLista.clear();
         for(Harjoite har : paivakirja.getHarjoitteet()) {
-            if (id == har.getTrid()) {
-                harjoiteLista.add(har);
-            } else if (har.getHarid() == 0) {
+            if (id == har.getTrid() && naytaKaikki == false) {
+                harjoiteLista.add(har.getNimi(), har);
+            } else {
                 harjoiteLista.add(har.getNimi(), har);
             }
         }
         try {
-            naytaSarjat(harjoiteLista.getSelectedObject().getHarid());
+            naytaSarjat(harjoiteLista.getSelectedObject().getHarid(), false);
         } catch (Exception e) {
-            naytaSarjat(0);
+            naytaSarjat(0, true);
         }
     }
     
     /**
      * Sarjojen näyttäminen käyttöliittymässä
-     * TODO booleanilla näytetäänkö kaikki
      * @param id Harjoitteen id, jonka sarjat halutaan näyttää
+     * @param naytaKaikki boolean-arvo, näytetäänkö kaikki olemassaolevat sarjat
      * @throws NullPointerException jos valitsijan palauttava olio null
      */
-    protected void naytaSarjat(int id) throws NullPointerException{
+    protected void naytaSarjat(int id, boolean naytaKaikki) throws NullPointerException{
         sarjaLista.clear();
         String[] headings = {"Työpaino", "Toistot", "Toteutuneet"};
         sarjaLista.initTable(headings);
         for(Sarja sarja : paivakirja.getSarjat()) {
-            if (id == sarja.getHarid()) {
+            if (id == sarja.getHarid() && naytaKaikki == false) {
                 String tp = String.valueOf(sarja.getTyopaino());
                 String toistot = String.valueOf(sarja.getToistot());
                 String toteutuneet = String.valueOf(sarja.getToteutuneet());
@@ -328,7 +314,6 @@ public class TreenipvkGUIController implements Initializable  {
 
     /**
      * Ohjelmaa avatessa avaa tiedostosta ladatut tiedot käyttöliittymään oletuslokaatiosta. Valmius useammillekin tiedostoille.
-     * TODO tiedostojen näyttäminen lukemisen jälkeen, lukemisen alustaminen - pitää olla olemassaolevat tiedostot, josta voidaan lukea! Lisäksi tiedostonimet voidaan alustaa erillisessä metodissa. Sama pätee tallenna-funktiolle. HUOM alustus tällä hetkellä päiväkirjan luetiedostosta-funktiossa, josta tulee siirtää pois yleistetympään muotoon.
      * @throws SailoException jos tiedostosta lukemisessa ongelmia
      */
     private void avaa() throws SailoException{
@@ -343,7 +328,6 @@ public class TreenipvkGUIController implements Initializable  {
     
     /**
      * Kaiken tiedon tallentaminen erillisinä tiedostoina.
-     * TODO HUOM alustus tällä hetkellä päiväkirjan luetiedostosta-funktiossa, josta tulee siirtää pois yleistetympään muotoon.
      */
     private void tallenna() {
         try {
@@ -359,13 +343,15 @@ public class TreenipvkGUIController implements Initializable  {
      * Näytetään ohjelman suunnitelma erillisessä selaimessa.
      */
     private void avustus() {
-        Desktop desktop = Desktop.getDesktop();
             try {
-                URI uri = new URI("https://tim.jyu.fi/view/kurssit/tie/ohj2/2021k/ht/akjojaar");
-                desktop.browse(uri);
+                if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                    Desktop.getDesktop().browse(new URI("https://tim.jyu.fi/view/kurssit/tie/ohj2/2021k/ht/akjojaar"));
+                }
             } catch (URISyntaxException e) {
+                e.printStackTrace();
                 return;
             } catch (IOException e) {
+                e.printStackTrace();
                 return;
             }
     

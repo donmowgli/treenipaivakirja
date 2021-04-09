@@ -19,7 +19,7 @@ public class Sarja {
     private int toistot;
     private int toteutuneet;
     
-    private static int seuraavaNro = 0;
+    private static int seuraavaNro = 1;
     
     /**
      * Sarja-olion parametrillinen muodostaja.
@@ -134,7 +134,22 @@ public class Sarja {
     }
     
     /**
+     * @return String-olio, jolla näytölle tulostettavat tiedot
+     */
+    public String tulostus() {
+        return "Työpaino: " + this.tyopaino + ", toistot: " + this.toistot + ", ja toteutuneet: " + this.toteutuneet;
+    }
+    
+    /**
      * Kloonataan haluttu Sarja-olio
+     * @return palauttaa kloonin halutusta sarjasta
+     * @example
+     * <pre name="test">
+     * Sarja sarja1 = new Sarja(80, 5);
+     * Sarja sarja2 = sarja1.clone();
+     * sarja1.tyopaino === sarja2.tyopaino;
+     * sarja1.toistot === sarja2.toistot;
+     * </pre>
      */
     @Override
     public Sarja clone() {
@@ -144,7 +159,7 @@ public class Sarja {
         sarja.harid = this.getHarid();
         return sarja;
     }
-    
+
     @Override
     public String toString() {
         return this.sarid + "|" + this.harid + "|" + this.tyopaino  + "|" + this.toistot  + "|" + this.toteutuneet;

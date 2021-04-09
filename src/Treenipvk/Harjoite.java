@@ -16,7 +16,7 @@ public class Harjoite {
     private int trid;
     private int sarlkm;
     
-    private int seuraavaNro = 0;
+    private static int seuraavaNro = 1;
     
     /**
      * @param nimi harjoitteen nimi, joka sille halutaan asettaa
@@ -108,9 +108,16 @@ public class Harjoite {
     }
     
     /**
-     * Asetetaan harjoitukselle oma id.
-     * @return harjoituksen uuden harjoitusid:n eli harid:n.
-     * TODO korjaa
+     * Antaa Harjoite-oliolle sen uniikin sarid-numeron.
+     * @return palauttaa harjoitteen id:n eli harid-oliomuuttujan.
+     * @example
+     * <pre name="test">
+     *      Harjoite harjoite1 = new Harjoite();
+     *      Harjoite harjoite2 ) new Harjoite();
+     *      harjoite1.rekisteroi();
+     *      harjoite2.rekisteroi();
+     *      harjoite1.harid === harjoite2.harid - 1;
+     * </pre>
      */
     public int rekisteroi() {
         this.harid = seuraavaNro;

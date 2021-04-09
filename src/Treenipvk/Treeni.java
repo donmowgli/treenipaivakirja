@@ -17,7 +17,7 @@ public class Treeni {
     private int trid;
     private LocalDate pvm;
     
-    private static int seuraavaNro = 0;
+    private static int seuraavaNro = 1;
     
     /**
      * Treeni-olion muodostaja. Säilöö Harjoite-olioita ja edelleen Sarja-olioita, ja muodostaa siten täyden harjoitteen.
@@ -82,8 +82,16 @@ public class Treeni {
     }
     
     /**
-     * Rekisteröidään treeni
-     * @return palauttaa treenin uuden trid:n 
+     * Antaa Treeni-oliolle sen uniikin trid-numeron.
+     * @return palauttaa treenin id:n eli trid-oliomuuttujan.
+     * @example
+     * <pre name="test">
+     *      Treeni treeni1 = new Treeni();
+     *      Treeni treeni2 = new Treeni();
+     *      treeni1.rekisteroi();
+     *      treeni2.rekisteroi();
+     *      treeni1.trid === treeni2.trid - 1;
+     * </pre>
      */
     public int rekisteroi() {
         this.trid = seuraavaNro;
@@ -97,6 +105,14 @@ public class Treeni {
      */
     public void tulosta(PrintStream out) {
         out.println(this.nimi + " " + this.trid + " " + this.pvm);
+    }
+    
+    /**
+     * Haetaan Treeni-olion Pvm(LocalDate) String-oliona näytettävässä muodossa
+     * @return Pvm String-oliona
+     */
+    public String pvmToString() {
+        return String.valueOf(this.pvm.getDayOfMonth()) + "." + String.valueOf(this.pvm.getMonthValue()) + "." + String.valueOf(this.pvm.getYear());
     }
     
     /**
@@ -123,6 +139,23 @@ public class Treeni {
         if (arvot[2] == "null") {
             this.pvm = null;
         } else this.pvm = LocalDate.parse(arvot[2]);
+    }
+    
+    /**
+     * Kloonataan haluttu Treeni-olio
+     * @return palauttaa kloonin halutusta Treenistä
+     * @example
+     * <pre name="test">
+     * Treeni treeni1 = new Treeni("testi", LocalDate.now());
+     * Treeni treeni2 = treeni1.clone();
+     * treeni1.nimi === treeni2.nimi;
+     * treeni1.pvm.equals(treeni2.pvm) === true;
+     * </pre>
+     */
+    @Override
+    public Treeni clone() {
+        Treeni klooni = new Treeni(this.nimi, this.pvm);
+         return klooni;
     }
     
     /**
