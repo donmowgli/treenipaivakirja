@@ -45,16 +45,15 @@ public class Treenit {
      */
     public void lisaaTreeni(Treeni treeni) {
         if (lkm >= treenit.length) {
-            int uLkm = this.lkm + 1;
-            Treeni [] uusi = new Treeni[uLkm];
-            for(int i = 0; i < this.lkm; i++) {
-                uusi[i] = this.treenit[i];
+            int uusiKoko = lkm + 1;
+            Treeni[] uudet = new Treeni[uusiKoko];
+            for (int i = 0; i < uusiKoko - 1; i++) {
+                uudet[i] = treenit[i];
             }
-            this.treenit = uusi;
-            this.lkm = uLkm;
+            this.treenit = uudet;
         }
-       this. treenit[lkm] = treeni;
-       this.lkm++;
+        treenit[lkm] = treeni;
+        lkm++;
     }
     
     /**
@@ -194,6 +193,9 @@ public class Treenit {
         treeni2.rekisteroi();
         
         treenit.lisaaTreeni(treeni);
+        treenit.lisaaTreeni(treeni2);
+        treenit.lisaaTreeni(treeni2);
+        treenit.lisaaTreeni(treeni2);
         treenit.lisaaTreeni(treeni2);
         
         treenit.setTiedostonNimi("treenit.dat");

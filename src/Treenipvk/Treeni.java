@@ -136,7 +136,7 @@ public class Treeni {
         String[] arvot = jono.split("\\|");
         this.nimi = arvot[0];
         this.trid = Integer.parseInt(arvot[1]);
-        if (arvot[2] == "null") {
+        if (arvot[2].equals("null")) {
             this.pvm = null;
         } else this.pvm = LocalDate.parse(arvot[2]);
     }

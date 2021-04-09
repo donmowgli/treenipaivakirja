@@ -25,10 +25,10 @@ public class PoistoGUIController implements Initializable {
     
     @FXML private Text tiedot;
     
-    @SuppressWarnings("unchecked")
+    //@SuppressWarnings("unchecked")
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        tiedot.setText(poistettava.getTiedot());
+        //tiedot.setText(poistettava.getTiedot());
     }
     
     @FXML
@@ -38,8 +38,8 @@ public class PoistoGUIController implements Initializable {
     
     private void handleKylla() {
         try {
-            poistettava.poista();
-        } catch (NoSuchMethodException e) {
+            //poistettava.poista();
+        } catch (Exception e) { //NoSuchMethodException
             Dialogs.showMessageDialog("Ongelma poistamisessa!");
             stage.close();
         }
