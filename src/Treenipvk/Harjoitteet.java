@@ -7,9 +7,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -117,11 +116,12 @@ public class Harjoitteet implements Iterable<Harjoite> {
     
     /**
      * Lukee harjoitteet tiedostosta Harjoite-olioon.
-     * @param tiedNimi tiedoston nimi, josta halutaan lukea
      * @throws SailoException jos ei tiedostosta lukeminen onnistu
      */
-    public void lueTiedostosta(String tiedNimi) throws SailoException {
-        try(BufferedReader lukija = new BufferedReader(new FileReader(tiedNimi))){
+    public void lueTiedostosta() throws SailoException {
+        this.harjoitteet = new ArrayList<Harjoite>();
+        File tiedosto = new File(this.tiedostonimi);
+        try(BufferedReader lukija = new BufferedReader(new FileReader(tiedosto))){
             String rivi;
             while((rivi = lukija.readLine()) != null) {
                 Harjoite harjoite = new Harjoite();
@@ -139,14 +139,16 @@ public class Harjoitteet implements Iterable<Harjoite> {
      * Tallentaa harjoitteet tiedostoon.
      * @throws SailoException jos tallentaminen ei onnistu.
      */
+    @SuppressWarnings("resource")
     public void tallenna() throws SailoException {
         File tiedosto = new File(this.getTiedostoNimi());
         try {
             tiedosto.createNewFile();
-            PrintWriter fo = new PrintWriter(new FileWriter(tiedosto.getCanonicalPath()));
-            for(Harjoite harjoite : this) {
-                fo.println(harjoite.toString());
+            PrintStream stream = new PrintStream(tiedosto);
+            for(Harjoite harjoite : this.harjoitteet) {
+                stream.println(harjoite.toString());
             }
+            stream.close();
         } catch(IOException e) {
             throw new SailoException("Tiedosto ei aukea");
         }
@@ -154,7 +156,37 @@ public class Harjoitteet implements Iterable<Harjoite> {
     
 
     /**
-     * Iteraattori kaikkien harjoitteiden läpikäymiseen.
+     * Iteraattori kaikkien harjoitteiden läpikäymiseen
+     * @return harjoiteiteraattori
+     * 
+     * @example
+     * <pre name= "test">
+     * #PACKAGEIMPORT
+     * #import java.util*;
+     *  
+     *  Harjoite harjoitteet = new Harjoitteet();
+     *  Harjoite harjoite1 = new Harjoite("testi1", 3); harjoite1.rekisteroi(); harjoitteet.lisaa(harjoite1);
+     *  Harjoite harjoite2 = new Harjoite("testi2", 4); harjoite2.rekisteroi(); harjoitteet.lisaa(harjoite2);
+     *  Harjoite harjoite3 = new Harjoite("testi3", 5); harjoite3.rekisteroi(); harjoitteet.lisaa(harjoite3);
+     *  Harjoite harjoite4 = new Harjoite("testi4", 6); harjoite4.rekisteroi(); harjoitteet.lisaa(harjoite4);
+     *  Harjoite harjoite5 = new Harjoite("testi5", 7); harjoite5.rekisteroi(); harjoitteet.lisaa(harjoite5);
+     *  
+     *  Iterator<Harjoite> i = harjoitteet.iterator();
+     *  i.next() === harjoite1;
+     *  i.next() === harjoite2;
+     *  i.next() === harjoite3;
+     *  i.next() === harjoite4;
+     *  i.next() === harjoite5;
+     *  i.next() === harjoite4; #THROWS NoSuchElementException
+     *  
+     *  int n = 0;
+     *  int harids [] = {0, 1, 2, 3, 4};
+     *  
+     *  for(Sarja sarja : sarjat){
+     *      sarja.getSarid() === sarids[n]; n++;
+     *  }
+     *  
+     *  </pre>
      */
     @Override
     public Iterator<Harjoite> iterator() {
@@ -165,8 +197,9 @@ public class Harjoitteet implements Iterable<Harjoite> {
     /**
      * Testataan harjoitteet-luokkaa
      * @param args ei käytössä
+     * @throws SailoException jos tallentamisen kanssa ongelmia
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SailoException {
         //Testataan Harjoitteet-luokkaa
         Sarja sarja1 = new Sarja(80, 4);
         Sarja sarja2 = new Sarja(70, 6);
@@ -190,10 +223,9 @@ public class Harjoitteet implements Iterable<Harjoite> {
         sarjat.lisaaSarja(sarja2);
         sarjat.lisaaSarja(sarja3);
         
-        Harjoite harjoite1 = new Harjoite();
-        
-        Harjoite harjoite2 = new Harjoite();
-        Harjoite harjoite3 = new Harjoite();
+        Harjoite harjoite1 = new Harjoite("penkki", 0, 3);
+        Harjoite harjoite2 = new Harjoite("työntö", 0, 3);
+        Harjoite harjoite3 = new Harjoite("Punnerrus", 0, 3);
         
         harjoite1.rekisteroi();
         harjoite2.rekisteroi();
@@ -203,6 +235,15 @@ public class Harjoitteet implements Iterable<Harjoite> {
         harjoitteet.lisaaHarjoite(harjoite1);
         harjoitteet.lisaaHarjoite(harjoite2);
         harjoitteet.lisaaHarjoite(harjoite3);
+        
+        harjoitteet.setTiedostonNimi("harjoitteet.dat");
+        
+        for(Harjoite harjoite : harjoitteet) {
+            harjoite.tulosta(System.out);
+        }
+        
+        harjoitteet.tallenna();
+        harjoitteet.lueTiedostosta();
         
         for(Harjoite harjoite : harjoitteet) {
             harjoite.tulosta(System.out);

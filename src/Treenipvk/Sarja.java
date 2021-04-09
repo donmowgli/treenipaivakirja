@@ -19,7 +19,7 @@ public class Sarja {
     private int toistot;
     private int toteutuneet;
     
-    private static int seuraavaNro = 0;
+    private static int seuraavaNro = 1;
     
     /**
      * Sarja-olion parametrillinen muodostaja.
@@ -60,6 +60,45 @@ public class Sarja {
     public int getSarid() {
         return this.sarid;
     }
+
+    /**
+     * Työpainon lisääminen Sarja-olioon
+     * @param paino joka halutaan lisätä työpainoksi
+     */
+    public void setTyopaino(int paino) {
+        this.tyopaino = paino;
+    }
+    
+    /**
+     * Työpainojen palauttaminen
+     * @return palauttaa työpainon
+     */
+    public int getTyopaino() {
+        return this.tyopaino;
+    }
+    
+    /**
+     * Toteutuneiden toistojen lisääminen Sarja-olioon
+     * @param toistot jotka halutaan lisätä sarjaan
+     */
+    public void setToistot(int toistot) {
+        this.toistot = toistot;
+    }
+    
+    /**
+     * Haetaan sarjan toistot
+     * @return palauttaa sarjan toistot
+     */
+    public int getToistot() {
+        return this.toistot;
+    }
+    
+    /**
+     * @return palautetaan toteutuneet toistot
+     */
+    public int getToteutuneet() {
+        return this.toteutuneet;
+    }
     
     /**
      * Asetetaan toteutuneiden toistojen lukumäärä sarjassa.
@@ -94,6 +133,33 @@ public class Sarja {
         out.println("Sarjan ID: " + this.sarid + ", Työpaino: " + this.tyopaino  + ", Toistojen lukumäärä: " +this.toistot + ", Toteutuneiden toistojen lukumäärä:  " + this.toteutuneet);
     }
     
+    /**
+     * @return String-olio, jolla näytölle tulostettavat tiedot
+     */
+    public String tulostus() {
+        return "Työpaino: " + this.tyopaino + ", toistot: " + this.toistot + ", ja toteutuneet: " + this.toteutuneet;
+    }
+    
+    /**
+     * Kloonataan haluttu Sarja-olio
+     * @return palauttaa kloonin halutusta sarjasta
+     * @example
+     * <pre name="test">
+     * Sarja sarja1 = new Sarja(80, 5);
+     * Sarja sarja2 = sarja1.clone();
+     * sarja1.tyopaino === sarja2.tyopaino;
+     * sarja1.toistot === sarja2.toistot;
+     * </pre>
+     */
+    @Override
+    public Sarja clone() {
+        Sarja sarja = new Sarja(this.getTyopaino(), this.getToteutuneet());
+        sarja.toistot = this.getToistot();
+        sarja.sarid = this.getSarid();
+        sarja.harid = this.getHarid();
+        return sarja;
+    }
+
     @Override
     public String toString() {
         return this.sarid + "|" + this.harid + "|" + this.tyopaino  + "|" + this.toistot  + "|" + this.toteutuneet;
@@ -104,7 +170,7 @@ public class Sarja {
      * @param jono josta halutaan tarvittavat tiedot sarjalle
      */
     public void parse(String jono) {
-        String[] arvot = jono.split("//|");
+        String[] arvot = jono.split("\\|");
         this.sarid = Integer.parseInt(arvot[0]);
         this.harid = Integer.parseInt(arvot[1]);
         this.tyopaino = Integer.parseInt(arvot[2]);
@@ -121,6 +187,7 @@ public class Sarja {
         sarja.setToteutuneet(6);
         sarja.rekisteroi();
         sarja.tulosta(System.out);
+        sarja.parse(sarja.toString());
     }
 
 }

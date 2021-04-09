@@ -16,7 +16,7 @@ public class Harjoite {
     private int trid;
     private int sarlkm;
     
-    private int seuraavaNro;
+    private static int seuraavaNro = 1;
     
     /**
      * @param nimi harjoitteen nimi, joka sille halutaan asettaa
@@ -61,6 +61,14 @@ public class Harjoite {
     }
     
     /**
+     * Asetetaan harjoitukselle id
+     * @param harid harjoituksen id, joka sille halutaan asettaa.
+     */
+    public void setHarid(int harid) {
+        this.harid = harid;
+    }
+    
+    /**
      * Treenin ID:n asettaminen
      * @param trid treenin id.
      */
@@ -84,6 +92,14 @@ public class Harjoite {
     }
     
     /**
+     * Haetaan sarjojen lukumäärä Sarja-oliolta
+     * @return palautetaan Sarja-olion sarjojen lukumäärä
+     */
+    public int getSarlkm() {
+        return this.sarlkm;
+    }
+    
+    /**
      * Tulostetaan harjoite kokonaisudessaan.
      * @param out tietovirta ulos
      */
@@ -92,8 +108,16 @@ public class Harjoite {
     }
     
     /**
-     * Asetetaan harjoitukselle oma id.
-     * @return harjoituksen uuden harjoitusid:n eli harid:n.
+     * Antaa Harjoite-oliolle sen uniikin sarid-numeron.
+     * @return palauttaa harjoitteen id:n eli harid-oliomuuttujan.
+     * @example
+     * <pre name="test">
+     *      Harjoite harjoite1 = new Harjoite();
+     *      Harjoite harjoite2 ) new Harjoite();
+     *      harjoite1.rekisteroi();
+     *      harjoite2.rekisteroi();
+     *      harjoite1.harid === harjoite2.harid - 1;
+     * </pre>
      */
     public int rekisteroi() {
         this.harid = seuraavaNro;
@@ -111,7 +135,7 @@ public class Harjoite {
      * @param jono josta halutaan tarvittavat tiedot sarjalle
      */
     public void parse(String jono) {
-        String[] arvot = jono.split("//|");
+        String[] arvot = jono.split("\\|");
         this.nimi = arvot[0];
         this.harid = Integer.parseInt(arvot[1]);
         this.trid = Integer.parseInt(arvot[2]);
@@ -130,6 +154,12 @@ public class Harjoite {
         harjoite.setSarlkm(3);
         harjoite.rekisteroi();
         harjoite.tulosta(System.out);
+        
+        Harjoite harjoite1 = new Harjoite();
+        harjoite1.setNimi("Penkki");
+        harjoite1.setSarlkm(3);
+        harjoite1.rekisteroi();
+        harjoite1.tulosta(System.out);
     }
 
 }

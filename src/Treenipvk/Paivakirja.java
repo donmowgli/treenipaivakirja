@@ -4,7 +4,7 @@
 package Treenipvk;
 
 /**
- * Päiväkirja-luokka, joka huolehtii treeneistä. Tulee huolehtimaan luokkien välisestä yhteistyöstä.
+ * Päiväkirja-luokka, joka huolehtii treeneistä, harjoitteista ja sarjoista. Tulee huolehtimaan luokkien välisestä yhteistyöstä.
  * 
  * @author Akseli Jaara
  * @version 4 Mar 2021
@@ -38,6 +38,14 @@ public class Paivakirja {
      */
     public int getTreeneja() {
         return treenit.getTreeniLkm();
+    }
+    
+    /**
+     * Haetaan päiväkirjan Treenit-olio
+     * @return palautetaan päiväkirjan treenit.
+     */
+    public Treenit getTreenit() {
+        return this.treenit;
     }
     
     /**
@@ -136,13 +144,9 @@ public class Paivakirja {
      * @throws SailoException jos ongelmia tiedoston ja siitä lukemisen kanssa.
      */
     public void lueTiedostosta() throws SailoException {
-        this.sarjat.setTiedostonNimi("sarjat.dat");
-        this.harjoitteet.setTiedostonNimi("harjoitteet.dat");
-        this.treenit.setTiedostonNimi("treenit.dat");
-        
-        this.sarjat.lueTiedostosta("sarjat.dat");
-        this.harjoitteet.lueTiedostosta("harjoitteet.dat");
-        this.treenit.lueTiedostosta("treenit.dat");
+        this.sarjat.lueTiedostosta();
+        this.harjoitteet.lueTiedostosta();
+        this.treenit.lueTiedostosta();
     }
     
     /**
@@ -150,14 +154,31 @@ public class Paivakirja {
      * @throws SailoException jos tiedostoon tallentaminen ei onnistu.
      */
     public void tallenna() throws SailoException{
+        System.out.println(this.sarjat.getTiedostoNimi());
+        System.out.println(this.harjoitteet.getTiedostoNimi());
+        System.out.println(this.treenit.getTiedostoNimi());
+        
+        this.sarjat = new Sarjat();
+        this.harjoitteet = new Harjoitteet();
+        this.treenit = new Treenit();
+        
         this.sarjat.tallenna();
         this.harjoitteet.tallenna();
         this.treenit.tallenna();
     }
     
     /**
+     * Alustetaan tallennustiedostojen nimet. Valmius myös muokkaamiselle ja voidaan muokata tarpeen vaatiessa esimerkiksi ohjelmaa laajentaessa entisestään treeniohjelmille.
+     */
+    public void alustaTiedostoNimet() {
+        this.sarjat.setTiedostonNimi("sarjat.dat");
+        this.harjoitteet.setTiedostonNimi("harjoitteet.dat");
+        this.treenit.setTiedostonNimi("treenit.dat");
+    }
+    
+    /**
      * Poistaa halutulla numerolla löytyvän treenin, harjoitteen tai sarjan. Kesken!
-     * TODO täydennä!
+     * TODO täydennä poistaminen, onko yleistetty funktio kaikille tietotyypeille vai oma funktionsa jokaiselle?
      * @param id jonka mukaisesti halutaan poistaa
      * @return palauttaa poistettujen alkioiden lukumäärän
      */
@@ -170,7 +191,7 @@ public class Paivakirja {
      */
     public static void main(String[] args) {
     // TODO Auto-generated method stub
-    
+    // TODO testailua
     }
 
 }

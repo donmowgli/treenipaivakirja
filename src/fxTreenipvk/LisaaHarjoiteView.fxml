@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="231.0" prefWidth="374.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="153.0" prefWidth="374.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxTreenipvk.LisaaHarjoiteGUIController">
    <children>
       <HBox layoutX="21.0" layoutY="26.0" prefHeight="40.0" prefWidth="166.0">
          <children>
@@ -20,37 +20,17 @@
       </HBox>
       <HBox layoutX="187.0" layoutY="26.0" prefHeight="40.0" prefWidth="166.0">
          <children>
-            <TextField prefHeight="25.0" prefWidth="129.0" />
+            <TextField fx:id="nimi" prefHeight="25.0" prefWidth="129.0" />
          </children>
       </HBox>
       <HBox layoutX="187.0" layoutY="66.0" prefHeight="40.0" prefWidth="166.0">
          <children>
-            <TextField prefHeight="25.0" prefWidth="129.0" />
+            <TextField fx:id="lkm" prefHeight="25.0" prefWidth="129.0" />
          </children>
       </HBox>
-      <HBox layoutX="187.0" layoutY="106.0" prefHeight="40.0" prefWidth="166.0">
+      <HBox layoutX="187.0" layoutY="106.0" prefHeight="25.0" prefWidth="129.0">
          <children>
-            <TextField prefHeight="25.0" prefWidth="129.0" />
-         </children>
-      </HBox>
-      <HBox layoutX="187.0" layoutY="146.0" prefHeight="40.0" prefWidth="166.0">
-         <children>
-            <TextField prefHeight="25.0" prefWidth="129.0" />
-         </children>
-      </HBox>
-      <HBox layoutX="187.0" layoutY="186.0" prefHeight="25.0" prefWidth="129.0">
-         <children>
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="138.0" text="OK" />
+            <Button mnemonicParsing="false" onAction="#handleOK" prefHeight="25.0" prefWidth="138.0" text="OK" />
          </children></HBox>
-      <HBox layoutX="21.0" layoutY="106.0" prefHeight="40.0" prefWidth="166.0">
-         <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Työpaino" textAlignment="RIGHT" wrappingWidth="151.41015625" />
-         </children>
-      </HBox>
-      <HBox layoutX="21.0" layoutY="146.0" prefHeight="40.0" prefWidth="166.0">
-         <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Toistojen lukumäärä" textAlignment="RIGHT" wrappingWidth="151.41015625" />
-         </children>
-      </HBox>
    </children>
 </AnchorPane>

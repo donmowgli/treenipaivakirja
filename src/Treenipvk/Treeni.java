@@ -17,7 +17,7 @@ public class Treeni {
     private int trid;
     private LocalDate pvm;
     
-    private static int seuraavaNro;
+    private static int seuraavaNro = 1;
     
     /**
      * Treeni-olion muodostaja. Säilöö Harjoite-olioita ja edelleen Sarja-olioita, ja muodostaa siten täyden harjoitteen.
@@ -44,6 +44,14 @@ public class Treeni {
     }
     
     /**
+     * Haetaan Treeni-olion nimi
+     * @return palauttaa Treeni-olion nimen
+     */
+    public String getNimi() {
+        return this.nimi;
+    }
+    
+    /**
      * Asetetaan päivämäärä treenille.
      * @param pvm LocalDate-olio, joka asetetaan pvm:ksi Treeniin.
      */
@@ -59,8 +67,31 @@ public class Treeni {
     }
     
     /**
-     * Rekisteröidään treeni
-     * @return palauttaa treenin uuden trid:n 
+     * @param trid treenin id, joka halutaan asettaa
+     */
+    public void setTrid(int trid) {
+        this.trid = trid;
+    }
+    
+    /**
+     * Haetaan treenin id
+     * @return palautetaan Treeni-olion trid integer-numerona.
+     */
+    public int getTrid() {
+        return this.trid;
+    }
+    
+    /**
+     * Antaa Treeni-oliolle sen uniikin trid-numeron.
+     * @return palauttaa treenin id:n eli trid-oliomuuttujan.
+     * @example
+     * <pre name="test">
+     *      Treeni treeni1 = new Treeni();
+     *      Treeni treeni2 = new Treeni();
+     *      treeni1.rekisteroi();
+     *      treeni2.rekisteroi();
+     *      treeni1.trid === treeni2.trid - 1;
+     * </pre>
      */
     public int rekisteroi() {
         this.trid = seuraavaNro;
@@ -76,9 +107,25 @@ public class Treeni {
         out.println(this.nimi + " " + this.trid + " " + this.pvm);
     }
     
+    /**
+     * Haetaan Treeni-olion Pvm(LocalDate) String-oliona näytettävässä muodossa
+     * @return Pvm String-oliona
+     */
+    public String pvmToString() {
+        return String.valueOf(this.pvm.getDayOfMonth()) + "." + String.valueOf(this.pvm.getMonthValue()) + "." + String.valueOf(this.pvm.getYear());
+    }
+    
+    /**
+     * ToString-metodi, joka palauttaa merkkijonon jossa arvot eroteltu "|"-merkinnällä.
+     * Asettaa päivämäärälle merkkijonona "null" jos this.pvm == null.
+     */
     @Override
     public String toString() {
-        return this.nimi + "|" + this.trid + "|" + this.pvm.toString();
+        String sPvm;
+        if (this.pvm == null) {
+            sPvm = "null";
+        } else sPvm = pvm.toString();
+        return this.nimi + "|" + this.trid + "|" + sPvm;
     }
     
     /**
@@ -86,10 +133,29 @@ public class Treeni {
      * @param jono josta halutaan tarvittavat tiedot treenille
      */
     public void parse(String jono) {
-        String[] arvot = jono.split("//|");
+        String[] arvot = jono.split("\\|");
         this.nimi = arvot[0];
         this.trid = Integer.parseInt(arvot[1]);
-        this.pvm = LocalDate.parse(arvot[2]);
+        if (arvot[2] == "null") {
+            this.pvm = null;
+        } else this.pvm = LocalDate.parse(arvot[2]);
+    }
+    
+    /**
+     * Kloonataan haluttu Treeni-olio
+     * @return palauttaa kloonin halutusta Treenistä
+     * @example
+     * <pre name="test">
+     * Treeni treeni1 = new Treeni("testi", LocalDate.now());
+     * Treeni treeni2 = treeni1.clone();
+     * treeni1.nimi === treeni2.nimi;
+     * treeni1.pvm.equals(treeni2.pvm) === true;
+     * </pre>
+     */
+    @Override
+    public Treeni clone() {
+        Treeni klooni = new Treeni(this.nimi, this.pvm);
+         return klooni;
     }
     
     /**
