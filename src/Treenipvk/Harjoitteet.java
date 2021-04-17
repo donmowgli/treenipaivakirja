@@ -49,16 +49,17 @@ public class Harjoitteet implements Iterable<Harjoite> {
     }
     
     /**
-     * Palauttaa viitteen i Harjoite harjoitteet-ArrayLististä.
-     * @param i monennenko harjoitteen viitteen halutaan
-     * @return palauttaa halutun viitteen
-     * @throws IndexOutOfBoundsException jos indeksi i ei ole sallitulla alueella.
+     * Haetaan id-arvon mukaisesti vastaava harjoite
+     * @param id harjoitteen id-numero, jota vastaava harjoite haetaan
+     * @return palauttaa id-arvoa vastaavan harjoitteen
      */
-    public Harjoite getHarjoite(int i) throws IndexOutOfBoundsException  {
-        if(i < 0 || i > this.harjoitteet.size()) {
-            throw new IndexOutOfBoundsException("Laiton indeksi: " + i);
+    public Harjoite getHarjoite(int id) {
+        for (Harjoite harjoite : this.harjoitteet) {
+            if (harjoite.getId() == id) {
+                return harjoite;
+            }
         }
-        return this.harjoitteet.get(i);
+        return null;
     }
     
     /**
@@ -154,6 +155,17 @@ public class Harjoitteet implements Iterable<Harjoite> {
         }
     }
     
+    /**
+     * Poistetaan haluttu Harjoite-olio
+     * @param id Harjoite-olion id, joka halutaan poistaa
+     */
+    public void poista(int id) {
+        for(Harjoite harjoite : this.harjoitteet) {
+            if(harjoite.getHarid() == id) {
+                this.harjoitteet.remove(id);
+            }
+        }
+    }
 
     /**
      * Iteraattori kaikkien harjoitteiden läpikäymiseen

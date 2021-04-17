@@ -2,11 +2,14 @@ package fxTreenipvk;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import Treenipvk.Harjoite;
 import fi.jyu.mit.fxgui.Dialogs;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.stage.Modality;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,7 +22,7 @@ import javafx.stage.Stage;
  * @version 20 Mar 2021
  *
  */
-public class LisaaHarjoiteGUIController {
+public class LisaaHarjoiteGUIController implements Initializable {
     private static int id = 0;
     private Harjoite harjoite = new Harjoite();
     private static Stage stage = new Stage();
@@ -27,12 +30,22 @@ public class LisaaHarjoiteGUIController {
     @FXML private TextField nimi;
     @FXML private TextField lkm;
     
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        if (TreenipvkGUIController.muokataanko == true) {
+            ArrayList<String> arvot = TreenipvkGUIController.muokattava.getArvot();
+            this.nimi.setText(arvot.get(0));;
+            this.lkm.setText(arvot.get(1));
+        }
+    }
+    
     /**
      * Handle-funktio OK-napin painallukselle
      */
     @FXML
     private void handleOK() {
         try {
+            if (TreenipvkGUIController.muokataanko == true) { muokkaa(); stage.close(); return;}
             harjoite.setNimi(nimi.getText());
             harjoite.setSarlkm(Integer.parseInt(lkm.getText()));
             harjoite.setTrid(id);
@@ -42,6 +55,14 @@ public class LisaaHarjoiteGUIController {
         }catch (NumberFormatException e) {
             Dialogs.showMessageDialog("Sarjojen lukumäärä tulee olla numeroina!");
         }
+    }
+    
+    private void muokkaa() {
+        Harjoite uusi = TreenipvkGUIController.paivakirja.getHarjoitteet().getHarjoite(TreenipvkGUIController.muokattava.getId());
+        uusi.setNimi(nimi.getText());
+        uusi.setSarlkm(Integer.parseInt(lkm.getText()));
+        TreenipvkGUIController.paivakirja.poista(TreenipvkGUIController.paivakirja.getHarjoitteet().getHarjoite(TreenipvkGUIController.muokattava.getId()));
+        TreenipvkGUIController.paivakirja.lisaa(uusi);
     }
     
     /**

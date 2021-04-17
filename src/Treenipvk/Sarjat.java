@@ -49,16 +49,17 @@ public class Sarjat implements Iterable<Sarja>{
     }
     
     /**
-     * Palauttaa viitteen i Sarjan sarjat-ArrayLististä.
-     * @param i monennenko sarjan viiten halutaan
-     * @return palauttaa halutun sarjan
-     * @throws IndexOutOfBoundsException jos indeksi i ei ole sallitulla alueella.
+     * Haetaan id:tä vastaava sarja
+     * @param id id-numero, jonka mukaan haetaan
+     * @return palauttaa id:tä vastaavan sarjan. Null jos ei ole olemassa.
      */
-    public Sarja getSarja(int i) throws IndexOutOfBoundsException  {
-        if(i < 0 || i > this.sarjat.size()) {
-            throw new IndexOutOfBoundsException("Laiton indeksi: " + i);
+    public Sarja getSarja(int id) {
+        for (Sarja sarja : this.sarjat) {
+            if (sarja.getId() == id){
+                return sarja;
+            }
         }
-        return this.sarjat.get(i);
+        return null;
     }
     
     /**
@@ -139,6 +140,18 @@ public class Sarjat implements Iterable<Sarja>{
             throw new SailoException("Tiedosto ei aukea");
         }
     }
+    
+    /**
+     * Poistetaan haluttu Sarja-olio
+     * @param id Sarja-olion id, joka halutaan poistaa
+     */
+    public void poista(int id) {
+        Iterator<Sarja> iter = this.sarjat.iterator();
+        while(iter.hasNext()) {
+            Sarja sarja = iter.next();
+            if(sarja.getId() == id) iter.remove();
+        }
+    }
 
     /**
      * Iteraattori kaikkien sarjojen läpikäymiseen
@@ -211,6 +224,7 @@ public class Sarjat implements Iterable<Sarja>{
         sarjat.setTiedostonNimi("sarjat.dat");
         sarjat.tallenna();
         sarjat.lueTiedostosta();
+        sarjat.poista(1);
         
         for(Sarja sarja : sarjat) {
             sarja.tulosta(System.out);

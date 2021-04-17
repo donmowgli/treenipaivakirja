@@ -3,13 +3,16 @@
  */
 package Treenipvk;
 import java.io.PrintStream;
+import java.util.ArrayList;
+
+import kanta.Muokattava;
 
 /**
  * @author Akseli Jaara
  * @version 3 Mar 2021
  * Harjoite-luokka, jossa säilötään Sarja-olioita ja muita tärkeitä harjoitteeseen liittyviä muuttujia.
  */
-public class Harjoite {
+public class Harjoite implements Muokattava{
 
     private String nimi;
     private int harid;
@@ -126,6 +129,12 @@ public class Harjoite {
     }
     
     @Override
+    public Harjoite clone() {
+        Harjoite harjoite = new Harjoite(this.nimi, this.trid, this.sarlkm);
+        return harjoite;
+    }
+    
+    @Override
     public String toString() {
         return this.nimi + "|" + this.harid + "|" + this.trid  + "|" + this.sarlkm;
     }
@@ -140,6 +149,24 @@ public class Harjoite {
         this.harid = Integer.parseInt(arvot[1]);
         this.trid = Integer.parseInt(arvot[2]);
         this.sarlkm = Integer.parseInt(arvot[3]);
+    }
+    
+    @Override
+    public String getTiedot() {
+        return this.nimi + ", sarjojen lukumäärä: " + String.valueOf(this.sarlkm);
+    }
+
+    @Override
+    public ArrayList<String> getArvot() {
+        ArrayList<String> ret = new ArrayList<String>();
+        ret.add(this.nimi);
+        ret.add(String.valueOf(this.sarlkm));
+        return ret;
+    }
+
+    @Override
+    public int getId() {
+        return this.harid;
     }
     
     /**
@@ -161,5 +188,4 @@ public class Harjoite {
         harjoite1.rekisteroi();
         harjoite1.tulosta(System.out);
     }
-
 }

@@ -3,6 +3,8 @@
  */
 package Treenipvk;
 
+import kanta.Muokattava;
+
 /**
  * Päiväkirja-luokka, joka huolehtii treeneistä, harjoitteista ja sarjoista. Tulee huolehtimaan luokkien välisestä yhteistyöstä.
  * 
@@ -39,6 +41,14 @@ public class Paivakirja {
      */
     public void lisaa(Treeni treeni) throws SailoException {
         treenit.lisaaTreeni(treeni);
+    }
+    
+    /**
+     * Poistetaan haluttu treeni treeneistä
+     * @param treeni treeni-olio, joka halutaan poistaa
+     */
+    public void poista(Treeni treeni) {
+        treenit.poista(treeni.getId());
     }
     
     /**
@@ -83,6 +93,14 @@ public class Paivakirja {
     }
     
     /**
+     * Poistetaan harjoite harjoitteista
+     * @param harjoite harjoite, joka halutaan poistaa
+     */
+    public void poista(Harjoite harjoite) {
+        harjoitteet.poista(harjoite.getId());
+    }
+    
+    /**
      * Harjoitteiden kokonaislukumäärän palauttaminen.
      * @return palauttaa harjoitteiden kokonaislukumäärän
      */
@@ -121,6 +139,14 @@ public class Paivakirja {
      */
     public void lisaa(Sarja sarja) {
         sarjat.lisaaSarja(sarja);
+    }
+    
+    /**
+     * Poistetaan haluttu Sarja-olio sarjoista
+     * @param sarja Sarja-olio joka halutaan poistaa
+     */
+    public void poista(Sarja sarja) {
+        sarjat.poista(sarja.getId());
     }
     
     /**
@@ -179,13 +205,15 @@ public class Paivakirja {
     }
     
     /**
-     * Poistaa halutulla numerolla löytyvän treenin, harjoitteen tai sarjan. Kesken!
-     * TODO täydennä poistaminen, onko yleistetty funktio kaikille tietotyypeille vai oma funktionsa jokaiselle?
-     * @param id jonka mukaisesti halutaan poistaa
-     * @return palauttaa poistettujen alkioiden lukumäärän
+     * @param <T> tyyppiparametri
+     * @param kohde mistä halutaan poistaa
+     * @param poistettava olio, joka halutaan poistaa
      */
-    public int poista (@SuppressWarnings("unused") int id) {
-        return 0;
+    public <T> void poista(Class<T> kohde, Muokattava poistettava) {
+        if (kohde == Sarjat.class) {this.sarjat.poista(poistettava.getId());}
+        else if (kohde == Harjoitteet.class) {this.harjoitteet.poista(poistettava.getId());}
+        else if (kohde == Treenit.class) {this.treenit.poista(poistettava.getId());}
+        return;
     }
 
     /**

@@ -57,15 +57,18 @@ public class Treenit {
     }
     
     /**
-     * @param i halutun treenin indeksinumero.
-     * @return palauttaa treenit-taulukosta indeksin mukaisen treenin.
-     * @throws IndexOutOfBoundsException jos haettu indeksi on olemassaolevan ulkopuolella, eli alle 0 tai tietorakenteen koon eli alkioiden lukumäärää suurempi
+     * Haetaan id-arvoa vastaava Treeni-olio
+     * @param id id-arvo, jonka mukaan Treeniä haetaan
+     * @return palauttaa id-arvoa vastaavan treenin
      */
-    public Treeni getTreeni(int i) throws IndexOutOfBoundsException {
-        if (i < 0 || i < lkm) {
-            throw new IndexOutOfBoundsException("Laiton indeksi: " + i);
+    public Treeni getTreeni(int id) {
+        ArrayList<Treeni> trnt = this.getTreenit();
+        for (Treeni trn : trnt) {
+            if (trn.getId() == id) {
+                return trn;
+            }
         }
-        return this.treenit[i];
+        return null;
     }
     
     /**
@@ -129,6 +132,21 @@ public class Treenit {
      */
     public String getTiedostoNimi() {
         return this.tiedostonimi;
+    }
+    
+    /**
+     * Poistetaan Treenit-luokan Treeni-taulukosta haluttu treeni Trid-oliomuuttujan mukaisesti.
+     * @param id id, jonka mukaan Treeni-olio poistetaan
+     */
+    public void poista(int id) {
+        Treeni[] vanha = this.treenit;
+        this.treenit = new Treeni[lkm--];
+        for (int i = 0; i < this.lkm; i++) {
+            if(vanha[i].getTrid() == id) {
+                continue;
+            }
+            this.lisaaTreeni(vanha[i]);
+        }
     }
     
     /**

@@ -2,10 +2,14 @@ package fxTreenipvk;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+
 import Treenipvk.Sarja;
 import fi.jyu.mit.fxgui.Dialogs;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.stage.Modality;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,7 +22,7 @@ import javafx.stage.Stage;
  * @version 20 Mar 2021
  *
  */
-public class LisaaSarjaGUIController {
+public class LisaaSarjaGUIController implements Initializable{
     private static int id = 0;
     private Sarja sarja = new Sarja();
     private static Stage stage = new Stage();
@@ -27,13 +31,23 @@ public class LisaaSarjaGUIController {
     @FXML private TextField toistot;
     @FXML private TextField toteutuneet;
     
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        if (TreenipvkGUIController.muokataanko == true) {
+            ArrayList<String> arvot = TreenipvkGUIController.muokattava.getArvot();
+            this.tyopaino.setText(arvot.get(0));
+            this.toistot.setText(arvot.get(1));
+            this.toteutuneet.setText(arvot.get(2));
+        }
+    }
+    
     /**
      * Handle-funktio OK-napin painallukselle
-     * TODO Milloin rekisteröidään ja milloin asetetaan harjoitteen id?
      */
     @FXML
     private void handleOK() {
         try {
+            if (TreenipvkGUIController.muokataanko == true) { muokkaa(); stage.close(); return;}
             sarja.setTyopaino(Integer.parseInt(tyopaino.getText()));
             sarja.setToistot(Integer.parseInt(toistot.getText()));
             sarja.setToteutuneet(Integer.parseInt(toteutuneet.getText()));
@@ -44,6 +58,18 @@ public class LisaaSarjaGUIController {
         }catch (NumberFormatException e) {
             Dialogs.showMessageDialog("Tiedot tulee olla numeroina!");
         }
+    }
+    
+    /**
+     * Muokataan Sarja-oliota vastaamaan valintoja
+     */
+    private void muokkaa() {
+        Sarja uusi = TreenipvkGUIController.paivakirja.getSarjat().getSarja(TreenipvkGUIController.muokattava.getId());
+        uusi.setTyopaino(Integer.parseInt(tyopaino.getText()));
+        uusi.setToistot(Integer.parseInt(this.toistot.getText()));
+        uusi.setToteutuneet(Integer.parseInt(this.toteutuneet.getText()));
+        TreenipvkGUIController.paivakirja.poista(TreenipvkGUIController.paivakirja.getSarjat().getSarja(TreenipvkGUIController.muokattava.getId()));
+        TreenipvkGUIController.paivakirja.lisaa(uusi);
     }
     
     /**

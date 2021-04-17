@@ -5,6 +5,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
+import Treenipvk.SailoException;
 import Treenipvk.Treeni;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
@@ -34,6 +35,7 @@ public class LisaaMerkintaGUIController implements Initializable{
     public void initialize(URL arg0, ResourceBundle arg1) {
         treenit.clear();
         nayta();
+        if(TreenipvkGUIController.muokataanko == true) {asetaValittu();}
     }
     
     /**
@@ -42,10 +44,8 @@ public class LisaaMerkintaGUIController implements Initializable{
     @FXML
     private void handleOK() {
         try {
+            if(TreenipvkGUIController.muokataanko == true) {muokkaa(); stage.close(); return;}
             String[] arvot = pvm.getText().split("\\.");
-            System.out.println(arvot[0]);
-            System.out.println(arvot[1]);
-            System.out.println(arvot[2]);
             LocalDate annettu = LocalDate.of(Integer.parseInt(arvot[2]), Integer.parseInt(arvot[1]), Integer.parseInt(arvot[0]));
             this.treeni = treenit.getSelectedObject().clone();
             this.treeni.setPvm(annettu);
@@ -70,6 +70,28 @@ public class LisaaMerkintaGUIController implements Initializable{
         } catch (NullPointerException e) {
             Dialogs.showMessageDialog("Lisää ensin treenejä, jotta voit lisätä merkinnän!");
         }
+    }
+    
+    /**
+     * Asetetaan muokkausta varten valinta chooserille
+     */
+    private void asetaValittu() {
+        for(int i = 0; i < treenit.getObjects().size(); i++) {
+            if(treenit.getObjects().get(i).getId() == TreenipvkGUIController.muokattava.getId()) {
+                treenit.setSelectedIndex(i);
+                this.pvm.setText(treenit.getObjects().get(i).pvmToString());
+                return;
+            }
+        }
+    }
+    
+    private void muokkaa() throws SailoException {
+        String[] arvot = pvm.getText().split("\\.");
+        LocalDate annettu = LocalDate.of(Integer.parseInt(arvot[2]), Integer.parseInt(arvot[1]), Integer.parseInt(arvot[0]));
+        Treeni uusi = TreenipvkGUIController.paivakirja.getTreenit().getTreeni(TreenipvkGUIController.muokattava.getId());
+        uusi.setPvm(annettu);
+        TreenipvkGUIController.paivakirja.poista(TreenipvkGUIController.paivakirja.getTreenit().getTreeni(TreenipvkGUIController.muokattava.getId()));
+        TreenipvkGUIController.paivakirja.lisaa(uusi);
     }
     
     /**

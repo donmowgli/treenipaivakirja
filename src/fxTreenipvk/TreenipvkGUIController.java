@@ -9,13 +9,14 @@ import java.util.ResourceBundle;
 
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
-import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.StringGrid;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import kanta.Muokattava;
+import kanta.Muutettava;
 import Treenipvk.Sarja;
 import Treenipvk.Harjoite;
 import Treenipvk.Treeni;
@@ -88,7 +89,8 @@ public class TreenipvkGUIController implements Initializable  {
      */
     @FXML
     private void handlePoistaMerkinta() {
-        ModalController.showModal(TreenipvkGUIController.class.getResource("PoistoView.fxml"), "Merkinta", null, "");
+        //poista(merkintaLista.getSelectedObject(), paivakirja.getTreenit().getClass());
+        naytaMerkinnat();
     }
     
     /**
@@ -96,7 +98,8 @@ public class TreenipvkGUIController implements Initializable  {
      */
     @FXML
     private void handlePoistaTreeni() {
-        ModalController.showModal(TreenipvkGUIController.class.getResource("PoistoView.fxml"), "Treeni", null, "");
+        //poista(treeniLista.getSelectedObject(), paivakirja.getTreenit().getClass());
+        naytaTreenit(merkintaLista.getSelectedObject().getTrid(), false);
     }
     
     /**
@@ -104,15 +107,17 @@ public class TreenipvkGUIController implements Initializable  {
      */
     @FXML
     private void handlePoistaHarjoite() {
-        ModalController.showModal(TreenipvkGUIController.class.getResource("PoistoView.fxml"), "Harjoite", null, "");
+        //poista(harjoiteLista.getSelectedObject(), paivakirja.getHarjoitteet().getClass());
+        naytaHarjoitteet(treeniLista.getSelectedObject().getTrid(), false);
     }
     
     /**
-     * TODO: poistamisen lisääminen
+     * TODO: korjaa sarjan valinta
      */
     @FXML
     private void handlePoistaSarja() {
-        ModalController.showModal(TreenipvkGUIController.class.getResource("PoistoView.fxml"), "Sarja", null, "");
+        poista(sarjaLista.getObject(0), paivakirja.getSarjat().getClass());
+        naytaSarjat(harjoiteLista.getSelectedObject().getHarid(), false);
     }
     
     @FXML
@@ -123,10 +128,12 @@ public class TreenipvkGUIController implements Initializable  {
   //=========================================================================================== 
   // Käyttöliittymään suoraa liittyvä koodi loppuu tähän
     
-    /**
-     * Protected Päiväkirja-olio, jota käsitellään kaikissa controllereissa
-     */
+    @SuppressWarnings("javadoc")
     protected static Paivakirja paivakirja = new Paivakirja();
+    @SuppressWarnings("javadoc")
+    protected static Muokattava muokattava;
+    @SuppressWarnings("javadoc")
+    protected static boolean muokataanko;
     
     /**
      * Alustetaan harrastelistan kuuntelija
@@ -140,13 +147,19 @@ public class TreenipvkGUIController implements Initializable  {
            harjoiteLista.clear();
            sarjaLista.clear();
            
-           merkintaLista.setOnMouseClicked(e ->{ if (e.getClickCount() > 1) naytaTreenit(merkintaLista.getSelectedObject().getTrid(), false); });
-           treeniLista.setOnMouseClicked(e ->{ if (e.getClickCount() > 1) naytaHarjoitteet(treeniLista.getSelectedObject().getTrid(), false); });
-           harjoiteLista.setOnMouseClicked(e ->{ if (e.getClickCount() > 1) naytaSarjat(harjoiteLista.getSelectedObject().getHarid(), false); });
-           sarjaLista.setOnMouseClicked(e ->{ if (e.getClickCount() > 1) kloonaaValittu(sarjaLista.getObject(sarjaLista.getRowNr())); naytaSarjat(sarjaLista.getObject(sarjaLista.getRowNr()).getHarid(), false); });
+           merkintaLista.setOnMouseClicked(e ->{ if (e.getClickCount() == 1) naytaTreenit(merkintaLista.getSelectedObject().getTrid(), false); });
+           merkintaLista.setOnMouseClicked(e -> { if (e.getClickCount() == 3) muokkaaMerkintaa();});
+           
+           treeniLista.setOnMouseClicked(e ->{ if (e.getClickCount() == 1) naytaHarjoitteet(treeniLista.getSelectedObject().getTrid(), false); });
+           treeniLista.setOnMouseClicked(e -> { if (e.getClickCount() == 3) muokkaaTreenia();});
+           
+           harjoiteLista.setOnMouseClicked(e ->{ if (e.getClickCount() == 1) naytaSarjat(harjoiteLista.getSelectedObject().getHarid(), false); });
+           harjoiteLista.setOnMouseClicked(e -> { if (e.getClickCount() == 3) muokkaaHarjoitetta();});
+           
+           sarjaLista.setOnMouseClicked(e ->{ if (e.getClickCount() == 2) kloonaaValittu(sarjaLista.getObject(sarjaLista.getRowNr())); naytaSarjat(sarjaLista.getObject(sarjaLista.getRowNr()).getHarid(), false); });
+           sarjaLista.setOnMouseClicked(e -> { if (e.getClickCount() == 3) muokkaaSarjaa();});
            
            alustaValinnat();
-           
         }catch(Exception e) {
             e.printStackTrace();
         }
@@ -215,6 +228,50 @@ public class TreenipvkGUIController implements Initializable  {
             LisaaSarjaGUIController.avaa(null, 0);
             naytaSarjat(0, true);
         }
+    }
+    
+    /**
+     * Muokataan merkintöjä merkinnän lisäämisen controllerissa
+     */
+    protected void muokkaaMerkintaa() {
+        muokataanko = true;
+        muokattava = merkintaLista.getSelectedObject();
+        LisaaMerkintaGUIController.avaa(null);
+        muokataanko = false;
+        naytaMerkinnat();
+    }
+    
+    /**
+     * Muokataan harjoitetta harjoitteen lisäämisen käyttöliittymästä
+     */
+    protected void muokkaaTreenia() {
+        muokataanko = true;
+        muokattava = treeniLista.getSelectedObject();
+        LisaaTreeniGUIController.avaa(null);
+        muokataanko = false;
+        naytaTreenit(0, false);
+    }
+    
+    /**
+     * Muokataan harjoitetta harjoitteen lisäämisen käyttöliittymästä
+     */
+    protected void muokkaaHarjoitetta() {
+        muokataanko = true;
+        muokattava = harjoiteLista.getSelectedObject();
+        LisaaHarjoiteGUIController.avaa(null, 0);
+        muokataanko = false;
+        naytaHarjoitteet(0, false);
+    }
+    
+    /**
+     * Muokataan sarjaa sarjan lisäämisen käyttöliittymästä
+     */
+    protected void muokkaaSarjaa() {
+        muokataanko = true;
+        muokattava = sarjaLista.getObject(sarjaLista.getRowNr());
+        LisaaSarjaGUIController.avaa(null, 0);
+        muokataanko = false;
+        naytaSarjat(0, false);
     }
     
     /**
@@ -309,7 +366,9 @@ public class TreenipvkGUIController implements Initializable  {
      * @param sarja Sarja-olio, josta halutaan asettaa klooni listaan
      */
     protected void kloonaaValittu(Sarja sarja) {
-        paivakirja.lisaa(sarja.clone());
+        Sarja klooni = sarja.clone();
+        klooni.rekisteroi();
+        paivakirja.lisaa(klooni);
     }
 
     /**
@@ -337,6 +396,17 @@ public class TreenipvkGUIController implements Initializable  {
             e.printStackTrace();
         }
         
+    }
+    
+    /**
+     * @param poistettava poistettava olio
+     * @param kohde kohde, mistä poistetaan
+     */
+    @SuppressWarnings("all")
+    public void poista(Muokattava poistettava, Class<?> kohde) {
+        muokattava = poistettava;
+        Muutettava <Muokattava>muutettava = new Muutettava<Muokattava>(poistettava, kohde);
+        PoistoGUIController.avaa(null, muutettava);
     }
     
     /**

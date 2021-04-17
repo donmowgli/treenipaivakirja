@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import Treenipvk.Harjoite;
+import Treenipvk.Harjoitteet;
+import Treenipvk.SailoException;
 import Treenipvk.Treeni;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
@@ -36,7 +38,8 @@ public class LisaaTreeniGUIController implements Initializable {
         harjoitteet.clear();
         harjoitteet.setOnMouseClicked(e ->{ if (e.getClickCount() > 1) lisaaListaan(harjoitteet.getSelectedObject()); });
         lisattava.clear();
-        nayta();
+        naytaValittavat();
+        if (TreenipvkGUIController.muokataanko == true) {naytaLisattavat();}
     }
     
     private void lisaaListaan(Harjoite harjoite) {
@@ -49,13 +52,14 @@ public class LisaaTreeniGUIController implements Initializable {
     @FXML
     private void handleOK() {
         try {
+            if (TreenipvkGUIController.muokataanko == true) { muokkaa(); stage.close(); return;}
             this.treeni.setNimi(nimi.getText());
             this.treeni.rekisteroi();
             for(Harjoite harjoite : lisattava.getObjects()) {
-                if(harjoite.getHarid() == 0) {
-                    harjoite.setTrid(treeni.getTrid());
-                    TreenipvkGUIController.paivakirja.getHarjoitteet().lisaaHarjoite(harjoite);
-                }
+                Harjoite klooni = harjoite.clone();
+                klooni.rekisteroi();
+                klooni.setTrid(treeni.getTrid());
+                TreenipvkGUIController.paivakirja.getHarjoitteet().lisaaHarjoite(klooni);
             }
             TreenipvkGUIController.paivakirja.getTreenit().lisaaTreeni(treeni);
             stage.hide();
@@ -76,7 +80,7 @@ public class LisaaTreeniGUIController implements Initializable {
     /**
      * Näytetään kaikki lisättävissä olevat harjoitteet listalla. Valitaan vain alustetut harjoitteet, joita ei sidottu vielä erikseen mihinkään treeniin, eli joiden trid == 0.
      */
-    private void nayta() {
+    private void naytaValittavat() {
         try {
             for(Harjoite har : TreenipvkGUIController.paivakirja.getHarjoitteet()) {
                 if(har.getTrid() == 0) {
@@ -86,6 +90,31 @@ public class LisaaTreeniGUIController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    /**
+     * Näytetään muokkaustapauksessa myös lisättävät
+     */
+    private void naytaLisattavat() {
+        Harjoitteet lisattavat = TreenipvkGUIController.paivakirja.getHarjoitteet();
+        for (Harjoite harjoite : lisattavat) {
+            if(harjoite.getTrid() == TreenipvkGUIController.muokattava.getId()) {
+                lisattava.add(harjoite.getNimi(), harjoite);
+            }
+        }
+    }
+    
+    private void muokkaa() throws SailoException {
+        Treeni uusi = TreenipvkGUIController.paivakirja.getTreenit().getTreeni(TreenipvkGUIController.muokattava.getId());
+        uusi.setNimi(nimi.getText());
+        for(Harjoite harjoite : lisattava.getObjects()) {
+            Harjoite klooni = harjoite.clone();
+            klooni.rekisteroi();
+            klooni.setTrid(treeni.getTrid());
+            TreenipvkGUIController.paivakirja.getHarjoitteet().lisaaHarjoite(klooni);
+        }
+        TreenipvkGUIController.paivakirja.poista(TreenipvkGUIController.paivakirja.getTreenit().getTreeni(TreenipvkGUIController.muokattava.getId()));
+        TreenipvkGUIController.paivakirja.lisaa(uusi);
     }
     
     /**

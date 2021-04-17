@@ -3,6 +3,9 @@
  */
 package Treenipvk;
 import java.io.PrintStream;
+import java.util.ArrayList;
+
+import kanta.Muokattava;
 
 /**
  *  Sarja-luokka, jolla tärkeimmät sarjan ominaisuudet. Osaa huolehtia omasta sarid-numerostaan.
@@ -11,7 +14,7 @@ import java.io.PrintStream;
  * @version 3 Mar 2021
  *
  */
-public class Sarja {
+public class Sarja implements Muokattava{
 
     private int sarid;
     private int harid;
@@ -136,8 +139,27 @@ public class Sarja {
     /**
      * @return String-olio, jolla näytölle tulostettavat tiedot
      */
-    public String tulostus() {
+    @Override
+    public String getTiedot() {
         return "Työpaino: " + this.tyopaino + ", toistot: " + this.toistot + ", ja toteutuneet: " + this.toteutuneet;
+    }
+    
+    @Override
+    public ArrayList<String> getArvot() {
+        ArrayList<String> ret = new ArrayList<String>();
+        ret.add(String.valueOf(this.tyopaino));
+        ret.add(String.valueOf(this.toistot));
+        ret.add(String.valueOf(this.toteutuneet));
+        return ret;
+    }
+    
+    /**
+     * Haetaan sarjan yksilöivä id
+     * @return palautetaan Sarja-olion sarid-muuttuja
+     */
+    @Override
+    public int getId() {
+        return this.sarid;
     }
     
     /**
@@ -189,5 +211,4 @@ public class Sarja {
         sarja.tulosta(System.out);
         sarja.parse(sarja.toString());
     }
-
 }

@@ -5,13 +5,16 @@ package Treenipvk;
 
 import java.io.PrintStream;
 import java.time.LocalDate;
+import java.util.ArrayList;
+
+import kanta.Muokattava;
 
 /**
  * @author Akseli Jaara
  * @version 3 Mar 2021
  * 
  */
-public class Treeni {
+public class Treeni implements Muokattava{
     
     private String nimi;
     private int trid;
@@ -156,6 +159,27 @@ public class Treeni {
     public Treeni clone() {
         Treeni klooni = new Treeni(this.nimi, this.pvm);
          return klooni;
+    }
+    
+    @Override
+    public String getTiedot() {
+        StringBuilder ret = new StringBuilder();
+        if(this.pvm != null) {ret.append(this.pvmToString()); ret.append(", ");}
+        ret.append(this.nimi);
+        return ret.toString();
+    }
+    
+    @Override
+    public ArrayList<String> getArvot() {
+        ArrayList<String> ret = new ArrayList<String>();
+        ret.add(this.nimi);
+        ret.add(this.pvmToString());
+        return ret;
+    }
+    
+    @Override
+    public int getId() {
+        return this.trid;
     }
     
     /**
