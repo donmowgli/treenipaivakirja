@@ -61,7 +61,7 @@ public class LisaaTreeniGUIController implements Initializable {
                 klooni.setTrid(treeni.getTrid());
                 TreenipvkGUIController.paivakirja.getHarjoitteet().lisaaHarjoite(klooni);
             }
-            TreenipvkGUIController.paivakirja.getTreenit().lisaaTreeni(treeni);
+            TreenipvkGUIController.paivakirja.lisaa(this.treeni);
             stage.hide();
         }catch (Exception e) {
             e.printStackTrace();
@@ -96,6 +96,7 @@ public class LisaaTreeniGUIController implements Initializable {
      * Näytetään muokkaustapauksessa myös lisättävät
      */
     private void naytaLisattavat() {
+        nimi.setText(TreenipvkGUIController.paivakirja.getTreenit().getTreeni(TreenipvkGUIController.muokattava.getId()).getNimi());
         Harjoitteet lisattavat = TreenipvkGUIController.paivakirja.getHarjoitteet();
         for (Harjoite harjoite : lisattavat) {
             if(harjoite.getTrid() == TreenipvkGUIController.muokattava.getId()) {

@@ -160,10 +160,10 @@ public class Harjoitteet implements Iterable<Harjoite> {
      * @param id Harjoite-olion id, joka halutaan poistaa
      */
     public void poista(int id) {
-        for(Harjoite harjoite : this.harjoitteet) {
-            if(harjoite.getHarid() == id) {
-                this.harjoitteet.remove(id);
-            }
+        Iterator<Harjoite> iter = this.harjoitteet.iterator();
+        while(iter.hasNext()) {
+            Harjoite harjoite = iter.next();
+            if(harjoite.getId() == id) iter.remove();
         }
     }
 

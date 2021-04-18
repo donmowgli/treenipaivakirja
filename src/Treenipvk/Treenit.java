@@ -140,8 +140,10 @@ public class Treenit {
      */
     public void poista(int id) {
         Treeni[] vanha = this.treenit;
-        this.treenit = new Treeni[lkm--];
-        for (int i = 0; i < this.lkm; i++) {
+        int vLkm = this.lkm;
+        this.treenit = new Treeni[0];
+        this.lkm = 0;
+        for (int i = 0; i < vLkm; i++) {
             if(vanha[i].getTrid() == id) {
                 continue;
             }
@@ -215,6 +217,8 @@ public class Treenit {
         treenit.lisaaTreeni(treeni2);
         treenit.lisaaTreeni(treeni2);
         treenit.lisaaTreeni(treeni2);
+        
+        treenit.poista(1);
         
         treenit.setTiedostonNimi("treenit.dat");
         

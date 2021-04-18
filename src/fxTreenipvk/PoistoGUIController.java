@@ -36,7 +36,7 @@ public class PoistoGUIController implements Initializable {
     }
     
     @FXML
-    private void handleKylla() {
+    private void handleKylla() throws RuntimeException {
         TreenipvkGUIController.paivakirja.poista(muutettava.getKohde(), muutettava.getMuokattava());
         stage.close();
     }

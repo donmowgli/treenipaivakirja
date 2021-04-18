@@ -84,40 +84,28 @@ public class TreenipvkGUIController implements Initializable  {
         uusiSarja();
     }
     
-    /**
-     * TODO: poistamisen lisääminen
-     */
     @FXML
     private void handlePoistaMerkinta() {
-        //poista(merkintaLista.getSelectedObject(), paivakirja.getTreenit().getClass());
+        poista(merkintaLista.getSelectedObject(), paivakirja.getTreenit().getClass());
         naytaMerkinnat();
     }
     
-    /**
-     * TODO: poistamisen lisääminen
-     */
     @FXML
     private void handlePoistaTreeni() {
-        //poista(treeniLista.getSelectedObject(), paivakirja.getTreenit().getClass());
-        naytaTreenit(merkintaLista.getSelectedObject().getTrid(), false);
+        poista(treeniLista.getSelectedObject(), paivakirja.getTreenit().getClass());
+        naytaTreenit(0, false);
     }
     
-    /**
-     * TODO: poistamisen lisääminen
-     */
     @FXML
     private void handlePoistaHarjoite() {
-        //poista(harjoiteLista.getSelectedObject(), paivakirja.getHarjoitteet().getClass());
-        naytaHarjoitteet(treeniLista.getSelectedObject().getTrid(), false);
+        poista(harjoiteLista.getSelectedObject(), paivakirja.getHarjoitteet().getClass());
+        naytaHarjoitteet(0, false);
     }
     
-    /**
-     * TODO: korjaa sarjan valinta
-     */
     @FXML
     private void handlePoistaSarja() {
         poista(sarjaLista.getObject(0), paivakirja.getSarjat().getClass());
-        naytaSarjat(harjoiteLista.getSelectedObject().getHarid(), false);
+        naytaSarjat(0, false);
     }
     
     @FXML
