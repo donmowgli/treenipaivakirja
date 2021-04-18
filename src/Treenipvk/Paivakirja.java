@@ -3,6 +3,8 @@
  */
 package Treenipvk;
 
+import java.util.ArrayList;
+
 import kanta.Muokattava;
 
 /**
@@ -214,6 +216,21 @@ public class Paivakirja {
         else if (kohde == Harjoitteet.class) {this.harjoitteet.poista(poistettava.getId());}
         else if (kohde == Treenit.class) {this.treenit.poista(poistettava.getId());}
         return;
+    }
+    
+    /**
+     * Etsitään haettavan olion mukaan 
+     * @param haettava olio, jonka mukaan haetaan
+     * @param hakulauseke merkkijono, jonka mukaan haetaan
+     * @param pvm boolean-arvo, jolla määritetään onko haettava merkkijono pvm-merkkijono
+     * @return palauttaa mahdollisen virheviestin. Jos ei virhettä, palauttaa null
+     */
+    public ArrayList<?> haku(Muokattava haettava, String hakulauseke, boolean pvm) {
+        ArrayList<?> ret = new ArrayList<Muokattava>();
+        if (haettava.getClass() == Harjoite.class) {ret = this.harjoitteet.etsi(hakulauseke);}
+        else if (haettava.getClass() == Treeni.class && pvm == false) {ret = this.treenit.etsi(hakulauseke);}
+        else if (haettava.getClass() == Treeni.class && pvm == true ) {ret = this.treenit.etsiPvm(hakulauseke);}
+        return ret;
     }
 
     /**

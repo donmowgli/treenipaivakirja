@@ -5,15 +5,16 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.StringGrid;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import kanta.Muokattava;
 import kanta.Muutettava;
@@ -30,8 +31,8 @@ import Treenipvk.SailoException;
  */
 public class TreenipvkGUIController implements Initializable  {
     
-    @FXML private TextField hakuehto;
-    @FXML private Label labelVirhe;
+    @FXML private TextField hakulauseke;
+    @FXML private ComboBoxChooser<Muokattava> hakuehto;
     
     @FXML private StringGrid<Sarja> sarjaLista;
     @FXML private ListChooser<Harjoite> harjoiteLista;
@@ -45,7 +46,7 @@ public class TreenipvkGUIController implements Initializable  {
     
     @FXML
     private void handleHakuehto() {
-        Dialogs.showMessageDialog("Eipä toimi hakeminen vielä");
+        hae();
     }
     
     @FXML
@@ -146,6 +147,10 @@ public class TreenipvkGUIController implements Initializable  {
            
            sarjaLista.setOnMouseClicked(e ->{ if (e.getClickCount() == 2) kloonaaValittu(sarjaLista.getObject(sarjaLista.getRowNr())); naytaSarjat(sarjaLista.getObject(sarjaLista.getRowNr()).getHarid(), false); });
            sarjaLista.setOnMouseClicked(e -> { if (e.getClickCount() == 3) muokkaaSarjaa();});
+           
+           hakuehto.add("Merkintä", new Treeni());
+           hakuehto.add("Treeni", new Treeni());
+           hakuehto.add("Harjoite", new Harjoite());
            
            alustaValinnat();
         }catch(Exception e) {
@@ -357,6 +362,20 @@ public class TreenipvkGUIController implements Initializable  {
         Sarja klooni = sarja.clone();
         klooni.rekisteroi();
         paivakirja.lisaa(klooni);
+    }
+    
+ /**
+ * Haetaan hakuehdon mukaisesti oliot tietoineen näytölle 
+ */
+@SuppressWarnings("unchecked")
+    protected void hae() {
+        boolean pvm = false;
+        if(hakuehto.getSelectedText().equals("Merkintä")) {pvm = true;}
+        ArrayList<Muokattava> tulokset = (ArrayList<Muokattava>) paivakirja.haku(hakuehto.getSelectedObject(), hakulauseke.getText(), pvm);
+        if(tulokset.isEmpty() || hakulauseke.getText() == null) {naytaMerkinnat(); return;}
+        else if(tulokset.get(0).getClass() == Harjoite.class) {harjoiteLista.clear(); for(Muokattava harjoite : tulokset) {harjoiteLista.add(((Harjoite) harjoite).getNimi(), (Harjoite) harjoite);}}
+        else if(tulokset.get(0).getClass() == Treeni.class && pvm == false)  {treeniLista.clear(); for(Muokattava treeni : tulokset) {treeniLista.add(((Treeni) treeni).getNimi(), (Treeni) treeni);}}
+        else if(tulokset.get(0).getClass() == Treeni.class && pvm == true)  {merkintaLista.clear(); for(Muokattava treeni : tulokset) {merkintaLista.add(((Treeni) treeni).pvmToString(), (Treeni) treeni);}}
     }
 
     /**

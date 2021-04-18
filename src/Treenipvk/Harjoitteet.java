@@ -116,6 +116,18 @@ public class Harjoitteet implements Iterable<Harjoite> {
     }
     
     /**
+     * @param hakuehto merkkijono, jonka mukaan haetaan ja johon harjoitteiden nimiä verrataan
+     * @return palautetaan lista harjoitteista, joiden nimet vastaavat hakuehtoa
+     */
+    public ArrayList<Harjoite> etsi(String hakuehto){
+        ArrayList<Harjoite> ret = new ArrayList<Harjoite>();
+        for(Harjoite harjoite : this.harjoitteet){
+            if (harjoite.getNimi().equals(hakuehto)) {ret.add(harjoite);}
+        }
+        return ret;
+    }
+    
+    /**
      * Lukee harjoitteet tiedostosta Harjoite-olioon.
      * @throws SailoException jos ei tiedostosta lukeminen onnistu
      */

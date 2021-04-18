@@ -135,6 +135,33 @@ public class Treenit {
     }
     
     /**
+     * @param hakuehto merkkijono, jonka mukaan haetaan
+     * @return palauttaa listan alkioista, joiden nimi vastaa hakuehtoa
+     */
+    public ArrayList<Treeni> etsi(String hakuehto){
+        ArrayList<Treeni> ret = new ArrayList<Treeni>();
+        ArrayList<Treeni> alkiot = this.getTreenit();
+        for (Treeni treeni : alkiot) {
+            if (treeni.getNimi().equals(hakuehto)) {ret.add(treeni);}
+        }
+        return ret;
+    }
+    
+    /**
+     * @param hakuehto merkkijono, jonka mukaan haetaan
+     * @return palauttaa listan kaikista Treeneistä, joiden Pvm-arvo vastaa hakuehtoa
+     */
+    public ArrayList<Treeni> etsiPvm(String hakuehto){
+        ArrayList<Treeni> ret = new ArrayList<Treeni>();
+        ArrayList<Treeni> alkiot = this.getTreenit();
+        for (Treeni treeni : alkiot) {
+            if (treeni.getPvm() == null) {continue;}
+            if (treeni.pvmToString().equals(hakuehto)) {ret.add(treeni);}
+        }
+        return ret;
+    }
+    
+    /**
      * Poistetaan Treenit-luokan Treeni-taulukosta haluttu treeni Trid-oliomuuttujan mukaisesti.
      * @param id id, jonka mukaan Treeni-olio poistetaan
      */
