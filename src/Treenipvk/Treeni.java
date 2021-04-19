@@ -14,7 +14,7 @@ import kanta.Muokattava;
  * @version 3 Mar 2021
  * 
  */
-public class Treeni implements Muokattava{
+public class Treeni implements Muokattava, Cloneable, Comparable<Treeni> {
     
     private String nimi;
     private int trid;
@@ -159,6 +159,11 @@ public class Treeni implements Muokattava{
     public Treeni clone() {
         Treeni klooni = new Treeni(this.nimi, this.pvm);
          return klooni;
+    }
+    
+    @Override
+    public int compareTo(Treeni treeni) {
+        return this.nimi.compareTo(treeni.getNimi());
     }
     
     @Override

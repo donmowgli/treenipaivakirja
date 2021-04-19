@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
 /**
  * @author Akseli Jaara
@@ -91,34 +91,6 @@ public class Treenit {
     }
     
     /**
-     * Järjestää treenit päivämäärän eli LocalDate-olion mukaisesti laskevaan järjestykseen.
-     * @return palauttaa listan Treenejä.
-     */
-    public List<Treeni> jarjestaTreeni(){
-        ArrayList<Treeni> palautettava = new ArrayList<Treeni>();
-        ArrayList<LocalDate> paivamaarat = new ArrayList<LocalDate>();
-        
-        for(Treeni treeni : this.treenit) {
-            if(treeni.getPvm() != null) {
-                paivamaarat.add(treeni.getPvm());
-            }
-        }
-        
-        paivamaarat.sort(null);
-        
-        while(palautettava.size() != paivamaarat.size()) {
-            for(int i = 0; i < this.treenit.length; i++) {
-                if(treenit[i].getPvm() == paivamaarat.get(0)) {
-                    palautettava.add(treenit[i]);
-                    paivamaarat.remove(0);
-                }
-            }
-        }
-        
-        return palautettava;
-    }
-    
-    /**
      * Asetetaan Treenit-oliolle tiedostonimi
      * @param nimi tiedoston nimi, joka asetetaan
      */
@@ -144,6 +116,7 @@ public class Treenit {
         for (Treeni treeni : alkiot) {
             if (treeni.getNimi().equals(hakuehto)) {ret.add(treeni);}
         }
+        Collections.sort(ret);
         return ret;
     }
     
@@ -158,6 +131,7 @@ public class Treenit {
             if (treeni.getPvm() == null) {continue;}
             if (treeni.pvmToString().equals(hakuehto)) {ret.add(treeni);}
         }
+        Collections.sort(ret);
         return ret;
     }
     

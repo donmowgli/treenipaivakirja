@@ -14,7 +14,7 @@ import kanta.Muokattava;
  * @version 3 Mar 2021
  *
  */
-public class Sarja implements Muokattava{
+public class Sarja implements Muokattava, Cloneable, Comparable<Sarja> {
 
     private int sarid;
     private int harid;
@@ -180,6 +180,14 @@ public class Sarja implements Muokattava{
         sarja.sarid = this.getSarid();
         sarja.harid = this.getHarid();
         return sarja;
+    }
+    
+    @Override
+    public int compareTo(Sarja sarja) {
+        if (this.sarid < sarja.getSarid()) {return -1;}
+        if (this.sarid == sarja.getSarid()) {return 0;}
+        if (this.sarid > sarja.getSarid()) {return 1;}
+        return 0;
     }
 
     @Override

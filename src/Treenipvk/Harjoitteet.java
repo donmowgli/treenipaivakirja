@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -124,6 +125,7 @@ public class Harjoitteet implements Iterable<Harjoite> {
         for(Harjoite harjoite : this.harjoitteet){
             if (harjoite.getNimi().equals(hakuehto)) {ret.add(harjoite);}
         }
+        Collections.sort(ret);
         return ret;
     }
     

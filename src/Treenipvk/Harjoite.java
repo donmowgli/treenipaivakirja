@@ -12,7 +12,7 @@ import kanta.Muokattava;
  * @version 3 Mar 2021
  * Harjoite-luokka, jossa säilötään Sarja-olioita ja muita tärkeitä harjoitteeseen liittyviä muuttujia.
  */
-public class Harjoite implements Muokattava{
+public class Harjoite implements Muokattava, Cloneable, Comparable<Harjoite> {
 
     private String nimi;
     private int harid;
@@ -132,6 +132,11 @@ public class Harjoite implements Muokattava{
     public Harjoite clone() {
         Harjoite harjoite = new Harjoite(this.nimi, this.trid, this.sarlkm);
         return harjoite;
+    }
+    
+    @Override
+    public int compareTo(Harjoite harjoite) {
+        return this.nimi.compareTo(harjoite.getNimi());
     }
     
     @Override
