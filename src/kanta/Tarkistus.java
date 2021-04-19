@@ -9,8 +9,10 @@ import java.time.LocalDate;
  *
  */
 public class Tarkistus {
-    private static final String merkit = "0123456789ABCDEFHJKLMNPRSTUVWXY.,()";
-    private static final String numerot = "0123456789.";
+    private static final String merkit = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ.,()";
+    private static final String numerotDouble = "0123456789.";
+    private static final String numerotInteger = "0123456789";
+    private static final String pvmMerkit = "0123456789.";
     private static final int[] kuukaudet = {31,29,31,30,31,30,31,31,30,31,30,31};
     
     /**
@@ -33,11 +35,29 @@ public class Tarkistus {
     }
     
     /**
+     * @param jono merkkijono, joka halutaan tarkistaa
+     * @return palauttaa virheviestin, null jos virhettä ei ole
+     */
+    public String tarkistaInteger(String jono) {
+        if(etsi(jono, numerotInteger) == false) return "Käytä numeroarvojen kohdalla vain numeroita!";
+        return null;
+    }
+    
+    /**
+     * @param jono merkkijono, joka halutaan tarkistaa
+     * @return palauttaa virheviestin, null jos virhettä ei ole
+     */
+    public String tarkistaDouble(String jono) {
+        if(etsi(jono, numerotDouble) == false) return "Käytä numeroarvojen kohdalla vain numeroita!";
+        return null;
+    }
+    
+    /**
      * @param jono merkkijono, joka halutaan tarkistaa että onko toimiva päivämääräksi
      * @return palauttaa virheilmoituksen merkkijonona, palauttaa null jos toimii
      */
     public String tarkistaPvm(String jono) {
-        String tarkistus = tarkista(jono, numerot);
+        String tarkistus = tarkista(jono, pvmMerkit);
         if(tarkistus != null) {return tarkistus;}
         String[] arvot = jono.split("\\.");
         if(arvot.length != 3) return "Tarkista arvojen erotukset ja että kaikki arvot on täytetty!";

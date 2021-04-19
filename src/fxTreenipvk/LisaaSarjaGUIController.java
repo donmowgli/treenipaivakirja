@@ -49,10 +49,11 @@ public class LisaaSarjaGUIController implements Initializable{
     @FXML
     private void handleOK() {
         try {
-            String tarkistettu = tarkistus.tarkista(tyopaino.getText() + toistot.getText() + toteutuneet.getText(), null);
-            if (tarkistettu != null) {Dialogs.showMessageDialog(tarkistettu); return; }
+            String tarkistettu = tarkistus.tarkistaDouble(tyopaino.getText()); if (tarkistettu != null) {Dialogs.showMessageDialog(tarkistettu); return; }
+             tarkistettu = tarkistus.tarkistaInteger(toistot.getText()); if (tarkistettu != null) {Dialogs.showMessageDialog(tarkistettu); return; }
+             tarkistettu = tarkistus.tarkistaInteger(toteutuneet.getText()); if (tarkistettu != null) {Dialogs.showMessageDialog(tarkistettu); return; }
             if (TreenipvkGUIController.muokataanko == true) { muokkaa(); stage.close(); return;}
-            sarja.setTyopaino(Integer.parseInt(tyopaino.getText()));
+            sarja.setTyopaino(Double.parseDouble(tyopaino.getText()));
             sarja.setToistot(Integer.parseInt(toistot.getText()));
             sarja.setToteutuneet(Integer.parseInt(toteutuneet.getText()));
             sarja.setHarid(id);

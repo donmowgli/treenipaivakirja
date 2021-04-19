@@ -47,8 +47,8 @@ public class LisaaHarjoiteGUIController implements Initializable {
     @FXML
     private void handleOK() {
         try {
-            String tarkistettu = tarkistus.tarkista(nimi.getText() + lkm.getText(), null);
-            if (tarkistettu != null) { Dialogs.showMessageDialog(tarkistettu); return; }
+            String tarkistettu = tarkistus.tarkista(nimi.getText(), null); if (tarkistettu != null) { Dialogs.showMessageDialog(tarkistettu); return; }
+            tarkistettu = tarkistus.tarkistaInteger(lkm.getText()); if (tarkistettu != null) { Dialogs.showMessageDialog(tarkistettu); return; }
             if (TreenipvkGUIController.muokataanko == true) { muokkaa(); stage.close(); return;}
             harjoite.setNimi(nimi.getText());
             harjoite.setSarlkm(Integer.parseInt(lkm.getText()));

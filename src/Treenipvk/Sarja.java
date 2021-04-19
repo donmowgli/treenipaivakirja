@@ -18,7 +18,7 @@ public class Sarja implements Muokattava{
 
     private int sarid;
     private int harid;
-    private int tyopaino;
+    private double tyopaino;
     private int toistot;
     private int toteutuneet;
     
@@ -29,7 +29,7 @@ public class Sarja implements Muokattava{
      * @param tyopaino on tyopaino sarjassa.
      * @param toistot tavoiteltava toistojen määrä sarjassa.
      */
-    public Sarja(int tyopaino, int toistot) {
+    public Sarja(double tyopaino, int toistot) {
         this.tyopaino = tyopaino;
         this.toistot = toistot;
     }
@@ -68,7 +68,7 @@ public class Sarja implements Muokattava{
      * Työpainon lisääminen Sarja-olioon
      * @param paino joka halutaan lisätä työpainoksi
      */
-    public void setTyopaino(int paino) {
+    public void setTyopaino(double paino) {
         this.tyopaino = paino;
     }
     
@@ -76,7 +76,7 @@ public class Sarja implements Muokattava{
      * Työpainojen palauttaminen
      * @return palauttaa työpainon
      */
-    public int getTyopaino() {
+    public double getTyopaino() {
         return this.tyopaino;
     }
     
