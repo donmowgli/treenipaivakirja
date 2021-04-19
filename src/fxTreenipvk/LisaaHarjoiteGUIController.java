@@ -15,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import kanta.Tarkistus;
 
 /**
  * Controller-luokka harjoitteen lisäämiselle
@@ -25,6 +26,7 @@ import javafx.stage.Stage;
 public class LisaaHarjoiteGUIController implements Initializable {
     private static int id = 0;
     private Harjoite harjoite = new Harjoite();
+    private Tarkistus tarkistus = new Tarkistus();
     private static Stage stage = new Stage();
     
     @FXML private TextField nimi;
@@ -45,6 +47,8 @@ public class LisaaHarjoiteGUIController implements Initializable {
     @FXML
     private void handleOK() {
         try {
+            String tarkistettu = tarkistus.tarkista(nimi.getText() + lkm.getText(), null);
+            if (tarkistettu != null) { Dialogs.showMessageDialog(tarkistettu); return; }
             if (TreenipvkGUIController.muokataanko == true) { muokkaa(); stage.close(); return;}
             harjoite.setNimi(nimi.getText());
             harjoite.setSarlkm(Integer.parseInt(lkm.getText()));

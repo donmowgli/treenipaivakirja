@@ -15,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import kanta.Tarkistus;
 
 /**
  * Controller-luokka sarjan lisäämiselle
@@ -25,6 +26,7 @@ import javafx.stage.Stage;
 public class LisaaSarjaGUIController implements Initializable{
     private static int id = 0;
     private Sarja sarja = new Sarja();
+    private Tarkistus tarkistus = new Tarkistus();
     private static Stage stage = new Stage();
     
     @FXML private TextField tyopaino;
@@ -47,6 +49,8 @@ public class LisaaSarjaGUIController implements Initializable{
     @FXML
     private void handleOK() {
         try {
+            String tarkistettu = tarkistus.tarkista(tyopaino.getText() + toistot.getText() + toteutuneet.getText(), null);
+            if (tarkistettu != null) {Dialogs.showMessageDialog(tarkistettu); return; }
             if (TreenipvkGUIController.muokataanko == true) { muokkaa(); stage.close(); return;}
             sarja.setTyopaino(Integer.parseInt(tyopaino.getText()));
             sarja.setToistot(Integer.parseInt(toistot.getText()));

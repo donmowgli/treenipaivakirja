@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import kanta.Tarkistus;
 
 /**
  * Controller-luokka merkinnän lisäämiselle
@@ -26,6 +27,7 @@ import javafx.stage.Stage;
  */
 public class LisaaMerkintaGUIController implements Initializable{
     private Treeni treeni = new Treeni();
+    private Tarkistus tarkistus = new Tarkistus();
     private static Stage stage = new Stage();
     
     @FXML private TextField pvm;
@@ -44,6 +46,8 @@ public class LisaaMerkintaGUIController implements Initializable{
     @FXML
     private void handleOK() {
         try {
+            String tarkistettu = tarkistus.tarkistaPvm(pvm.getText());
+            if (tarkistettu != null) { Dialogs.showMessageDialog(tarkistettu); return; }
             if(TreenipvkGUIController.muokataanko == true) {muokkaa(); stage.close(); return;}
             String[] arvot = pvm.getText().split("\\.");
             LocalDate annettu = LocalDate.of(Integer.parseInt(arvot[2]), Integer.parseInt(arvot[1]), Integer.parseInt(arvot[0]));
