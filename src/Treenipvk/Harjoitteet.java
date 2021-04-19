@@ -78,6 +78,14 @@ public class Harjoitteet implements Iterable<Harjoite> {
     }
     
     /**
+     * Haetaan kaikki Harjoitteet-olion harjoitteet
+     * @return palauttaa kaikki harjoitteet listana
+     */
+    public ArrayList<Harjoite> getHarjoitteet(){
+        return this.harjoitteet;
+    }
+    
+    /**
      * Etsitään treenin harjoitukset vertailemalla treenin yksilöivää trid-tunnusta harjoituksen trid-tunnukseen.
      * @param trid harjoituksen yksilöivä harid tunnus.
      * @return palauttaa listana vastaavat sarjat.

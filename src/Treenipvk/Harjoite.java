@@ -18,8 +18,9 @@ public class Harjoite implements Muokattava, Cloneable, Comparable<Harjoite> {
     private int harid;
     private int trid;
     private int sarlkm;
+    private boolean kanta;
     
-    private static int seuraavaNro = 1;
+    private static int seuraavaNro = 0;
     
     /**
      * @param nimi harjoitteen nimi, joka sille halutaan asettaa
@@ -30,6 +31,7 @@ public class Harjoite implements Muokattava, Cloneable, Comparable<Harjoite> {
         this.nimi = nimi;
         this.trid = trid;
         this.sarlkm = sarlkm;
+        this.kanta = false;
     }
     
     /**
@@ -103,6 +105,22 @@ public class Harjoite implements Muokattava, Cloneable, Comparable<Harjoite> {
     }
     
     /**
+     * Asetetaan totuusarvo sille, onko olio kantaolio
+     * @param kanta asetettava totuusarvo
+     */
+    public void setKanta(boolean kanta) {
+        this.kanta = kanta;
+    }
+    
+    /**
+     * Haetaan olion kanta-arvo
+     * @return palauttaa kanta-arvon, eli totuusarvon onko kyseinen olio kantaolio
+     */
+    public boolean getKanta() {
+        return this.kanta;
+    }
+    
+    /**
      * Tulostetaan harjoite kokonaisudessaan.
      * @param out tietovirta ulos
      */
@@ -172,6 +190,11 @@ public class Harjoite implements Muokattava, Cloneable, Comparable<Harjoite> {
     @Override
     public int getId() {
         return this.harid;
+    }
+    
+    @Override
+    public int getViite() {
+        return this.trid;
     }
     
     /**

@@ -34,4 +34,10 @@ public  interface Muokattava {
      * @return palauttaa muokattavan tietorakenteen id:n
      */
     int getId();
+    
+    /**
+     * Haetaan olion viiteid, eli id johon olio on liitetty
+     * @return palauttaa viiteid:n johon kyseinen olio on liitetty
+     */
+    int getViite();
 }

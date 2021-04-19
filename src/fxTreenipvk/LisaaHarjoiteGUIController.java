@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import Treenipvk.Harjoite;
+import Treenipvk.Sarja;
 import fi.jyu.mit.fxgui.Dialogs;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,7 +25,6 @@ import kanta.Tarkistus;
  *
  */
 public class LisaaHarjoiteGUIController implements Initializable {
-    private static int id = 0;
     private Harjoite harjoite = new Harjoite();
     private Tarkistus tarkistus = new Tarkistus();
     private static Stage stage = new Stage();
@@ -52,12 +52,24 @@ public class LisaaHarjoiteGUIController implements Initializable {
             if (TreenipvkGUIController.muokataanko == true) { muokkaa(); stage.close(); return;}
             harjoite.setNimi(nimi.getText());
             harjoite.setSarlkm(Integer.parseInt(lkm.getText()));
-            harjoite.setTrid(id);
+            harjoite.setKanta(true);
             harjoite.rekisteroi();
+            lisaaSarjat(harjoite.getHarid());
+            TreenipvkGUIController.muokattava = this.harjoite;
             TreenipvkGUIController.paivakirja.getHarjoitteet().lisaaHarjoite(harjoite);
             stage.hide();
         }catch (NumberFormatException e) {
             Dialogs.showMessageDialog("Sarjojen lukumäärä tulee olla numeroina!");
+        }
+    }
+    
+    private void lisaaSarjat(int id) {
+        LisaaSarjaGUIController.avaa(null, id);
+        Sarja sarja = TreenipvkGUIController.paivakirja.getSarja(TreenipvkGUIController.muokattava.getId());
+        for (int i = 1; i < Integer.parseInt(lkm.getText()); i++) {
+            Sarja klooni = sarja.clone();
+            klooni.rekisteroi();
+            TreenipvkGUIController.paivakirja.lisaa(klooni);
         }
     }
     
@@ -67,14 +79,14 @@ public class LisaaHarjoiteGUIController implements Initializable {
         uusi.setSarlkm(Integer.parseInt(lkm.getText()));
         TreenipvkGUIController.paivakirja.poista(TreenipvkGUIController.paivakirja.getHarjoitteet().getHarjoite(TreenipvkGUIController.muokattava.getId()));
         TreenipvkGUIController.paivakirja.lisaa(uusi);
+        TreenipvkGUIController.muokattava = uusi;
     }
     
     /**
      * Avataan Harjoite-dialogi ja sarjan lisäämiselle.
      * @param modalityStage modaalisuus, joka halutaan: ollaanko modaalisia jollekin toiselle ikkunalle.
-     * @param trid Treenin id, jolle sarja halutaan asettaa
      */
-    public static void avaa(Stage modalityStage, int trid) {
+    public static void avaa(Stage modalityStage) {
         try {
             URL url = LisaaHarjoiteGUIController.class.getResource("LisaaHarjoiteView.fxml");
             FXMLLoader loader = new FXMLLoader(url);
@@ -87,7 +99,6 @@ public class LisaaHarjoiteGUIController implements Initializable {
             } else {
                 stage.initModality(Modality.APPLICATION_MODAL);
             }
-            id = trid;
             stage.showAndWait();
             stage = new Stage();
             

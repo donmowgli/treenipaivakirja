@@ -70,9 +70,9 @@ public class Paivakirja {
     }
     
     /**
-     * Haetaan indeksin mukainen sarja taulukosta
-     * @param i halutun sarjan indeksi
-     * @return palauttaa indeksin mukaisen sarjan taulukosta
+     * Haetaan id:n mukainen Treeni taulukosta
+     * @param i halutun Treenin id
+     * @return palauttaa id:n mukaisen Treenin taulukosta
      */
     public Treeni getTreeni(int i) {
         return this.treenit.getTreeni(i);
@@ -119,9 +119,9 @@ public class Paivakirja {
     }
     
     /**
-     * Haetaan indeksin mukainen sarja taulukosta
-     * @param i halutun sarjan indeksi
-     * @return palauttaa indeksin mukaisen sarjan taulukosta
+     * Haetaan id:n mukainen Harjoite taulukosta
+     * @param i halutun Harjoitteen id
+     * @return palauttaa id:n mukaisen sarjan taulukosta
      */
     public Harjoite getHarjoite(int i) {
         return this.harjoitteet.getHarjoite(i);
@@ -168,9 +168,9 @@ public class Paivakirja {
     }
     
     /**
-     * Haetaan indeksin mukainen sarja taulukosta
-     * @param i halutun sarjan indeksi
-     * @return palauttaa indeksin mukaisen sarjan taulukosta
+     * Haetaan id:n mukainen sarja taulukosta
+     * @param i halutun sarjan id
+     * @return palauttaa id:n mukaisen sarjan taulukosta
      */
     public Sarja getSarja(int i) {
         return this.sarjat.getSarja(i);

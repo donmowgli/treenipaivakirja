@@ -58,13 +58,15 @@ public class LisaaTreeniGUIController implements Initializable {
             if (tarkistettu != null) { Dialogs.showMessageDialog(tarkistettu); return; }
             if (TreenipvkGUIController.muokataanko == true) { muokkaa(); stage.close(); return;}
             this.treeni.setNimi(nimi.getText());
+            this.treeni.setKanta(true);
             this.treeni.rekisteroi();
             for(Harjoite harjoite : lisattava.getObjects()) {
                 Harjoite klooni = harjoite.clone();
                 klooni.rekisteroi();
                 klooni.setTrid(treeni.getTrid());
-                TreenipvkGUIController.paivakirja.getHarjoitteet().lisaaHarjoite(klooni);
+                TreenipvkGUIController.paivakirja.lisaa(klooni);
             }
+            TreenipvkGUIController.muokattava = this.treeni;
             TreenipvkGUIController.paivakirja.lisaa(this.treeni);
             stage.hide();
         }catch (Exception e) {
@@ -87,7 +89,7 @@ public class LisaaTreeniGUIController implements Initializable {
     private void naytaValittavat() {
         try {
             for(Harjoite har : TreenipvkGUIController.paivakirja.getHarjoitteet()) {
-                if(har.getTrid() == 0) {
+                if(har.getKanta() == true) {
                     harjoitteet.add(har.getNimi(), har);
                 }
             }
@@ -120,6 +122,7 @@ public class LisaaTreeniGUIController implements Initializable {
         }
         TreenipvkGUIController.paivakirja.poista(TreenipvkGUIController.paivakirja.getTreenit().getTreeni(TreenipvkGUIController.muokattava.getId()));
         TreenipvkGUIController.paivakirja.lisaa(uusi);
+        TreenipvkGUIController.muokattava = uusi;
     }
     
     /**

@@ -59,6 +59,7 @@ public class LisaaSarjaGUIController implements Initializable{
             sarja.setHarid(id);
             sarja.rekisteroi();
             stage.close();
+            TreenipvkGUIController.muokattava = this.sarja;
             TreenipvkGUIController.paivakirja.getSarjat().lisaaSarja(sarja);
         }catch (NumberFormatException e) {
             Dialogs.showMessageDialog("Tiedot tulee olla numeroina!");
@@ -75,6 +76,7 @@ public class LisaaSarjaGUIController implements Initializable{
         uusi.setToteutuneet(Integer.parseInt(this.toteutuneet.getText()));
         TreenipvkGUIController.paivakirja.poista(TreenipvkGUIController.paivakirja.getSarjat().getSarja(TreenipvkGUIController.muokattava.getId()));
         TreenipvkGUIController.paivakirja.lisaa(uusi);
+        TreenipvkGUIController.muokattava = uusi;
     }
     
     /**

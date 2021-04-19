@@ -22,7 +22,7 @@ public class Sarja implements Muokattava, Cloneable, Comparable<Sarja> {
     private int toistot;
     private int toteutuneet;
     
-    private static int seuraavaNro = 1;
+    private static int seuraavaNro = 0;
     
     /**
      * Sarja-olion parametrillinen muodostaja.
@@ -160,6 +160,11 @@ public class Sarja implements Muokattava, Cloneable, Comparable<Sarja> {
     @Override
     public int getId() {
         return this.sarid;
+    }
+    
+    @Override
+    public int getViite() {
+        return this.harid;
     }
     
     /**

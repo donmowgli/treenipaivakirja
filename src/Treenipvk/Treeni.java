@@ -19,8 +19,9 @@ public class Treeni implements Muokattava, Cloneable, Comparable<Treeni> {
     private String nimi;
     private int trid;
     private LocalDate pvm;
+    private boolean kanta;
     
-    private static int seuraavaNro = 1;
+    private static int seuraavaNro = 0;
     
     /**
      * Treeni-olion muodostaja. Säilöö Harjoite-olioita ja edelleen Sarja-olioita, ja muodostaa siten täyden harjoitteen.
@@ -30,6 +31,7 @@ public class Treeni implements Muokattava, Cloneable, Comparable<Treeni> {
     public Treeni(String nimi, LocalDate pvm) {
         this.nimi = nimi;
         this.pvm = pvm;
+        this.kanta = false;
     }
     
     /**
@@ -82,6 +84,22 @@ public class Treeni implements Muokattava, Cloneable, Comparable<Treeni> {
      */
     public int getTrid() {
         return this.trid;
+    }
+    
+    /**
+     * Asetetaan totuusarvo sille, onko olio kantaolio
+     * @param kanta asetettava totuusarvo
+     */
+    public void setKanta(boolean kanta) {
+        this.kanta = kanta;
+    }
+    
+    /**
+     * Haetaan olion kanta-arvo
+     * @return palauttaa kanta-arvon, eli totuusarvon onko kyseinen olio kantaolio
+     */
+    public boolean getKanta() {
+        return this.kanta;
     }
     
     /**
@@ -163,7 +181,8 @@ public class Treeni implements Muokattava, Cloneable, Comparable<Treeni> {
     
     @Override
     public int compareTo(Treeni treeni) {
-        return this.nimi.compareTo(treeni.getNimi());
+        if(this.pvm == null && treeni.getPvm() == null) {return this.nimi.compareTo(treeni.getNimi());}
+        return this.pvm.compareTo(treeni.getPvm());
     }
     
     @Override
@@ -185,6 +204,11 @@ public class Treeni implements Muokattava, Cloneable, Comparable<Treeni> {
     @Override
     public int getId() {
         return this.trid;
+    }
+    
+    @Override
+    public int getViite() {
+        return this.trid; //tähän treeniohjelman id jos laajentaa
     }
     
     /**
