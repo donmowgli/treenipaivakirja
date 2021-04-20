@@ -22,7 +22,7 @@ public class Sarja implements Muokattava, Cloneable, Comparable<Sarja> {
     private int toistot;
     private int toteutuneet;
     
-    private static int seuraavaNro = 0;
+    private static int seuraavaNro = 1;
     
     /**
      * Sarja-olion parametrillinen muodostaja.
@@ -207,7 +207,7 @@ public class Sarja implements Muokattava, Cloneable, Comparable<Sarja> {
         String[] arvot = jono.split("\\|");
         this.sarid = Integer.parseInt(arvot[0]);
         this.harid = Integer.parseInt(arvot[1]);
-        this.tyopaino = Integer.parseInt(arvot[2]);
+        this.tyopaino = Double.parseDouble(arvot[2]);
         this.toistot = Integer.parseInt(arvot[3]);
         this.toteutuneet = Integer.parseInt(arvot[4]);
     }

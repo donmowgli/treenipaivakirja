@@ -20,7 +20,7 @@ public class Harjoite implements Muokattava, Cloneable, Comparable<Harjoite> {
     private int sarlkm;
     private boolean kanta;
     
-    private static int seuraavaNro = 0;
+    private static int seuraavaNro = 1;
     
     /**
      * @param nimi harjoitteen nimi, joka sille halutaan asettaa
@@ -159,7 +159,7 @@ public class Harjoite implements Muokattava, Cloneable, Comparable<Harjoite> {
     
     @Override
     public String toString() {
-        return this.nimi + "|" + this.harid + "|" + this.trid  + "|" + this.sarlkm;
+        return this.nimi + "|" + this.harid + "|" + this.trid  + "|" + this.sarlkm + "|" + this.kanta;
     }
     
     /**
@@ -172,6 +172,7 @@ public class Harjoite implements Muokattava, Cloneable, Comparable<Harjoite> {
         this.harid = Integer.parseInt(arvot[1]);
         this.trid = Integer.parseInt(arvot[2]);
         this.sarlkm = Integer.parseInt(arvot[3]);
+        this.kanta = Boolean.parseBoolean(arvot[4]);
     }
     
     @Override

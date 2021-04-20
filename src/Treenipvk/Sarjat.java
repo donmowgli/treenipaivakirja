@@ -78,6 +78,14 @@ public class Sarjat implements Iterable<Sarja>{
     }
     
     /**
+     * Haetaan sarjat ArrayListinä
+     * @return palauttaa sarjat listana
+     */
+    public List<Sarja> getSarjat(){
+        return this.sarjat;
+    }
+    
+    /**
      * Sarjojen lukumäärän palauttaminen.
      * @return palauttaa sarjat-taulukon koon eli sarjojen lukumäärän.
      */

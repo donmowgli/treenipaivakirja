@@ -21,7 +21,7 @@ public class Treeni implements Muokattava, Cloneable, Comparable<Treeni> {
     private LocalDate pvm;
     private boolean kanta;
     
-    private static int seuraavaNro = 0;
+    private static int seuraavaNro = 1;
     
     /**
      * Treeni-olion muodostaja. Säilöö Harjoite-olioita ja edelleen Sarja-olioita, ja muodostaa siten täyden harjoitteen.
@@ -146,7 +146,7 @@ public class Treeni implements Muokattava, Cloneable, Comparable<Treeni> {
         if (this.pvm == null) {
             sPvm = "null";
         } else sPvm = pvm.toString();
-        return this.nimi + "|" + this.trid + "|" + sPvm;
+        return this.nimi + "|" + this.trid + "|" + sPvm + "|" + this.kanta;
     }
     
     /**
@@ -157,6 +157,7 @@ public class Treeni implements Muokattava, Cloneable, Comparable<Treeni> {
         String[] arvot = jono.split("\\|");
         this.nimi = arvot[0];
         this.trid = Integer.parseInt(arvot[1]);
+        this.kanta = Boolean.parseBoolean(arvot[3]);
         if (arvot[2].equals("null")) {
             this.pvm = null;
         } else this.pvm = LocalDate.parse(arvot[2]);

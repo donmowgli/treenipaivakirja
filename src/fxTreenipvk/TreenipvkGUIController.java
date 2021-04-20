@@ -50,7 +50,7 @@ public class TreenipvkGUIController implements Initializable  {
     }
     
     @FXML
-    private void handleTallenna() {
+    private void handleTallenna() throws SailoException {
         tallenna();
     }
     
@@ -60,7 +60,7 @@ public class TreenipvkGUIController implements Initializable  {
     }
     
     @FXML
-    private void handleLopeta() {
+    private void handleLopeta() throws SailoException {
         tallenna();
         Platform.exit();
     }
@@ -170,6 +170,7 @@ public class TreenipvkGUIController implements Initializable  {
     protected void uusiMerkinta() {
         if (paivakirja.getTreenit().getTreenit().isEmpty()) {Dialogs.showMessageDialog("Lisää ensin treenejä, joille voit tehdä merkintöjä!"); return;}
         LisaaMerkintaGUIController.avaa(null);
+        if (muokattava == null) {return;}
         naytaMerkinnat();
     }
     
@@ -181,6 +182,7 @@ public class TreenipvkGUIController implements Initializable  {
         if (paivakirja.getHarjoitteet().getHarjoitteet().isEmpty()) {Dialogs.showMessageDialog("Lisää ensin harjoitteita merkittäväksi treeniin!"); return;}
         LisaaTreeniGUIController.avaa(null);
         treeniLista.setSelectedIndex(paivakirja.getTreenit().getTreeniLkm());
+        if (muokattava == null) {return;}
         naytaTreenit(muokattava.getViite(), true);
     }
     
@@ -189,13 +191,10 @@ public class TreenipvkGUIController implements Initializable  {
      * TODO palauttaa oletusolion jos suljetaan, korjaa
      */
     protected void uusiHarjoite() {
-        try {
-            LisaaHarjoiteGUIController.avaa(null);
-            harjoiteLista.setSelectedIndex(paivakirja.getHarjoitteet().getHarjoitteetLkm());
-            naytaHarjoitteet(muokattava.getViite(), true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        LisaaHarjoiteGUIController.avaa(null);
+        harjoiteLista.setSelectedIndex(paivakirja.getHarjoitteet().getHarjoitteetLkm());
+        if (muokattava == null) {return;}
+        naytaHarjoitteet(muokattava.getViite(), true);
     }
     
     /**
@@ -205,6 +204,7 @@ public class TreenipvkGUIController implements Initializable  {
     protected void uusiSarja() {
         if (harjoiteLista.getSelectedObject() == null) {Dialogs.showMessageDialog("Valitse tai lisää ensin harjoite, johon lisätä sarja!"); return;}
         LisaaSarjaGUIController.avaa(null, harjoiteLista.getSelectedObject().getHarid());
+        if (muokattava == null) {return;}
         naytaSarjat(muokattava.getViite(), true);
     }
     
@@ -212,6 +212,7 @@ public class TreenipvkGUIController implements Initializable  {
      * Muokataan merkintöjä merkinnän lisäämisen controllerissa
      */
     protected void muokkaaMerkintaa() {
+        if (merkintaLista.getSelectedObject() == null) {return; }
         muokataanko = true;
         muokattava = merkintaLista.getSelectedObject();
         LisaaMerkintaGUIController.avaa(null);
@@ -223,6 +224,7 @@ public class TreenipvkGUIController implements Initializable  {
      * Muokataan harjoitetta harjoitteen lisäämisen käyttöliittymästä
      */
     protected void muokkaaTreenia() {
+        if (treeniLista.getSelectedObject() == null) {return; }
         muokataanko = true;
         muokattava = treeniLista.getSelectedObject();
         LisaaTreeniGUIController.avaa(null);
@@ -234,6 +236,7 @@ public class TreenipvkGUIController implements Initializable  {
      * Muokataan harjoitetta harjoitteen lisäämisen käyttöliittymästä
      */
     protected void muokkaaHarjoitetta() {
+        if (harjoiteLista.getSelectedObject() == null) {return;}
         muokataanko = true;
         muokattava = harjoiteLista.getSelectedObject();
         LisaaHarjoiteGUIController.avaa(null);
@@ -245,6 +248,7 @@ public class TreenipvkGUIController implements Initializable  {
      * Muokataan sarjaa sarjan lisäämisen käyttöliittymästä
      */
     protected void muokkaaSarjaa() {
+        if (sarjaLista.getObject(sarjaLista.getRowNr()) == null) {return; }
         muokataanko = true;
         muokattava = sarjaLista.getObject(sarjaLista.getRowNr());
         LisaaSarjaGUIController.avaa(null, 0);
@@ -343,6 +347,7 @@ public class TreenipvkGUIController implements Initializable  {
 @SuppressWarnings("unchecked")
     protected void hae() {
         boolean pvm = false;
+        if(hakuehto.getSelectedObject() == null) {return;}
         if(hakuehto.getSelectedText().equals("Merkintä")) {pvm = true;}
         ArrayList<Muokattava> tulokset = (ArrayList<Muokattava>) paivakirja.haku(hakuehto.getSelectedObject(), hakulauseke.getText(), pvm);
         if(tulokset.isEmpty() || hakulauseke.getText() == null) {naytaMerkinnat(); return;}
@@ -356,26 +361,16 @@ public class TreenipvkGUIController implements Initializable  {
      * @throws SailoException jos tiedostosta lukemisessa ongelmia
      */
     private void avaa() throws SailoException{
-        try {
-            paivakirja.lueTiedostosta();
-        } catch (Exception e) {
-            Dialogs.showMessageDialog("Tiedostoa ei vielä tallennettu - ei voida vielä lukea." + e.getMessage());
-            e.printStackTrace();
-        }
+        paivakirja.lueTiedostosta();
         naytaMerkinnat();
     }
     
     /**
      * Kaiken tiedon tallentaminen erillisinä tiedostoina.
+     * @throws SailoException 
      */
-    private void tallenna() {
-        try {
-            paivakirja.tallenna();
-        } catch (SailoException e) {
-            Dialogs.showMessageDialog("Tallennuksessa ongelmia!" + e.getMessage());
-            e.printStackTrace();
-        }
-        
+    private void tallenna() throws SailoException {
+        paivakirja.tallenna();
     }
     
     /**
@@ -384,10 +379,12 @@ public class TreenipvkGUIController implements Initializable  {
      */
     @SuppressWarnings("all")
     public void poista(Muokattava poistettava, Class<?> kohde) {
+        if(poistettava == null) {return;}
         muokattava = poistettava;
         Muutettava <Muokattava>muutettava = new Muutettava<Muokattava>(poistettava, kohde);
         PoistoGUIController.avaa(null, muutettava);
         if (muokattava.getClass() == Treeni.class) {naytaMerkinnat();}
+        if (muokattava.getClass() == Treeni.class) {naytaTreenit(muokattava.getViite(), false);}
         if (muokattava.getClass() == Harjoite.class) {naytaHarjoitteet(muokattava.getViite(), false);}
         if (muokattava.getClass() == Sarja.class) {naytaSarjat(muokattava.getViite(), false);}
     }

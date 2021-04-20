@@ -250,7 +250,6 @@ public class Paivakirja {
      * @throws SailoException jos ongelmia tiedoston ja siitä lukemisen kanssa.
      */
     public void lueTiedostosta() throws SailoException {
-        
         this.sarjat.lueTiedostosta();
         this.harjoitteet.lueTiedostosta();
         this.treenit.lueTiedostosta();
