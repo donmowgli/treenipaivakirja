@@ -42,6 +42,17 @@ public class Treenit {
     /**
      * 
      * @param treeni Treeni-olio, joka treenit-taulukkoon halutaan lisätä.
+     * @example
+     * <pre name="test">
+     * Treenit treenit = new Treenit();
+     * treenit.getTreeniLkm() === 0;
+     * Treeni treeni1 = new Treeni("testi1", null); testi1.rekisteroi(); treenit.lisaa(treeni1);
+     * treenit.getTreeniLkm() === 1;
+     * Treeni treeni2 = new Treeni("testi2", null); testi2.rekisteroi(); treenit.lisaa(treeni2);
+     * treenit.getTreeniLkm() === 2;
+     * Treeni treeni3 = new Treeni("testi3", null); testi3.rekisteroi(); treenit.lisaa(treeni3);
+     * treenit.getTreeniLkm() === 3;
+     * </pre>
      */
     public void lisaaTreeni(Treeni treeni) {
         if (lkm >= treenit.length) {
@@ -60,6 +71,17 @@ public class Treenit {
      * Haetaan id-arvoa vastaava Treeni-olio
      * @param id id-arvo, jonka mukaan Treeniä haetaan
      * @return palauttaa id-arvoa vastaavan treenin
+     * @example
+     * <pre name="test">
+     * Treenit treenit = new Treenit();
+     * Treeni treeni1 = new Treeni("testi1", null); testi1.rekisteroi(); treenit.lisaa(treeni1);
+     * Treeni treeni2 = new Treeni("testi2", null); testi2.rekisteroi(); treenit.lisaa(treeni2);
+     * Treeni treeni3 = new Treeni("testi3", null); testi3.rekisteroi(); treenit.lisaa(treeni3);
+     * treenit.getTreeni(1).getId() === 1;
+     * treenit.getTreeni(2).getId() === 2;
+     * treenit.getTreeni(3).getId() === 3;
+     * treenit.getTreeni(4).getId() === null;
+     * </pre>
      */
     public Treeni getTreeni(int id) {
         ArrayList<Treeni> trnt = this.getTreenit();
@@ -109,6 +131,17 @@ public class Treenit {
     /**
      * @param hakuehto merkkijono, jonka mukaan haetaan
      * @return palauttaa listan alkioista, joiden nimi vastaa hakuehtoa
+     * @example
+     * <pre name="test">
+     * Treenit treenit = new Treenit();
+     * Treeni treeni1 = new Treeni("testi1", null); testi1.rekisteroi(); treenit.lisaa(treeni1);
+     * Treeni treeni2 = new Treeni("testi2", null); testi2.rekisteroi(); treenit.lisaa(treeni2);
+     * Treeni treeni3 = new Treeni("testi3", null); testi3.rekisteroi(); treenit.lisaa(treeni3);
+     * treenit.etsi("testi1").get(0).getNimi() === "testi1";
+     * treenit.etsi("testi2").get(1).getNimi() === "testi2";
+     * treenit.etsi("testi3").get(2).getNimi() === "testi3";
+     * treenit.etsi("testi").isEmpty() === true;
+     * </pre>
      */
     public ArrayList<Treeni> etsi(String hakuehto){
         ArrayList<Treeni> ret = new ArrayList<Treeni>();
@@ -123,6 +156,14 @@ public class Treenit {
     /**
      * @param hakuehto merkkijono, jonka mukaan haetaan
      * @return palauttaa listan kaikista Treeneistä, joiden Pvm-arvo vastaa hakuehtoa
+     * @example
+     * <pre name="test">
+     * Treenit treenit = new Treenit();
+     * Treeni treeni1 = new Treeni("testi1", LocalDate.now()); testi1.rekisteroi(); treenit.lisaa(treeni1);
+     * Treeni treeni2 = new Treeni("testi2", LocalDate.now()); testi2.rekisteroi(); treenit.lisaa(treeni2);
+     * Treeni treeni3 = new Treeni("testi3", LocalDate.now()); testi3.rekisteroi(); treenit.lisaa(treeni3);
+     * treenit.etsiPvm(treenit.pvmToString()).get(0).getNimi() === "testi1";
+     * </pre>
      */
     public ArrayList<Treeni> etsiPvm(String hakuehto){
         ArrayList<Treeni> ret = new ArrayList<Treeni>();
@@ -138,6 +179,15 @@ public class Treenit {
     /**
      * Poistetaan Treenit-luokan Treeni-taulukosta haluttu treeni Trid-oliomuuttujan mukaisesti.
      * @param id id, jonka mukaan Treeni-olio poistetaan
+     * @example
+     * <pre name="test">
+     * Treenit treenit = new Treenit();
+     * Treeni treeni1 = new Treeni("testi1", null); testi1.rekisteroi(); treenit.lisaa(treeni1);
+     * Treeni treeni2 = new Treeni("testi2", null); testi2.rekisteroi(); treenit.lisaa(treeni2);
+     * Treeni treeni3 = new Treeni("testi3", null); testi3.rekisteroi(); treenit.lisaa(treeni3);
+     * treenit.poista(1);
+     * treenit.getTreeni(1) === null; 
+     * </pre>
      */
     public void poista(int id) {
         Treeni[] vanha = this.treenit;

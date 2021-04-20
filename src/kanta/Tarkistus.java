@@ -16,6 +16,7 @@ public class Tarkistus {
     private static final int[] kuukaudet = {31,29,31,30,31,30,31,31,30,31,30,31};
     
     /**
+     * Tarkistetaan merkkijono, ja halutessaan parametrina myös merkkijono niistä merkeistä joita saa käyttää.
      * @param jono merkkijono, joka halutaan tarkistaa
      * @param oikeat oikeat merkit, joita vasten tarkistetaan. Jos asetetaan null, käytetään automaattisia.
      * @return palauttaa virheilmoituksen jos muita kuin sallittuja merkkejä. Palauttaa null, jos tarkistettava merkkijono on oikeellinen.
@@ -27,6 +28,14 @@ public class Tarkistus {
         return null;
     }
     
+    /**
+     * Tarkistetaan merkkijono, onko merkkijonossa kiellettyjä merkkejä
+     * @param jono merkkijono joka halutaan tarkistaa
+     * @param oikeat merkkijono, jossa hyväksytyt merkit
+     * @return palauttaa totuusarvon, onko tarkistus hyväksytty
+     * 
+     * 
+     */
     private boolean etsi(String jono, String oikeat) {
         String tarkistus = jono.toUpperCase();
         for (int i=0; i<jono.length(); i++)
@@ -37,6 +46,15 @@ public class Tarkistus {
     /**
      * @param jono merkkijono, joka halutaan tarkistaa
      * @return palauttaa virheviestin, null jos virhettä ei ole
+     * @example
+     * <pre name="test">
+     * tarkistaInteger(1243) === null;
+     * tarkistaInteger("21.12") === "Käytä numeroarvojen kohdalla vain numeroita!";
+     * tarkistaInteger("21.12") === "Käytä numeroarvojen kohdalla vain numeroita!";
+     * tarkistaInteger("21.1e") === "Käytä numeroarvojen kohdalla vain numeroita!";
+     * tarkistaInteger("2f.12") === "Käytä numeroarvojen kohdalla vain numeroita!";
+     * tarkistaInteger("2.2.2") === "Käytä numeroarvojen kohdalla vain numeroita!";
+     * </pre>
      */
     public String tarkistaInteger(String jono) {
         if(etsi(jono, numerotInteger) == false) return "Käytä numeroarvojen kohdalla vain numeroita!";
@@ -46,15 +64,34 @@ public class Tarkistus {
     /**
      * @param jono merkkijono, joka halutaan tarkistaa
      * @return palauttaa virheviestin, null jos virhettä ei ole
+     * @example
+     * <pre name="test">
+     * tarkistaDouble("21.12") === null;
+     * tarkistaDouble("21.12") === null;
+     * tarkistaDouble("21.1e") === "Käytä numeroarvojen kohdalla vain numeroita!";
+     * tarkistaDouble("2f.12") === "Käytä numeroarvojen kohdalla vain numeroita!";
+     * tarkistaDouble("2.2.2") === "Erottele numerot desimaaleista vain yhdellä pisteellä!";
+     * </pre>
      */
     public String tarkistaDouble(String jono) {
         if(etsi(jono, numerotDouble) == false) return "Käytä numeroarvojen kohdalla vain numeroita!";
+        if(jono.split(".").length > 2) return "Erottele numerot desimaaleista vain yhdellä pisteellä!";
         return null;
     }
     
     /**
      * @param jono merkkijono, joka halutaan tarkistaa että onko toimiva päivämääräksi
      * @return palauttaa virheilmoituksen merkkijonona, palauttaa null jos toimii
+     * @example
+     * <pre name="test">
+     * tarkistaPvm("1.1.2021") === null;
+     * tarkistaPvm("1.2.2019") === null;
+     * tarkistaPvm("2.3.2000") === null;
+     * tarkistaPvm("1.1.1.2021") === "Tarkista arvojen erotukset ja että kaikki arvot on täytetty!";
+     * tarkistaPvm("2.12.2000") === "Kuukauden pitää olla alle 13!";
+     * tarkistaPvm("30.2.2021") === "Päivämäärä liian suuri asettamallesi kuukaudelle!";
+     * tarkistaPvm("30.2.2121") === "Et voi kirjata merkintöjä tulevaisuuteen!";
+     * </pre>
      */
     public String tarkistaPvm(String jono) {
         String tarkistus = tarkista(jono, pvmMerkit);

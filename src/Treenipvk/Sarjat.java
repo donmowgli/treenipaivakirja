@@ -52,6 +52,16 @@ public class Sarjat implements Iterable<Sarja>{
      * Haetaan id:tä vastaava sarja
      * @param id id-numero, jonka mukaan haetaan
      * @return palauttaa id:tä vastaavan sarjan. Null jos ei ole olemassa.
+     * @example
+     * <pre name="test">
+     * Sarjat sarjat = new Sarjat();
+     * Sarja sarja1 = new Sarja(); sarja1.rekisteroi(); sarja1.setHarid(0); sarjat.lisaa(sarja1);
+     * Sarja sarja2 = new Sarja(); sarja2.rekisteroi(); sarja1.setHarid(1); sarjat.lisaa(sarja2);
+     * Sarja sarja3 = new Sarja(); sarja3.rekisteroi(); sarja1.setHarid(1); sarjat.lisaa(sarja3);
+     * sarjat.getSarja(1).getId() === 1;
+     * sarjat.getSarja(2).getId() === 2;
+     * sarjat.getSarja(3).getId() === 3;
+     * </pre>
      */
     public Sarja getSarja(int id) {
         for (Sarja sarja : this.sarjat) {
@@ -66,6 +76,16 @@ public class Sarjat implements Iterable<Sarja>{
      * Etsitään harjoitteen sarjat vertailemalla harjoitteen yksilöivää harid-tunnusta sarjan harid-tunnukseen.
      * @param harid harjoituksen yksilöivä harid tunnus.
      * @return palauttaa listana vastaavat sarjat.
+     * @example
+     * <pre name="test">
+     * Sarjat sarjat = new Sarjat();
+     * Sarja sarja1 = new Sarja(); sarja1.rekisteroi(); sarja1.setHarid(0); sarjat.lisaa(sarja1);
+     * Sarja sarja2 = new Sarja(); sarja2.rekisteroi(); sarja1.setHarid(1); sarjat.lisaa(sarja2);
+     * Sarja sarja3 = new Sarja(); sarja3.rekisteroi(); sarja1.setHarid(1); sarjat.lisaa(sarja3);
+     * ArrayList<Sarja> found = sarjat.getSarjat(1);
+     * found.get(0).getHarid === 1;
+     * found.get(1).getHarid === 1;
+     * </pre>
      */
     public List<Sarja> getSarjat(int harid){
         List<Sarja> loydetyt = new ArrayList<Sarja>();
@@ -152,6 +172,16 @@ public class Sarjat implements Iterable<Sarja>{
     /**
      * Poistetaan haluttu Sarja-olio
      * @param id Sarja-olion id, joka halutaan poistaa
+     * @example
+     * <pre name="test">
+     * Sarjat sarjat = new Sarjat();
+     * Sarja sarja1 = new Sarja(); sarja1.rekisteroi(); sarjat.lisaa(sarja1);
+     * Sarja sarja2 = new Sarja(); sarja2.rekisteroi(); sarjat.lisaa(sarja2);
+     * Sarja sarja3 = new Sarja(); sarja3.rekisteroi(); sarjat.lisaa(sarja3);
+     * int id = sarja2.getId();
+     * sarjat.poista(id);
+     * sarjat.getSarja(id) === null;
+     * </pre>
      */
     public void poista(int id) {
         Iterator<Sarja> iter = this.sarjat.iterator();
