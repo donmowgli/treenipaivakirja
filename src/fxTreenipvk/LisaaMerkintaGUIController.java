@@ -42,9 +42,10 @@ public class LisaaMerkintaGUIController implements Initializable{
     
     /**
      * Handle OK-painikkeelle
+     * @throws SailoException 
      */
     @FXML
-    private void handleOK() {
+    private void handleOK() throws SailoException {
         try {
             String tarkistettu = tarkistus.tarkistaPvm(pvm.getText());
             if (tarkistettu != null) { Dialogs.showMessageDialog(tarkistettu); return; }
@@ -54,25 +55,24 @@ public class LisaaMerkintaGUIController implements Initializable{
             this.treeni = treenit.getSelectedObject().clone();
             this.treeni.setPvm(annettu);
             this.treeni.rekisteroi();
-        } catch(Exception e) {
-            Dialogs.showMessageDialog("Tarkista päivämäärän muoto ja oikeellisuus!");
+            TreenipvkGUIController.paivakirja.kopioi(treenit.getSelectedObject(), treeni.getId());
+            TreenipvkGUIController.paivakirja.getTreenit().lisaaTreeni(this.treeni);
+            stage.hide();
+        } catch (NullPointerException e) {
+            Dialogs.showMessageDialog("Valitse merkintään lisättävä harjoite!");
+            e.printStackTrace();
+            return;
         }
-        TreenipvkGUIController.paivakirja.getTreenit().lisaaTreeni(this.treeni);
-        stage.hide();
     }
     
     /**
      * Naytetään treenien oletusmuodot (joilla ei merkintää, eli ei omaa päivämäärää)
      */
     private void nayta() {
-        try {
-            for(Treeni trn : TreenipvkGUIController.paivakirja.getTreenit().getTreenit()) {
-                if(trn.getPvm() == null) {
-                    treenit.add(trn.getNimi(), trn);
-                }
+        for(Treeni trn : TreenipvkGUIController.paivakirja.getTreenit().getTreenit()) {
+            if(trn.getPvm() == null) {
+                treenit.add(trn.getNimi(), trn);
             }
-        } catch (NullPointerException e) {
-            Dialogs.showMessageDialog("Lisää ensin treenejä, jotta voit lisätä merkinnän!");
         }
     }
     

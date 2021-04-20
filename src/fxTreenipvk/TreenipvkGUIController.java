@@ -88,25 +88,21 @@ public class TreenipvkGUIController implements Initializable  {
     @FXML
     private void handlePoistaMerkinta() {
         poista(merkintaLista.getSelectedObject(), paivakirja.getTreenit().getClass());
-        naytaMerkinnat();
     }
     
     @FXML
     private void handlePoistaTreeni() {
         poista(treeniLista.getSelectedObject(), paivakirja.getTreenit().getClass());
-        naytaTreenit(0, false);
     }
     
     @FXML
     private void handlePoistaHarjoite() {
         poista(harjoiteLista.getSelectedObject(), paivakirja.getHarjoitteet().getClass());
-        naytaHarjoitteet(0, false);
     }
     
     @FXML
     private void handlePoistaSarja() {
-        poista(sarjaLista.getObject(0), paivakirja.getSarjat().getClass());
-        naytaSarjat(0, false);
+        poista(sarjaLista.getObject(sarjaLista.getRowNr()), paivakirja.getSarjat().getClass());
     }
     
     @FXML
@@ -261,13 +257,14 @@ public class TreenipvkGUIController implements Initializable  {
      */
     protected void naytaMerkinnat() {
         merkintaLista.clear();
+        if(paivakirja.getTreenit().getTreenit().isEmpty()) {naytaHarjoitteet(muokattava.getId(), false); return;}
         for(Treeni trn : paivakirja.getTreenit().getTreenit()) {
             if (trn.getPvm() != null) {
                 merkintaLista.add(trn.pvmToString(), trn);
             }
         }
         muokattava = merkintaLista.getObjects().get(0);
-        naytaTreenit(muokattava.getId(), true);
+        naytaTreenit(muokattava.getId(), false);
     }
     
     /**
@@ -278,12 +275,13 @@ public class TreenipvkGUIController implements Initializable  {
      */
     protected void naytaTreenit(int id, boolean naytaKanta) throws NullPointerException{
         treeniLista.clear();
+        if(paivakirja.getTreenit().getTreenit().isEmpty()) {naytaHarjoitteet(muokattava.getId(), false); return;}
         for(Treeni trn : paivakirja.getTreenit().getTreenit()) {
             if (trn.getId() == id && trn.getKanta() ==false && naytaKanta == false) { treeniLista.add(trn.getNimi(), trn); continue;}
             else if (trn.getKanta() == true && naytaKanta == true){ treeniLista.add(trn.getNimi(), trn);}
         }
         muokattava = treeniLista.getObjects().get(0);
-        naytaHarjoitteet(muokattava.getId(), true);
+        naytaHarjoitteet(muokattava.getId(), false);
     }
     
     /**
@@ -294,12 +292,13 @@ public class TreenipvkGUIController implements Initializable  {
      */
     protected void naytaHarjoitteet(int id, boolean naytaKanta) throws NullPointerException{
         harjoiteLista.clear();
+        if(paivakirja.getHarjoitteet().getHarjoitteet().isEmpty()) {naytaSarjat(muokattava.getId(), false); return;}
         for(Harjoite har : paivakirja.getHarjoitteet()) {
             if (har.getTrid() == id && har.getKanta() == false && naytaKanta == false) { harjoiteLista.add(har.getNimi(), har); continue;}
             else if (har.getKanta() == true && naytaKanta == true) harjoiteLista.add(har.getNimi(), har);
         }
         muokattava = harjoiteLista.getObjects().get(0);
-        naytaSarjat(muokattava.getId(), true);
+        naytaSarjat(muokattava.getId(), false);
     }
     
     /**
@@ -312,6 +311,7 @@ public class TreenipvkGUIController implements Initializable  {
         sarjaLista.clear();
         String[] headings = {"Työpaino", "Toistot", "Toteutuneet"};
         sarjaLista.initTable(headings);
+        if(paivakirja.getSarjat().getSarjatLkm() == 0) {naytaSarjat(muokattava.getId(), false); return;}
         for(Sarja sarja : paivakirja.getSarjat()) {
             if (sarja.getHarid() == id && naytaKaikki == false) {
                 String tp = String.valueOf(sarja.getTyopaino());
@@ -387,6 +387,9 @@ public class TreenipvkGUIController implements Initializable  {
         muokattava = poistettava;
         Muutettava <Muokattava>muutettava = new Muutettava<Muokattava>(poistettava, kohde);
         PoistoGUIController.avaa(null, muutettava);
+        if (muokattava.getClass() == Treeni.class) {naytaMerkinnat();}
+        if (muokattava.getClass() == Harjoite.class) {naytaHarjoitteet(muokattava.getViite(), false);}
+        if (muokattava.getClass() == Sarja.class) {naytaSarjat(muokattava.getViite(), false);}
     }
     
     /**

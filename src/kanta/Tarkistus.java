@@ -9,7 +9,7 @@ import java.time.LocalDate;
  *
  */
 public class Tarkistus {
-    private static final String merkit = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ.,()";
+    private static final String merkit = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ.,() ";
     private static final String numerotDouble = "0123456789.";
     private static final String numerotInteger = "0123456789";
     private static final String pvmMerkit = "0123456789.";

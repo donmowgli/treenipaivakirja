@@ -182,7 +182,6 @@ public class Sarja implements Muokattava, Cloneable, Comparable<Sarja> {
     public Sarja clone() {
         Sarja sarja = new Sarja(this.getTyopaino(), this.getToteutuneet());
         sarja.toistot = this.getToistot();
-        sarja.sarid = this.getSarid();
         sarja.harid = this.getHarid();
         return sarja;
     }

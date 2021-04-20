@@ -46,11 +46,41 @@ public class Paivakirja {
     }
     
     /**
+     * @param lisattavat lista lisättävistä treeneistä
+     * @throws SailoException jos lisäämisessä ongelmia
+     */
+    public void lisaaTreenit(ArrayList<Treeni> lisattavat) throws SailoException {
+        for (Treeni treeni : lisattavat) {
+            lisaa(treeni);
+        }
+    }
+    
+    /**
      * Poistetaan haluttu treeni treeneistä
      * @param treeni treeni-olio, joka halutaan poistaa
      */
     public void poista(Treeni treeni) {
         treenit.poista(treeni.getId());
+    }
+    
+    /**
+     * Kopioidaan kaikki harjoitteet joilla on sama viiteavain eli treenin id uusiksi Harjoite-olioiksi päiväkirjakäyttöä varten. Ketjuttaa myös vastaavalla
+     * tavalla harjoitteeseen viittaavat sarjat, jotta rakenne pysyy eheänä.
+     * @param viite Treeni-olio, johon viitteitä verrataan
+     * @param id viite-id joka liitettäville harjoitteille halutaan asettaa
+     */
+    public void kopioi(Treeni viite, int id) {
+        ArrayList<Harjoite> lisattavat = new ArrayList<Harjoite>();
+        for (Harjoite harjoite : this.getHarjoitteet().getHarjoitteet()) {
+            if (harjoite.getViite() == viite.getId()) {
+                Harjoite kopio = harjoite.clone();
+                kopio.setTrid(id);
+                kopio.rekisteroi();
+                lisattavat.add(kopio);
+                kopioi(harjoite, kopio.getId());
+            }
+        }
+        lisaaHarjoitteet(lisattavat);
     }
     
     /**
@@ -95,11 +125,40 @@ public class Paivakirja {
     }
     
     /**
+     * Lisätään haluttu lista harjoitteita harjoitteisiin
+     * @param lisattavat lisättävät harjoitteet listana
+     */
+    public void lisaaHarjoitteet(ArrayList<Harjoite> lisattavat) {
+        for (Harjoite harjoite : lisattavat) {
+            lisaa(harjoite);
+        }
+    }
+    
+    /**
      * Poistetaan harjoite harjoitteista
      * @param harjoite harjoite, joka halutaan poistaa
      */
     public void poista(Harjoite harjoite) {
         harjoitteet.poista(harjoite.getId());
+    }
+    
+    /**
+     * Kopioidaan kaikki Sarja-oliot joilla sama viite avain kuin parametrina tuodulla Harjoite-oliolla, eli kopioidaan ne sarjat jotka liittyvät
+     * kyseiseen harjoitteeseen. 
+     * @param viite Harjoite-viiteolio, jonka mukaan kopioidaan Sarjoja päiväkirjaan
+     * @param id viite-id joka halutaan Sarja-olion kopioihin asettaa
+     */
+    public void kopioi(Harjoite viite, int id) {
+        ArrayList<Sarja> lisattavat = new ArrayList<Sarja>();
+        for (Sarja sarja : this.sarjat.getSarjat(viite.getId())) {
+            if (sarja.getViite() == viite.getId()) {
+                Sarja kopio = sarja.clone();
+                kopio.setHarid(id);
+                kopio.rekisteroi();
+                lisattavat.add(kopio);
+            }
+        }
+        lisaaSarjat(lisattavat);
     }
     
     /**
@@ -141,6 +200,16 @@ public class Paivakirja {
      */
     public void lisaa(Sarja sarja) {
         sarjat.lisaaSarja(sarja);
+    }
+    
+    /**
+     * Lisätään lista Sarja-olioita päiväkirjaan
+     * @param lisattavat lisättävät Sarja-oliot listana
+     */
+    public void lisaaSarjat(ArrayList<Sarja> lisattavat) {
+        for(Sarja sarja : lisattavat) {
+            lisaa(sarja);
+        }
     }
     
     /**

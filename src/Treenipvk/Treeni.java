@@ -169,7 +169,7 @@ public class Treeni implements Muokattava, Cloneable, Comparable<Treeni> {
      * <pre name="test">
      * Treeni treeni1 = new Treeni("testi", LocalDate.now());
      * Treeni treeni2 = treeni1.clone();
-     * treeni1.nimi === treeni2.nimi;
+     * treeni1.nimi.equals(treeni2.nimi) === true;
      * treeni1.pvm.equals(treeni2.pvm) === true;
      * </pre>
      */

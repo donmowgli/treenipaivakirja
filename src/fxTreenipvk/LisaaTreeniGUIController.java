@@ -50,29 +50,27 @@ public class LisaaTreeniGUIController implements Initializable {
     
     /**
      * Handle-funktio OK-napin painallukselle
+     * @throws SailoException 
      */
     @FXML
-    private void handleOK() {
-        try {
-            String tarkistettu = tarkistus.tarkista(nimi.getText(), null);
-            if (tarkistettu != null) { Dialogs.showMessageDialog(tarkistettu); return; }
-            if (TreenipvkGUIController.muokataanko == true) { muokkaa(); stage.close(); return;}
-            this.treeni.setNimi(nimi.getText());
-            this.treeni.setKanta(true);
-            this.treeni.rekisteroi();
-            for(Harjoite harjoite : lisattava.getObjects()) {
-                Harjoite klooni = harjoite.clone();
-                klooni.rekisteroi();
-                klooni.setTrid(treeni.getTrid());
-                TreenipvkGUIController.paivakirja.lisaa(klooni);
-            }
-            TreenipvkGUIController.muokattava = this.treeni;
-            TreenipvkGUIController.paivakirja.lisaa(this.treeni);
-            stage.hide();
-        }catch (Exception e) {
-            e.printStackTrace();
-            Dialogs.showMessageDialog("Valitse ainakin yksi treeniin lisättävä harjoite.");
+    private void handleOK() throws SailoException {
+        String tarkistettu = tarkistus.tarkista(nimi.getText(), null);
+        if (tarkistettu != null) { Dialogs.showMessageDialog(tarkistettu); return; }
+        if (this.lisattava.getObjects().isEmpty()) {Dialogs.showMessageDialog("Lisää ainakin yksi lisättävä harjoite!"); return;}
+        if (TreenipvkGUIController.muokataanko == true) { muokkaa(); stage.close(); return;}
+        this.treeni.setNimi(nimi.getText());
+        this.treeni.setKanta(true);
+        this.treeni.rekisteroi();
+        for(Harjoite harjoite : lisattava.getObjects()) {
+            Harjoite klooni = harjoite.clone();
+            klooni.rekisteroi();
+            klooni.setTrid(treeni.getTrid());
+            TreenipvkGUIController.paivakirja.kopioi(harjoite, klooni.getId());
+            TreenipvkGUIController.paivakirja.lisaa(klooni);
         }
+        TreenipvkGUIController.muokattava = this.treeni;
+        TreenipvkGUIController.paivakirja.lisaa(this.treeni);
+        stage.hide();
     }
     
     /**
