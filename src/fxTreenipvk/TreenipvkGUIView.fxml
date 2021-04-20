@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import fi.jyu.mit.fxgui.ComboBoxChooser?>
 <?import fi.jyu.mit.fxgui.ListChooser?>
 <?import fi.jyu.mit.fxgui.StringGrid?>
 <?import javafx.scene.control.Button?>
@@ -105,7 +106,12 @@
       </HBox>
       <HBox layoutY="56.0" prefHeight="31.0" prefWidth="149.0">
          <children>
-            <TextField onAction="#handleHakuehto" />
+            <TextField fx:id="hakulauseke" onKeyReleased="#handleHakuehto" />
+         </children>
+      </HBox>
+      <HBox layoutX="149.0" layoutY="56.0" prefHeight="31.0" prefWidth="149.0">
+         <children>
+            <ComboBoxChooser fx:id="hakuehto" onAction="#handleHakuehto" prefHeight="25.0" prefWidth="157.0" />
          </children>
       </HBox>
    </children>

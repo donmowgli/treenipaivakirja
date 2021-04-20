@@ -5,6 +5,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
+import Treenipvk.SailoException;
 import Treenipvk.Treeni;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
@@ -16,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import kanta.Tarkistus;
 
 /**
  * Controller-luokka merkinnän lisäämiselle
@@ -25,6 +27,7 @@ import javafx.stage.Stage;
  */
 public class LisaaMerkintaGUIController implements Initializable{
     private Treeni treeni = new Treeni();
+    private Tarkistus tarkistus = new Tarkistus();
     private static Stage stage = new Stage();
     
     @FXML private TextField pvm;
@@ -34,42 +37,65 @@ public class LisaaMerkintaGUIController implements Initializable{
     public void initialize(URL arg0, ResourceBundle arg1) {
         treenit.clear();
         nayta();
+        if(TreenipvkGUIController.muokataanko == true) {asetaValittu();}
     }
     
     /**
      * Handle OK-painikkeelle
+     * @throws SailoException 
      */
     @FXML
-    private void handleOK() {
+    private void handleOK() throws SailoException {
         try {
+            String tarkistettu = tarkistus.tarkistaPvm(pvm.getText());
+            if (tarkistettu != null) { Dialogs.showMessageDialog(tarkistettu); return; }
+            if(TreenipvkGUIController.muokataanko == true) {muokkaa(); stage.close(); return;}
             String[] arvot = pvm.getText().split("\\.");
-            System.out.println(arvot[0]);
-            System.out.println(arvot[1]);
-            System.out.println(arvot[2]);
             LocalDate annettu = LocalDate.of(Integer.parseInt(arvot[2]), Integer.parseInt(arvot[1]), Integer.parseInt(arvot[0]));
             this.treeni = treenit.getSelectedObject().clone();
             this.treeni.setPvm(annettu);
             this.treeni.rekisteroi();
-        } catch(Exception e) {
-            Dialogs.showMessageDialog("Tarkista päivämäärän muoto ja oikeellisuus!");
+            TreenipvkGUIController.paivakirja.kopioi(treenit.getSelectedObject(), treeni.getId());
+            TreenipvkGUIController.paivakirja.getTreenit().lisaaTreeni(this.treeni);
+            stage.hide();
+        } catch (NullPointerException e) {
+            Dialogs.showMessageDialog("Valitse merkintään lisättävä harjoite!");
+            e.printStackTrace();
+            return;
         }
-        TreenipvkGUIController.paivakirja.getTreenit().lisaaTreeni(this.treeni);
-        stage.hide();
     }
     
     /**
      * Naytetään treenien oletusmuodot (joilla ei merkintää, eli ei omaa päivämäärää)
      */
     private void nayta() {
-        try {
-            for(Treeni trn : TreenipvkGUIController.paivakirja.getTreenit().getTreenit()) {
-                if(trn.getPvm() == null) {
-                    treenit.add(trn.getNimi(), trn);
-                }
+        for(Treeni trn : TreenipvkGUIController.paivakirja.getTreenit().getTreenit()) {
+            if(trn.getPvm() == null) {
+                treenit.add(trn.getNimi(), trn);
             }
-        } catch (NullPointerException e) {
-            Dialogs.showMessageDialog("Lisää ensin treenejä, jotta voit lisätä merkinnän!");
         }
+    }
+    
+    /**
+     * Asetetaan muokkausta varten valinta chooserille
+     */
+    private void asetaValittu() {
+        for(int i = 0; i < treenit.getObjects().size(); i++) {
+            if(treenit.getObjects().get(i).getId() == TreenipvkGUIController.muokattava.getId()) {
+                treenit.setSelectedIndex(i);
+                this.pvm.setText(treenit.getObjects().get(i).pvmToString());
+                return;
+            }
+        }
+    }
+    
+    private void muokkaa() throws SailoException {
+        String[] arvot = pvm.getText().split("\\.");
+        LocalDate annettu = LocalDate.of(Integer.parseInt(arvot[2]), Integer.parseInt(arvot[1]), Integer.parseInt(arvot[0]));
+        Treeni uusi = TreenipvkGUIController.paivakirja.getTreenit().getTreeni(TreenipvkGUIController.muokattava.getId());
+        uusi.setPvm(annettu);
+        TreenipvkGUIController.paivakirja.poista(TreenipvkGUIController.paivakirja.getTreenit().getTreeni(TreenipvkGUIController.muokattava.getId()));
+        TreenipvkGUIController.paivakirja.lisaa(uusi);
     }
     
     /**

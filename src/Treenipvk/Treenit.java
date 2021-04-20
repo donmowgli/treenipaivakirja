@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
 /**
  * @author Akseli Jaara
@@ -42,31 +42,55 @@ public class Treenit {
     /**
      * 
      * @param treeni Treeni-olio, joka treenit-taulukkoon halutaan lisätä.
+     * @example
+     * <pre name="test">
+     * Treenit treenit = new Treenit();
+     * treenit.getTreeniLkm() === 0;
+     * Treeni treeni1 = new Treeni("testi1", null); testi1.rekisteroi(); treenit.lisaa(treeni1);
+     * treenit.getTreeniLkm() === 1;
+     * Treeni treeni2 = new Treeni("testi2", null); testi2.rekisteroi(); treenit.lisaa(treeni2);
+     * treenit.getTreeniLkm() === 2;
+     * Treeni treeni3 = new Treeni("testi3", null); testi3.rekisteroi(); treenit.lisaa(treeni3);
+     * treenit.getTreeniLkm() === 3;
+     * </pre>
      */
     public void lisaaTreeni(Treeni treeni) {
         if (lkm >= treenit.length) {
-            int uLkm = this.lkm + 1;
-            Treeni [] uusi = new Treeni[uLkm];
-            for(int i = 0; i < this.lkm; i++) {
-                uusi[i] = this.treenit[i];
+            int uusiKoko = lkm + 1;
+            Treeni[] uudet = new Treeni[uusiKoko];
+            for (int i = 0; i < uusiKoko - 1; i++) {
+                uudet[i] = treenit[i];
             }
-            this.treenit = uusi;
-            this.lkm = uLkm;
+            this.treenit = uudet;
         }
-       this. treenit[lkm] = treeni;
-       this.lkm++;
+        treenit[lkm] = treeni;
+        lkm++;
     }
     
     /**
-     * @param i halutun treenin indeksinumero.
-     * @return palauttaa treenit-taulukosta indeksin mukaisen treenin.
-     * @throws IndexOutOfBoundsException jos haettu indeksi on olemassaolevan ulkopuolella, eli alle 0 tai tietorakenteen koon eli alkioiden lukumäärää suurempi
+     * Haetaan id-arvoa vastaava Treeni-olio
+     * @param id id-arvo, jonka mukaan Treeniä haetaan
+     * @return palauttaa id-arvoa vastaavan treenin
+     * @example
+     * <pre name="test">
+     * Treenit treenit = new Treenit();
+     * Treeni treeni1 = new Treeni("testi1", null); testi1.rekisteroi(); treenit.lisaa(treeni1);
+     * Treeni treeni2 = new Treeni("testi2", null); testi2.rekisteroi(); treenit.lisaa(treeni2);
+     * Treeni treeni3 = new Treeni("testi3", null); testi3.rekisteroi(); treenit.lisaa(treeni3);
+     * treenit.getTreeni(1).getId() === 1;
+     * treenit.getTreeni(2).getId() === 2;
+     * treenit.getTreeni(3).getId() === 3;
+     * treenit.getTreeni(4).getId() === null;
+     * </pre>
      */
-    public Treeni getTreeni(int i) throws IndexOutOfBoundsException {
-        if (i < 0 || i < lkm) {
-            throw new IndexOutOfBoundsException("Laiton indeksi: " + i);
+    public Treeni getTreeni(int id) {
+        ArrayList<Treeni> trnt = this.getTreenit();
+        for (Treeni trn : trnt) {
+            if (trn.getId() == id) {
+                return trn;
+            }
         }
-        return this.treenit[i];
+        return null;
     }
     
     /**
@@ -89,34 +113,6 @@ public class Treenit {
     }
     
     /**
-     * Järjestää treenit päivämäärän eli LocalDate-olion mukaisesti laskevaan järjestykseen.
-     * @return palauttaa listan Treenejä.
-     */
-    public List<Treeni> jarjestaTreeni(){
-        ArrayList<Treeni> palautettava = new ArrayList<Treeni>();
-        ArrayList<LocalDate> paivamaarat = new ArrayList<LocalDate>();
-        
-        for(Treeni treeni : this.treenit) {
-            if(treeni.getPvm() != null) {
-                paivamaarat.add(treeni.getPvm());
-            }
-        }
-        
-        paivamaarat.sort(null);
-        
-        while(palautettava.size() != paivamaarat.size()) {
-            for(int i = 0; i < this.treenit.length; i++) {
-                if(treenit[i].getPvm() == paivamaarat.get(0)) {
-                    palautettava.add(treenit[i]);
-                    paivamaarat.remove(0);
-                }
-            }
-        }
-        
-        return palautettava;
-    }
-    
-    /**
      * Asetetaan Treenit-oliolle tiedostonimi
      * @param nimi tiedoston nimi, joka asetetaan
      */
@@ -130,6 +126,80 @@ public class Treenit {
      */
     public String getTiedostoNimi() {
         return this.tiedostonimi;
+    }
+    
+    /**
+     * @param hakuehto merkkijono, jonka mukaan haetaan
+     * @return palauttaa listan alkioista, joiden nimi vastaa hakuehtoa
+     * @example
+     * <pre name="test">
+     * Treenit treenit = new Treenit();
+     * Treeni treeni1 = new Treeni("testi1", null); testi1.rekisteroi(); treenit.lisaa(treeni1);
+     * Treeni treeni2 = new Treeni("testi2", null); testi2.rekisteroi(); treenit.lisaa(treeni2);
+     * Treeni treeni3 = new Treeni("testi3", null); testi3.rekisteroi(); treenit.lisaa(treeni3);
+     * treenit.etsi("testi1").get(0).getNimi() === "testi1";
+     * treenit.etsi("testi2").get(1).getNimi() === "testi2";
+     * treenit.etsi("testi3").get(2).getNimi() === "testi3";
+     * treenit.etsi("testi").isEmpty() === true;
+     * </pre>
+     */
+    public ArrayList<Treeni> etsi(String hakuehto){
+        ArrayList<Treeni> ret = new ArrayList<Treeni>();
+        ArrayList<Treeni> alkiot = this.getTreenit();
+        for (Treeni treeni : alkiot) {
+            if (treeni.getNimi().equals(hakuehto)) {ret.add(treeni);}
+        }
+        Collections.sort(ret);
+        return ret;
+    }
+    
+    /**
+     * @param hakuehto merkkijono, jonka mukaan haetaan
+     * @return palauttaa listan kaikista Treeneistä, joiden Pvm-arvo vastaa hakuehtoa
+     * @example
+     * <pre name="test">
+     * Treenit treenit = new Treenit();
+     * Treeni treeni1 = new Treeni("testi1", LocalDate.now()); testi1.rekisteroi(); treenit.lisaa(treeni1);
+     * Treeni treeni2 = new Treeni("testi2", LocalDate.now()); testi2.rekisteroi(); treenit.lisaa(treeni2);
+     * Treeni treeni3 = new Treeni("testi3", LocalDate.now()); testi3.rekisteroi(); treenit.lisaa(treeni3);
+     * treenit.etsiPvm(treenit.pvmToString()).get(0).getNimi() === "testi1";
+     * </pre>
+     */
+    public ArrayList<Treeni> etsiPvm(String hakuehto){
+        ArrayList<Treeni> ret = new ArrayList<Treeni>();
+        ArrayList<Treeni> alkiot = this.getTreenit();
+        for (Treeni treeni : alkiot) {
+            if (treeni.getPvm() == null) {continue;}
+            if (treeni.pvmToString().equals(hakuehto)) {ret.add(treeni);}
+        }
+        Collections.sort(ret);
+        return ret;
+    }
+    
+    /**
+     * Poistetaan Treenit-luokan Treeni-taulukosta haluttu treeni Trid-oliomuuttujan mukaisesti.
+     * @param id id, jonka mukaan Treeni-olio poistetaan
+     * @example
+     * <pre name="test">
+     * Treenit treenit = new Treenit();
+     * Treeni treeni1 = new Treeni("testi1", null); testi1.rekisteroi(); treenit.lisaa(treeni1);
+     * Treeni treeni2 = new Treeni("testi2", null); testi2.rekisteroi(); treenit.lisaa(treeni2);
+     * Treeni treeni3 = new Treeni("testi3", null); testi3.rekisteroi(); treenit.lisaa(treeni3);
+     * treenit.poista(1);
+     * treenit.getTreeni(1) === null; 
+     * </pre>
+     */
+    public void poista(int id) {
+        Treeni[] vanha = this.treenit;
+        int vLkm = this.lkm;
+        this.treenit = new Treeni[0];
+        this.lkm = 0;
+        for (int i = 0; i < vLkm; i++) {
+            if(vanha[i].getTrid() == id) {
+                continue;
+            }
+            this.lisaaTreeni(vanha[i]);
+        }
     }
     
     /**
@@ -195,6 +265,11 @@ public class Treenit {
         
         treenit.lisaaTreeni(treeni);
         treenit.lisaaTreeni(treeni2);
+        treenit.lisaaTreeni(treeni2);
+        treenit.lisaaTreeni(treeni2);
+        treenit.lisaaTreeni(treeni2);
+        
+        treenit.poista(1);
         
         treenit.setTiedostonNimi("treenit.dat");
         

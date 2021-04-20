@@ -3,18 +3,22 @@
  */
 package Treenipvk;
 import java.io.PrintStream;
+import java.util.ArrayList;
+
+import kanta.Muokattava;
 
 /**
  * @author Akseli Jaara
  * @version 3 Mar 2021
  * Harjoite-luokka, jossa säilötään Sarja-olioita ja muita tärkeitä harjoitteeseen liittyviä muuttujia.
  */
-public class Harjoite {
+public class Harjoite implements Muokattava, Cloneable, Comparable<Harjoite> {
 
     private String nimi;
     private int harid;
     private int trid;
     private int sarlkm;
+    private boolean kanta;
     
     private static int seuraavaNro = 1;
     
@@ -27,6 +31,7 @@ public class Harjoite {
         this.nimi = nimi;
         this.trid = trid;
         this.sarlkm = sarlkm;
+        this.kanta = false;
     }
     
     /**
@@ -100,6 +105,22 @@ public class Harjoite {
     }
     
     /**
+     * Asetetaan totuusarvo sille, onko olio kantaolio
+     * @param kanta asetettava totuusarvo
+     */
+    public void setKanta(boolean kanta) {
+        this.kanta = kanta;
+    }
+    
+    /**
+     * Haetaan olion kanta-arvo
+     * @return palauttaa kanta-arvon, eli totuusarvon onko kyseinen olio kantaolio
+     */
+    public boolean getKanta() {
+        return this.kanta;
+    }
+    
+    /**
      * Tulostetaan harjoite kokonaisudessaan.
      * @param out tietovirta ulos
      */
@@ -126,8 +147,19 @@ public class Harjoite {
     }
     
     @Override
+    public Harjoite clone() {
+        Harjoite harjoite = new Harjoite(this.nimi, this.trid, this.sarlkm);
+        return harjoite;
+    }
+    
+    @Override
+    public int compareTo(Harjoite harjoite) {
+        return this.nimi.compareTo(harjoite.getNimi());
+    }
+    
+    @Override
     public String toString() {
-        return this.nimi + "|" + this.harid + "|" + this.trid  + "|" + this.sarlkm;
+        return this.nimi + "|" + this.harid + "|" + this.trid  + "|" + this.sarlkm + "|" + this.kanta;
     }
     
     /**
@@ -140,6 +172,30 @@ public class Harjoite {
         this.harid = Integer.parseInt(arvot[1]);
         this.trid = Integer.parseInt(arvot[2]);
         this.sarlkm = Integer.parseInt(arvot[3]);
+        this.kanta = Boolean.parseBoolean(arvot[4]);
+    }
+    
+    @Override
+    public String getTiedot() {
+        return this.nimi + ", sarjojen lukumäärä: " + String.valueOf(this.sarlkm);
+    }
+
+    @Override
+    public ArrayList<String> getArvot() {
+        ArrayList<String> ret = new ArrayList<String>();
+        ret.add(this.nimi);
+        ret.add(String.valueOf(this.sarlkm));
+        return ret;
+    }
+
+    @Override
+    public int getId() {
+        return this.harid;
+    }
+    
+    @Override
+    public int getViite() {
+        return this.trid;
     }
     
     /**
@@ -161,5 +217,4 @@ public class Harjoite {
         harjoite1.rekisteroi();
         harjoite1.tulosta(System.out);
     }
-
 }

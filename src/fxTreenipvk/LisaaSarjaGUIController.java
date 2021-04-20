@@ -2,15 +2,20 @@ package fxTreenipvk;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+
 import Treenipvk.Sarja;
 import fi.jyu.mit.fxgui.Dialogs;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.stage.Modality;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import kanta.Tarkistus;
 
 /**
  * Controller-luokka sarjan lisäämiselle
@@ -18,32 +23,61 @@ import javafx.stage.Stage;
  * @version 20 Mar 2021
  *
  */
-public class LisaaSarjaGUIController {
+public class LisaaSarjaGUIController implements Initializable{
     private static int id = 0;
     private Sarja sarja = new Sarja();
+    private Tarkistus tarkistus = new Tarkistus();
     private static Stage stage = new Stage();
     
     @FXML private TextField tyopaino;
     @FXML private TextField toistot;
     @FXML private TextField toteutuneet;
     
+    @Override
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        if (TreenipvkGUIController.muokataanko == true) {
+            ArrayList<String> arvot = TreenipvkGUIController.muokattava.getArvot();
+            this.tyopaino.setText(arvot.get(0));
+            this.toistot.setText(arvot.get(1));
+            this.toteutuneet.setText(arvot.get(2));
+        }
+    }
+    
     /**
      * Handle-funktio OK-napin painallukselle
-     * TODO Milloin rekisteröidään ja milloin asetetaan harjoitteen id?
      */
     @FXML
     private void handleOK() {
         try {
-            sarja.setTyopaino(Integer.parseInt(tyopaino.getText()));
+            String tarkistettu = tarkistus.tarkistaDouble(tyopaino.getText()); if (tarkistettu != null) {Dialogs.showMessageDialog(tarkistettu); return; }
+             tarkistettu = tarkistus.tarkistaInteger(toistot.getText()); if (tarkistettu != null) {Dialogs.showMessageDialog(tarkistettu); return; }
+             tarkistettu = tarkistus.tarkistaInteger(toteutuneet.getText()); if (tarkistettu != null) {Dialogs.showMessageDialog(tarkistettu); return; }
+            if (TreenipvkGUIController.muokataanko == true) { muokkaa(); stage.close(); return;}
+            sarja.setTyopaino(Double.parseDouble(tyopaino.getText()));
             sarja.setToistot(Integer.parseInt(toistot.getText()));
             sarja.setToteutuneet(Integer.parseInt(toteutuneet.getText()));
             sarja.setHarid(id);
             sarja.rekisteroi();
             stage.close();
+            TreenipvkGUIController.muokattava = this.sarja;
             TreenipvkGUIController.paivakirja.getSarjat().lisaaSarja(sarja);
         }catch (NumberFormatException e) {
             Dialogs.showMessageDialog("Tiedot tulee olla numeroina!");
+            e.printStackTrace();
         }
+    }
+    
+    /**
+     * Muokataan Sarja-oliota vastaamaan valintoja
+     */
+    private void muokkaa() {
+        Sarja uusi = TreenipvkGUIController.paivakirja.getSarjat().getSarja(TreenipvkGUIController.muokattava.getId());
+        uusi.setTyopaino(Double.parseDouble(tyopaino.getText()));
+        uusi.setToistot(Integer.parseInt(this.toistot.getText()));
+        uusi.setToteutuneet(Integer.parseInt(this.toteutuneet.getText()));
+        TreenipvkGUIController.paivakirja.poista(TreenipvkGUIController.paivakirja.getSarjat().getSarja(TreenipvkGUIController.muokattava.getId()));
+        TreenipvkGUIController.paivakirja.lisaa(uusi);
+        TreenipvkGUIController.muokattava = uusi;
     }
     
     /**

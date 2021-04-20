@@ -3,6 +3,10 @@
  */
 package Treenipvk;
 
+import java.util.ArrayList;
+
+import kanta.Muokattava;
+
 /**
  * Päiväkirja-luokka, joka huolehtii treeneistä, harjoitteista ja sarjoista. Tulee huolehtimaan luokkien välisestä yhteistyöstä.
  * 
@@ -11,9 +15,18 @@ package Treenipvk;
  *
  */
 public class Paivakirja {
-    private Treenit treenit = new Treenit();
-    private Harjoitteet harjoitteet = new Harjoitteet();
-    private Sarjat sarjat = new Sarjat();
+    private Treenit treenit;
+    private Harjoitteet harjoitteet;
+    private Sarjat sarjat;
+    
+    /**
+     * Paivakirja-olion parametriton muodostaja
+     */
+    public Paivakirja() {
+        this.treenit = new Treenit();
+        this.harjoitteet = new Harjoitteet();
+        this.sarjat = new Sarjat();
+    }
     
     /**
      * Lisää treenin treeneihin.
@@ -33,6 +46,44 @@ public class Paivakirja {
     }
     
     /**
+     * @param lisattavat lista lisättävistä treeneistä
+     * @throws SailoException jos lisäämisessä ongelmia
+     */
+    public void lisaaTreenit(ArrayList<Treeni> lisattavat) throws SailoException {
+        for (Treeni treeni : lisattavat) {
+            lisaa(treeni);
+        }
+    }
+    
+    /**
+     * Poistetaan haluttu treeni treeneistä
+     * @param treeni treeni-olio, joka halutaan poistaa
+     */
+    public void poista(Treeni treeni) {
+        treenit.poista(treeni.getId());
+    }
+    
+    /**
+     * Kopioidaan kaikki harjoitteet joilla on sama viiteavain eli treenin id uusiksi Harjoite-olioiksi päiväkirjakäyttöä varten. Ketjuttaa myös vastaavalla
+     * tavalla harjoitteeseen viittaavat sarjat, jotta rakenne pysyy eheänä.
+     * @param viite Treeni-olio, johon viitteitä verrataan
+     * @param id viite-id joka liitettäville harjoitteille halutaan asettaa
+     */
+    public void kopioi(Treeni viite, int id) {
+        ArrayList<Harjoite> lisattavat = new ArrayList<Harjoite>();
+        for (Harjoite harjoite : this.getHarjoitteet().getHarjoitteet()) {
+            if (harjoite.getViite() == viite.getId()) {
+                Harjoite kopio = harjoite.clone();
+                kopio.setTrid(id);
+                kopio.rekisteroi();
+                lisattavat.add(kopio);
+                kopioi(harjoite, kopio.getId());
+            }
+        }
+        lisaaHarjoitteet(lisattavat);
+    }
+    
+    /**
      * Treenien kokonaislukumäärän palauttaminen.
      * @return palauttaa treenien lukumäärän
      */
@@ -49,9 +100,9 @@ public class Paivakirja {
     }
     
     /**
-     * Haetaan indeksin mukainen sarja taulukosta
-     * @param i halutun sarjan indeksi
-     * @return palauttaa indeksin mukaisen sarjan taulukosta
+     * Haetaan id:n mukainen Treeni taulukosta
+     * @param i halutun Treenin id
+     * @return palauttaa id:n mukaisen Treenin taulukosta
      */
     public Treeni getTreeni(int i) {
         return this.treenit.getTreeni(i);
@@ -74,6 +125,43 @@ public class Paivakirja {
     }
     
     /**
+     * Lisätään haluttu lista harjoitteita harjoitteisiin
+     * @param lisattavat lisättävät harjoitteet listana
+     */
+    public void lisaaHarjoitteet(ArrayList<Harjoite> lisattavat) {
+        for (Harjoite harjoite : lisattavat) {
+            lisaa(harjoite);
+        }
+    }
+    
+    /**
+     * Poistetaan harjoite harjoitteista
+     * @param harjoite harjoite, joka halutaan poistaa
+     */
+    public void poista(Harjoite harjoite) {
+        harjoitteet.poista(harjoite.getId());
+    }
+    
+    /**
+     * Kopioidaan kaikki Sarja-oliot joilla sama viite avain kuin parametrina tuodulla Harjoite-oliolla, eli kopioidaan ne sarjat jotka liittyvät
+     * kyseiseen harjoitteeseen. 
+     * @param viite Harjoite-viiteolio, jonka mukaan kopioidaan Sarjoja päiväkirjaan
+     * @param id viite-id joka halutaan Sarja-olion kopioihin asettaa
+     */
+    public void kopioi(Harjoite viite, int id) {
+        ArrayList<Sarja> lisattavat = new ArrayList<Sarja>();
+        for (Sarja sarja : this.sarjat.getSarjat(viite.getId())) {
+            if (sarja.getViite() == viite.getId()) {
+                Sarja kopio = sarja.clone();
+                kopio.setHarid(id);
+                kopio.rekisteroi();
+                lisattavat.add(kopio);
+            }
+        }
+        lisaaSarjat(lisattavat);
+    }
+    
+    /**
      * Harjoitteiden kokonaislukumäärän palauttaminen.
      * @return palauttaa harjoitteiden kokonaislukumäärän
      */
@@ -90,9 +178,9 @@ public class Paivakirja {
     }
     
     /**
-     * Haetaan indeksin mukainen sarja taulukosta
-     * @param i halutun sarjan indeksi
-     * @return palauttaa indeksin mukaisen sarjan taulukosta
+     * Haetaan id:n mukainen Harjoite taulukosta
+     * @param i halutun Harjoitteen id
+     * @return palauttaa id:n mukaisen sarjan taulukosta
      */
     public Harjoite getHarjoite(int i) {
         return this.harjoitteet.getHarjoite(i);
@@ -115,6 +203,24 @@ public class Paivakirja {
     }
     
     /**
+     * Lisätään lista Sarja-olioita päiväkirjaan
+     * @param lisattavat lisättävät Sarja-oliot listana
+     */
+    public void lisaaSarjat(ArrayList<Sarja> lisattavat) {
+        for(Sarja sarja : lisattavat) {
+            lisaa(sarja);
+        }
+    }
+    
+    /**
+     * Poistetaan haluttu Sarja-olio sarjoista
+     * @param sarja Sarja-olio joka halutaan poistaa
+     */
+    public void poista(Sarja sarja) {
+        sarjat.poista(sarja.getId());
+    }
+    
+    /**
      * Sarjojen kokonaislukumäärän palauttaminen
      * @return palauttaa sarjojen kokonaislukumäärän.
      */
@@ -131,9 +237,9 @@ public class Paivakirja {
     }
     
     /**
-     * Haetaan indeksin mukainen sarja taulukosta
-     * @param i halutun sarjan indeksi
-     * @return palauttaa indeksin mukaisen sarjan taulukosta
+     * Haetaan id:n mukainen sarja taulukosta
+     * @param i halutun sarjan id
+     * @return palauttaa id:n mukaisen sarjan taulukosta
      */
     public Sarja getSarja(int i) {
         return this.sarjat.getSarja(i);
@@ -154,14 +260,6 @@ public class Paivakirja {
      * @throws SailoException jos tiedostoon tallentaminen ei onnistu.
      */
     public void tallenna() throws SailoException{
-        System.out.println(this.sarjat.getTiedostoNimi());
-        System.out.println(this.harjoitteet.getTiedostoNimi());
-        System.out.println(this.treenit.getTiedostoNimi());
-        
-        this.sarjat = new Sarjat();
-        this.harjoitteet = new Harjoitteet();
-        this.treenit = new Treenit();
-        
         this.sarjat.tallenna();
         this.harjoitteet.tallenna();
         this.treenit.tallenna();
@@ -177,13 +275,30 @@ public class Paivakirja {
     }
     
     /**
-     * Poistaa halutulla numerolla löytyvän treenin, harjoitteen tai sarjan. Kesken!
-     * TODO täydennä poistaminen, onko yleistetty funktio kaikille tietotyypeille vai oma funktionsa jokaiselle?
-     * @param id jonka mukaisesti halutaan poistaa
-     * @return palauttaa poistettujen alkioiden lukumäärän
+     * @param <T> tyyppiparametri
+     * @param kohde mistä halutaan poistaa
+     * @param poistettava olio, joka halutaan poistaa
      */
-    public int poista (@SuppressWarnings("unused") int id) {
-        return 0;
+    public <T> void poista(Class<T> kohde, Muokattava poistettava) {
+        if (kohde == Sarjat.class) {this.sarjat.poista(poistettava.getId());}
+        else if (kohde == Harjoitteet.class) {this.harjoitteet.poista(poistettava.getId());}
+        else if (kohde == Treenit.class) {this.treenit.poista(poistettava.getId());}
+        return;
+    }
+    
+    /**
+     * Etsitään haettavan olion mukaan 
+     * @param haettava olio, jonka mukaan haetaan
+     * @param hakulauseke merkkijono, jonka mukaan haetaan
+     * @param pvm boolean-arvo, jolla määritetään onko haettava merkkijono pvm-merkkijono
+     * @return palauttaa mahdollisen virheviestin. Jos ei virhettä, palauttaa null
+     */
+    public ArrayList<?> haku(Muokattava haettava, String hakulauseke, boolean pvm) {
+        ArrayList<?> ret = new ArrayList<Muokattava>();
+        if (haettava.getClass() == Harjoite.class) {ret = this.harjoitteet.etsi(hakulauseke);}
+        else if (haettava.getClass() == Treeni.class && pvm == false) {ret = this.treenit.etsi(hakulauseke);}
+        else if (haettava.getClass() == Treeni.class && pvm == true ) {ret = this.treenit.etsiPvm(hakulauseke);}
+        return ret;
     }
 
     /**
@@ -193,5 +308,4 @@ public class Paivakirja {
     // TODO Auto-generated method stub
     // TODO testailua
     }
-
 }

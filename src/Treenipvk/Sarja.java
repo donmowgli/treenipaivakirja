@@ -3,6 +3,9 @@
  */
 package Treenipvk;
 import java.io.PrintStream;
+import java.util.ArrayList;
+
+import kanta.Muokattava;
 
 /**
  *  Sarja-luokka, jolla tärkeimmät sarjan ominaisuudet. Osaa huolehtia omasta sarid-numerostaan.
@@ -11,11 +14,11 @@ import java.io.PrintStream;
  * @version 3 Mar 2021
  *
  */
-public class Sarja {
+public class Sarja implements Muokattava, Cloneable, Comparable<Sarja> {
 
     private int sarid;
     private int harid;
-    private int tyopaino;
+    private double tyopaino;
     private int toistot;
     private int toteutuneet;
     
@@ -26,7 +29,7 @@ public class Sarja {
      * @param tyopaino on tyopaino sarjassa.
      * @param toistot tavoiteltava toistojen määrä sarjassa.
      */
-    public Sarja(int tyopaino, int toistot) {
+    public Sarja(double tyopaino, int toistot) {
         this.tyopaino = tyopaino;
         this.toistot = toistot;
     }
@@ -65,7 +68,7 @@ public class Sarja {
      * Työpainon lisääminen Sarja-olioon
      * @param paino joka halutaan lisätä työpainoksi
      */
-    public void setTyopaino(int paino) {
+    public void setTyopaino(double paino) {
         this.tyopaino = paino;
     }
     
@@ -73,7 +76,7 @@ public class Sarja {
      * Työpainojen palauttaminen
      * @return palauttaa työpainon
      */
-    public int getTyopaino() {
+    public double getTyopaino() {
         return this.tyopaino;
     }
     
@@ -136,8 +139,32 @@ public class Sarja {
     /**
      * @return String-olio, jolla näytölle tulostettavat tiedot
      */
-    public String tulostus() {
+    @Override
+    public String getTiedot() {
         return "Työpaino: " + this.tyopaino + ", toistot: " + this.toistot + ", ja toteutuneet: " + this.toteutuneet;
+    }
+    
+    @Override
+    public ArrayList<String> getArvot() {
+        ArrayList<String> ret = new ArrayList<String>();
+        ret.add(String.valueOf(this.tyopaino));
+        ret.add(String.valueOf(this.toistot));
+        ret.add(String.valueOf(this.toteutuneet));
+        return ret;
+    }
+    
+    /**
+     * Haetaan sarjan yksilöivä id
+     * @return palautetaan Sarja-olion sarid-muuttuja
+     */
+    @Override
+    public int getId() {
+        return this.sarid;
+    }
+    
+    @Override
+    public int getViite() {
+        return this.harid;
     }
     
     /**
@@ -155,9 +182,16 @@ public class Sarja {
     public Sarja clone() {
         Sarja sarja = new Sarja(this.getTyopaino(), this.getToteutuneet());
         sarja.toistot = this.getToistot();
-        sarja.sarid = this.getSarid();
         sarja.harid = this.getHarid();
         return sarja;
+    }
+    
+    @Override
+    public int compareTo(Sarja sarja) {
+        if (this.sarid < sarja.getSarid()) {return -1;}
+        if (this.sarid == sarja.getSarid()) {return 0;}
+        if (this.sarid > sarja.getSarid()) {return 1;}
+        return 0;
     }
 
     @Override
@@ -173,7 +207,7 @@ public class Sarja {
         String[] arvot = jono.split("\\|");
         this.sarid = Integer.parseInt(arvot[0]);
         this.harid = Integer.parseInt(arvot[1]);
-        this.tyopaino = Integer.parseInt(arvot[2]);
+        this.tyopaino = Double.parseDouble(arvot[2]);
         this.toistot = Integer.parseInt(arvot[3]);
         this.toteutuneet = Integer.parseInt(arvot[4]);
     }
@@ -189,5 +223,4 @@ public class Sarja {
         sarja.tulosta(System.out);
         sarja.parse(sarja.toString());
     }
-
 }

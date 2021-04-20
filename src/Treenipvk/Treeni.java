@@ -5,17 +5,21 @@ package Treenipvk;
 
 import java.io.PrintStream;
 import java.time.LocalDate;
+import java.util.ArrayList;
+
+import kanta.Muokattava;
 
 /**
  * @author Akseli Jaara
  * @version 3 Mar 2021
  * 
  */
-public class Treeni {
+public class Treeni implements Muokattava, Cloneable, Comparable<Treeni> {
     
     private String nimi;
     private int trid;
     private LocalDate pvm;
+    private boolean kanta;
     
     private static int seuraavaNro = 1;
     
@@ -27,6 +31,7 @@ public class Treeni {
     public Treeni(String nimi, LocalDate pvm) {
         this.nimi = nimi;
         this.pvm = pvm;
+        this.kanta = false;
     }
     
     /**
@@ -82,6 +87,22 @@ public class Treeni {
     }
     
     /**
+     * Asetetaan totuusarvo sille, onko olio kantaolio
+     * @param kanta asetettava totuusarvo
+     */
+    public void setKanta(boolean kanta) {
+        this.kanta = kanta;
+    }
+    
+    /**
+     * Haetaan olion kanta-arvo
+     * @return palauttaa kanta-arvon, eli totuusarvon onko kyseinen olio kantaolio
+     */
+    public boolean getKanta() {
+        return this.kanta;
+    }
+    
+    /**
      * Antaa Treeni-oliolle sen uniikin trid-numeron.
      * @return palauttaa treenin id:n eli trid-oliomuuttujan.
      * @example
@@ -125,7 +146,7 @@ public class Treeni {
         if (this.pvm == null) {
             sPvm = "null";
         } else sPvm = pvm.toString();
-        return this.nimi + "|" + this.trid + "|" + sPvm;
+        return this.nimi + "|" + this.trid + "|" + sPvm + "|" + this.kanta;
     }
     
     /**
@@ -136,7 +157,8 @@ public class Treeni {
         String[] arvot = jono.split("\\|");
         this.nimi = arvot[0];
         this.trid = Integer.parseInt(arvot[1]);
-        if (arvot[2] == "null") {
+        this.kanta = Boolean.parseBoolean(arvot[3]);
+        if (arvot[2].equals("null")) {
             this.pvm = null;
         } else this.pvm = LocalDate.parse(arvot[2]);
     }
@@ -148,7 +170,7 @@ public class Treeni {
      * <pre name="test">
      * Treeni treeni1 = new Treeni("testi", LocalDate.now());
      * Treeni treeni2 = treeni1.clone();
-     * treeni1.nimi === treeni2.nimi;
+     * treeni1.nimi.equals(treeni2.nimi) === true;
      * treeni1.pvm.equals(treeni2.pvm) === true;
      * </pre>
      */
@@ -156,6 +178,38 @@ public class Treeni {
     public Treeni clone() {
         Treeni klooni = new Treeni(this.nimi, this.pvm);
          return klooni;
+    }
+    
+    @Override
+    public int compareTo(Treeni treeni) {
+        if(this.pvm == null && treeni.getPvm() == null) {return this.nimi.compareTo(treeni.getNimi());}
+        return this.pvm.compareTo(treeni.getPvm());
+    }
+    
+    @Override
+    public String getTiedot() {
+        StringBuilder ret = new StringBuilder();
+        if(this.pvm != null) {ret.append(this.pvmToString()); ret.append(", ");}
+        ret.append(this.nimi);
+        return ret.toString();
+    }
+    
+    @Override
+    public ArrayList<String> getArvot() {
+        ArrayList<String> ret = new ArrayList<String>();
+        ret.add(this.nimi);
+        ret.add(this.pvmToString());
+        return ret;
+    }
+    
+    @Override
+    public int getId() {
+        return this.trid;
+    }
+    
+    @Override
+    public int getViite() {
+        return this.trid; //tähän treeniohjelman id jos laajentaa
     }
     
     /**

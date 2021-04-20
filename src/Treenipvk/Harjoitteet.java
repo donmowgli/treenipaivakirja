@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -49,22 +50,43 @@ public class Harjoitteet implements Iterable<Harjoite> {
     }
     
     /**
-     * Palauttaa viitteen i Harjoite harjoitteet-ArrayLististä.
-     * @param i monennenko harjoitteen viitteen halutaan
-     * @return palauttaa halutun viitteen
-     * @throws IndexOutOfBoundsException jos indeksi i ei ole sallitulla alueella.
+     * Haetaan id-arvon mukaisesti vastaava harjoite
+     * @param id harjoitteen id-numero, jota vastaava harjoite haetaan
+     * @return palauttaa id-arvoa vastaavan harjoitteen
+     * @example
+     * <pre name="test">
+     * Harjoitteet harjoitteet = new Harjoitteet();
+     * Harjoite harjoite1 = new Harjoite("testi1", 3); harjoite1.rekisteroi(); harjoite1.setTrid(1); harjoitteet.lisaa(harjoite1);
+     * Harjoite harjoite2 = new Harjoite("testi2", 3); harjoite2.rekisteroi(); harjoite2.setTrid(2); harjoitteet.lisaa(harjoite2);
+     * Harjoite harjoite3 = new Harjoite("testi3", 3); harjoite3.rekisteroi(); harjoite3.setTrid(2); harjoitteet.lisaa(harjoite3);
+     * harjoitteet.getHarjoite("1").getId() === 1;
+     * harjoitteet.getHarjoite("2").getId() === 2;
+     * harjoitteet.getHarjoite("3").getId() === 3;
+     * </pre>
      */
-    public Harjoite getHarjoite(int i) throws IndexOutOfBoundsException  {
-        if(i < 0 || i > this.harjoitteet.size()) {
-            throw new IndexOutOfBoundsException("Laiton indeksi: " + i);
+    public Harjoite getHarjoite(int id) {
+        for (Harjoite harjoite : this.harjoitteet) {
+            if (harjoite.getId() == id) {
+                return harjoite;
+            }
         }
-        return this.harjoitteet.get(i);
+        return null;
     }
     
     /**
      * Haetaan harjoituksista haluttu harjoite nimen perusteella.
      * @param nimi nimi, jonka mukaan harjoitusta haetaan
      * @return palauttaa halutun Harjoite-olion. Paluttaa null-olion, jos ei ole olemassa.
+     * @example
+     * <pre name="test">
+     * Harjoitteet harjoitteet = new Harjoitteet();
+     * Harjoite harjoite1 = new Harjoite("testi1", 3); harjoite1.rekisteroi(); harjoite1.setTrid(1); harjoitteet.lisaa(harjoite1);
+     * Harjoite harjoite2 = new Harjoite("testi2", 3); harjoite2.rekisteroi(); harjoite2.setTrid(2); harjoitteet.lisaa(harjoite2);
+     * Harjoite harjoite3 = new Harjoite("testi3", 3); harjoite3.rekisteroi(); harjoite3.setTrid(2); harjoitteet.lisaa(harjoite3);
+     * harjoitteet.getHarjoite("testi1").getNimi() === "testi1";
+     * harjoitteet.getHarjoite("testi2").getNimi() === "testi2";
+     * harjoitteet.getHarjoite("testi3").getNimi() === "testi3";
+     * </pre>
      */
     public Harjoite getHarjoite(String nimi) {
         for(Harjoite harjoite : this.harjoitteet) {
@@ -76,9 +98,27 @@ public class Harjoitteet implements Iterable<Harjoite> {
     }
     
     /**
+     * Haetaan kaikki Harjoitteet-olion harjoitteet
+     * @return palauttaa kaikki harjoitteet listana
+     */
+    public ArrayList<Harjoite> getHarjoitteet(){
+        return this.harjoitteet;
+    }
+    
+    /**
      * Etsitään treenin harjoitukset vertailemalla treenin yksilöivää trid-tunnusta harjoituksen trid-tunnukseen.
      * @param trid harjoituksen yksilöivä harid tunnus.
      * @return palauttaa listana vastaavat sarjat.
+     * @example
+     * <pre name="test">
+     * Harjoitteet harjoitteet = new Harjoitteet();
+     * Harjoite harjoite1 = new Harjoite("testi1", 3); harjoite1.rekisteroi(); harjoite1.setTrid(1); harjoitteet.lisaa(harjoite1);
+     * Harjoite harjoite2 = new Harjoite("testi2", 3); harjoite2.rekisteroi(); harjoite2.setTrid(2); harjoitteet.lisaa(harjoite2);
+     * Harjoite harjoite3 = new Harjoite("testi3", 3); harjoite3.rekisteroi(); harjoite3.setTrid(2); harjoitteet.lisaa(harjoite3);
+     * harjoitteet.getHarjoitteet(2);
+     * harjoitteet.getHarjoitteet().get(0).getNimi === "testi2";
+     * harjoitteet.getHarjoitteet().get(2).getNimi === "testi3";
+     * </pre>
      */
     public List<Harjoite> getHarjoitteet(int trid){
         List<Harjoite> loydetyt = new ArrayList<Harjoite>();
@@ -112,6 +152,27 @@ public class Harjoitteet implements Iterable<Harjoite> {
      */
     public String getTiedostoNimi() {
         return this.tiedostonimi;
+    }
+    
+    /**
+     * @param hakuehto merkkijono, jonka mukaan haetaan ja johon harjoitteiden nimiä verrataan
+     * @return palautetaan lista harjoitteista, joiden nimet vastaavat hakuehtoa
+     * @example
+     * <pre name="test">
+     * Harjoitteet harjoitteet = new Harjoitteet();
+     * Harjoite harjoite1 = new Harjoite("testi1", 3); harjoite1.rekisteroi(); harjoitteet.lisaa(harjoite1);
+     * Harjoite harjoite2 = new Harjoite("testi2", 3); harjoite2.rekisteroi(); harjoitteet.lisaa(harjoite2);
+     * Harjoite harjoite3 = new Harjoite("testi3", 3); harjoite3.rekisteroi(); harjoitteet.lisaa(harjoite3);
+     * harjoitteet.etsi(harjoite1.getNimi()).get(0).getNimi() === "testi1";
+     * </pre>
+     */
+    public ArrayList<Harjoite> etsi(String hakuehto){
+        ArrayList<Harjoite> ret = new ArrayList<Harjoite>();
+        for(Harjoite harjoite : this.harjoitteet){
+            if (harjoite.getNimi().equals(hakuehto)) {ret.add(harjoite);}
+        }
+        Collections.sort(ret);
+        return ret;
     }
     
     /**
@@ -154,6 +215,27 @@ public class Harjoitteet implements Iterable<Harjoite> {
         }
     }
     
+    /**
+     * Poistetaan haluttu Harjoite-olio
+     * @param id Harjoite-olion id, joka halutaan poistaa
+     * @example
+     * <pre name="test">
+     * Harjoitteet harjoitteet = new Harjoitteet();
+     * Harjoite harjoite1 = new Harjoite("testi1", 3); harjoite1.rekisteroi(); harjoitteet.lisaa(harjoite1);
+     * Harjoite harjoite2 = new Harjoite("testi2", 3); harjoite2.rekisteroi(); harjoitteet.lisaa(harjoite2);
+     * Harjoite harjoite3 = new Harjoite("testi3", 3); harjoite3.rekisteroi(); harjoitteet.lisaa(harjoite3);
+     * int id = harjoite1.getId();
+     * harjoitteet.poista(id);
+     * harjoitteet.getHarjoite(is) === null;
+     * </pre>
+     */
+    public void poista(int id) {
+        Iterator<Harjoite> iter = this.harjoitteet.iterator();
+        while(iter.hasNext()) {
+            Harjoite harjoite = iter.next();
+            if(harjoite.getId() == id) iter.remove();
+        }
+    }
 
     /**
      * Iteraattori kaikkien harjoitteiden läpikäymiseen
