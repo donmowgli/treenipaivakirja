@@ -2,22 +2,22 @@ package fxTreenipvk;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.ArrayList;
 
 import Treenipvk.Harjoite;
-import Treenipvk.Harjoitteet;
+import Treenipvk.Paivakirja;
 import Treenipvk.SailoException;
 import Treenipvk.Treeni;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.stage.Modality;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import kanta.Muokattava;
 import kanta.Tarkistus;
 
 /**
@@ -26,7 +26,10 @@ import kanta.Tarkistus;
  * @version 20 Mar 2021
  *
  */
-public class LisaaTreeniGUIController implements Initializable {
+public class LisaaTreeniGUIController {
+    
+    private Paivakirja paivakirja;
+    private Muokattava muokattava;
     private Treeni treeni = new Treeni();
     private Tarkistus tarkistus = new Tarkistus();
     private static Stage stage = new Stage();
@@ -35,13 +38,15 @@ public class LisaaTreeniGUIController implements Initializable {
     @FXML private ListChooser<Harjoite> harjoitteet;
     @FXML private ListChooser<Harjoite> lisattava;
     
-    @Override
-    public void initialize(URL url, ResourceBundle bundle) {
+    @SuppressWarnings("all")
+    public void alusta(Paivakirja paivakirja, Muokattava muokattava) {
+        this.paivakirja = paivakirja;
+        this.muokattava = muokattava;
         harjoitteet.clear();
         harjoitteet.setOnMouseClicked(e ->{ if (e.getClickCount() > 1) lisaaListaan(harjoitteet.getSelectedObject()); });
         lisattava.clear();
         naytaValittavat();
-        if (TreenipvkGUIController.muokataanko == true) {naytaLisattavat();}
+        if (muokattava != null) {naytaLisattavat();}
     }
     
     private void lisaaListaan(Harjoite harjoite) {
@@ -57,7 +62,7 @@ public class LisaaTreeniGUIController implements Initializable {
         String tarkistettu = tarkistus.tarkista(nimi.getText(), null);
         if (tarkistettu != null) { Dialogs.showMessageDialog(tarkistettu); return; }
         if (this.lisattava.getObjects().isEmpty()) {Dialogs.showMessageDialog("Lisää ainakin yksi lisättävä harjoite!"); return;}
-        if (TreenipvkGUIController.muokataanko == true) { muokkaa(); stage.close(); return;}
+        if (muokattava != null) { muokkaa(); stage.close(); return;}
         this.treeni.setNimi(nimi.getText());
         this.treeni.setKanta(true);
         this.treeni.rekisteroi();
@@ -65,11 +70,10 @@ public class LisaaTreeniGUIController implements Initializable {
             Harjoite klooni = harjoite.clone();
             klooni.rekisteroi();
             klooni.setTrid(treeni.getTrid());
-            TreenipvkGUIController.paivakirja.kopioi(harjoite, klooni.getId());
-            TreenipvkGUIController.paivakirja.lisaa(klooni);
+            paivakirja.kopioi(harjoite, klooni.getId());
+            paivakirja.lisaa(klooni);
         }
-        TreenipvkGUIController.muokattava = this.treeni;
-        TreenipvkGUIController.paivakirja.lisaa(this.treeni);
+        paivakirja.lisaa(this.treeni);
         stage.hide();
     }
     
@@ -86,7 +90,7 @@ public class LisaaTreeniGUIController implements Initializable {
      */
     private void naytaValittavat() {
         try {
-            for(Harjoite har : TreenipvkGUIController.paivakirja.getHarjoitteet()) {
+            for(Harjoite har : paivakirja.getHarjoitteet()) {
                 if(har.getKanta() == true) {
                     harjoitteet.add(har.getNimi(), har);
                 }
@@ -100,38 +104,42 @@ public class LisaaTreeniGUIController implements Initializable {
      * Näytetään muokkaustapauksessa myös lisättävät
      */
     private void naytaLisattavat() {
-        nimi.setText(TreenipvkGUIController.paivakirja.getTreenit().getTreeni(TreenipvkGUIController.muokattava.getId()).getNimi());
-        Harjoitteet lisattavat = TreenipvkGUIController.paivakirja.getHarjoitteet();
+        nimi.setText(paivakirja.getTreeni(muokattava.getId()).getNimi());
+        ArrayList<Harjoite> lisattavat = paivakirja.getHarjoitteet();
         for (Harjoite harjoite : lisattavat) {
-            if(harjoite.getTrid() == TreenipvkGUIController.muokattava.getId()) {
+            if(harjoite.getTrid() == muokattava.getId()) {
                 lisattava.add(harjoite.getNimi(), harjoite);
             }
         }
     }
     
     private void muokkaa() throws SailoException {
-        Treeni uusi = TreenipvkGUIController.paivakirja.getTreenit().getTreeni(TreenipvkGUIController.muokattava.getId());
+        Treeni uusi = paivakirja.getTreeni(muokattava.getId());
         uusi.setNimi(nimi.getText());
         for(Harjoite harjoite : lisattava.getObjects()) {
             Harjoite klooni = harjoite.clone();
             klooni.rekisteroi();
             klooni.setTrid(treeni.getTrid());
-            TreenipvkGUIController.paivakirja.getHarjoitteet().lisaaHarjoite(klooni);
+            paivakirja.lisaa(klooni);
         }
-        TreenipvkGUIController.paivakirja.poista(TreenipvkGUIController.paivakirja.getTreenit().getTreeni(TreenipvkGUIController.muokattava.getId()));
-        TreenipvkGUIController.paivakirja.lisaa(uusi);
-        TreenipvkGUIController.muokattava = uusi;
+        paivakirja.poista(paivakirja.getTreeni(muokattava.getId()));
+        paivakirja.lisaa(uusi);
     }
     
     /**
      * Avataan Treeni-dialogi ja sarjan lisäämiselle.
      * @param modalityStage modaalisuus, joka halutaan: ollaanko modaalisia jollekin toiselle ikkunalle.
+     * @param paivakirja Päiväkirja-olio, jot ahalutaan muokata
+     * @param muokattava muokattava Treeni-olio, jos halutaan muokata
+     * @return palautetaan muokattu Päiväkirja-olio
      */
-    public static void avaa(Stage modalityStage) {
+    @SuppressWarnings("all")
+    public static Paivakirja avaa(Stage modalityStage, Paivakirja paivakirja, Muokattava muokattava) {
         try {
-            URL url = LisaaHarjoiteGUIController.class.getResource("LisaaTreeniView.fxml");
+            URL url = LisaaTreeniGUIController.class.getResource("LisaaTreeniView.fxml");
             FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
+            final LisaaTreeniGUIController ctrl = (LisaaTreeniGUIController)loader.getController();
             stage.setScene(new Scene(root));
             stage.setTitle("Treeni");
             if ( modalityStage != null ) {
@@ -140,11 +148,13 @@ public class LisaaTreeniGUIController implements Initializable {
             } else {
                 stage.initModality(Modality.APPLICATION_MODAL);
             }
+            ctrl.alusta(paivakirja, muokattava);
             stage.showAndWait();
             stage = new Stage();
-            
+            return paivakirja;
         } catch (IOException e) {
             e.printStackTrace();
+            return paivakirja;
         }
     }
 }

@@ -71,7 +71,7 @@ public class Paivakirja {
      */
     public void kopioi(Treeni viite, int id) {
         ArrayList<Harjoite> lisattavat = new ArrayList<Harjoite>();
-        for (Harjoite harjoite : this.getHarjoitteet().getHarjoitteet()) {
+        for (Harjoite harjoite : this.getHarjoitteet()) {
             if (harjoite.getViite() == viite.getId()) {
                 Harjoite kopio = harjoite.clone();
                 kopio.setTrid(id);
@@ -92,11 +92,11 @@ public class Paivakirja {
     }
     
     /**
-     * Haetaan päiväkirjan Treenit-olio
+     * Haetaan päiväkirjan Treenit-olion treenit listana
      * @return palautetaan päiväkirjan treenit.
      */
-    public Treenit getTreenit() {
-        return this.treenit;
+    public ArrayList<Treeni> getTreenit() {
+        return this.treenit.getTreenit();
     }
     
     /**
@@ -170,11 +170,11 @@ public class Paivakirja {
     }
     
     /**
-     * Haetaan Paivakirja-olion harjoitteet-olio
-     * @return Paivakirja-olion harjoitteet-olion
+     * Haetaan Paivakirja-olion harjoitteet-olion harjoitteet listana
+     * @return Paivakirja-olion harjoitteet-olion harjoitteet listana
      */
-    public Harjoitteet getHarjoitteet() {
-        return this.harjoitteet;
+    public ArrayList<Harjoite> getHarjoitteet() {
+        return this.harjoitteet.getHarjoitteet();
     }
     
     /**
@@ -229,20 +229,20 @@ public class Paivakirja {
     }
     
     /**'
-     * Palauttaa Paivakirja-olion Sarjat-olion.
+     * Palauttaa Paivakirja-olion sarjat listana.
      * @return palauttaa sarjat-olion.
      */
-    public Sarjat getSarjat() {
-        return this.sarjat;
+    public ArrayList<Sarja>getSarjat() {
+        return (ArrayList<Sarja>) this.sarjat.getSarjat();
     }
     
     /**
      * Haetaan id:n mukainen sarja taulukosta
-     * @param i halutun sarjan id
+     * @param id halutun sarjan id
      * @return palauttaa id:n mukaisen sarjan taulukosta
      */
-    public Sarja getSarja(int i) {
-        return this.sarjat.getSarja(i);
+    public Sarja getSarja(int id) {
+        return this.sarjat.getSarja(id);
     }
     
     /**

@@ -2,11 +2,10 @@ package fxTreenipvk;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ResourceBundle;
 
+import Treenipvk.Paivakirja;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.text.Text;
@@ -18,17 +17,20 @@ import kanta.*;
  * @version 8 Apr 2021
  *
  */
-public class PoistoGUIController implements Initializable {
+public class PoistoGUIController {
     
+    private Paivakirja paivakirja;
+    private Muutettava <Muokattava> muutettava;
     private static Stage stage = new Stage();
-    private static Muutettava <Muokattava> muutettava;
-    
-    @Override
-    public void initialize(URL arg0, ResourceBundle arg1) {
-        tiedot.setText(TreenipvkGUIController.muokattava.getTiedot());
-    }
     
     @FXML private Text tiedot = new Text();
+    
+    @SuppressWarnings("all")
+    public void alusta(Paivakirja paivakirja, Muutettava<Muokattava> mk) {
+        this.paivakirja = paivakirja;
+        muutettava = mk;
+        tiedot.setText(muutettava.getMuokattava().getTiedot());
+    }
     
     @FXML
     private void handleEi() {
@@ -37,17 +39,24 @@ public class PoistoGUIController implements Initializable {
     
     @FXML
     private void handleKylla() throws RuntimeException {
-        TreenipvkGUIController.paivakirja.poista(muutettava.getKohde(), muutettava.getMuokattava());
+        paivakirja.poista(muutettava.getKohde(), muutettava.getMuokattava());
         stage.close();
     }
 
-
+    /**
+     * Poistetaan haluttu olio päiväkirjasta
+     * @param modalityStage modaalisuus, mikä halutaan asettaa
+     * @param paivakirja Päiväkirja-olio, mistä poistetaan
+     * @param mk muutettava tietorakenne, josta halutaan poistaa ja mitä poistetaan
+     * @return palauttaa muokatun Päiväkirja-olion
+     */
     @SuppressWarnings("all")
-    public static void avaa(Stage modalityStage, Muutettava<Muokattava> mk) {
+    public static Paivakirja avaa(Stage modalityStage, Paivakirja paivakirja, Muutettava<Muokattava> mk) {
         try {
-            URL url = LisaaMerkintaGUIController.class.getResource("PoistoView.fxml");
+            URL url = PoistoGUIController.class.getResource("PoistoView.fxml");
             FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
+            PoistoGUIController ctrl = (PoistoGUIController)loader.getController();
             stage.setScene(new Scene(root));
             stage.setTitle("Poisto");
             if ( modalityStage != null ) {
@@ -57,13 +66,13 @@ public class PoistoGUIController implements Initializable {
                 stage.initModality(Modality.APPLICATION_MODAL);
             }
             
-            muutettava = mk;
-            
+            ctrl.alusta(paivakirja, mk);
             stage.showAndWait();
             stage = new Stage();
-            
+            return paivakirja;
         } catch (IOException e) {
             e.printStackTrace();
+            return paivakirja;
         }
     }
 }

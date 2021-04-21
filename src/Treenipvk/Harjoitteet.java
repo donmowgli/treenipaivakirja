@@ -14,6 +14,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import kanta.Tarkistus;
+
 /**
  * @author Akseli Jaara
  * @version 4 Mar 2021
@@ -168,8 +170,9 @@ public class Harjoitteet implements Iterable<Harjoite> {
      */
     public ArrayList<Harjoite> etsi(String hakuehto){
         ArrayList<Harjoite> ret = new ArrayList<Harjoite>();
+        Tarkistus tarkistus = new Tarkistus();
         for(Harjoite harjoite : this.harjoitteet){
-            if (harjoite.getNimi().equals(hakuehto)) {ret.add(harjoite);}
+            if (tarkistus.vertaa(hakuehto, harjoite.getNimi())) {ret.add(harjoite);}
         }
         Collections.sort(ret);
         return ret;

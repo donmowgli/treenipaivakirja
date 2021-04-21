@@ -13,6 +13,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import kanta.Tarkistus;
+
 /**
  * @author Akseli Jaara
  * @version 4 Mar 2021
@@ -146,8 +148,9 @@ public class Treenit {
     public ArrayList<Treeni> etsi(String hakuehto){
         ArrayList<Treeni> ret = new ArrayList<Treeni>();
         ArrayList<Treeni> alkiot = this.getTreenit();
+        Tarkistus tarkistus = new Tarkistus();
         for (Treeni treeni : alkiot) {
-            if (treeni.getNimi().equals(hakuehto)) {ret.add(treeni);}
+            if (tarkistus.vertaa(hakuehto, treeni.getNimi())) {ret.add(treeni);}
         }
         Collections.sort(ret);
         return ret;
@@ -168,9 +171,10 @@ public class Treenit {
     public ArrayList<Treeni> etsiPvm(String hakuehto){
         ArrayList<Treeni> ret = new ArrayList<Treeni>();
         ArrayList<Treeni> alkiot = this.getTreenit();
+        Tarkistus tarkistus = new Tarkistus();
         for (Treeni treeni : alkiot) {
             if (treeni.getPvm() == null) {continue;}
-            if (treeni.pvmToString().equals(hakuehto)) {ret.add(treeni);}
+            if (tarkistus.vertaa(hakuehto, treeni.pvmToString())) {ret.add(treeni);}
         }
         Collections.sort(ret);
         return ret;

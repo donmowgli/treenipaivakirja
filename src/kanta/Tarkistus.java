@@ -107,4 +107,18 @@ public class Tarkistus {
         if(kk == LocalDate.now().getMonthValue() && pv > LocalDate.now().getDayOfMonth()) {return "Et voi kirjata merkintöjä tulevaisuuteen!";}
         return null;
     }
+    
+    /**
+     * @param jono hakuehto
+     * @param maski mihin verrataan
+     * @return palauttaa totuusarvon, onko sama merkkijono
+     */
+    public boolean vertaa(String jono, String maski) {
+        if(jono.equalsIgnoreCase(maski)) {
+            return true;
+        }else if(jono.contains("\s")) {
+            return vertaa(jono.replaceFirst("\s", maski.substring(jono.indexOf("\s"))), maski);
+        }
+        return false;
+    }
 }
