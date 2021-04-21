@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import fi.jyu.mit.fxgui.ListChooser?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="357.0" prefWidth="374.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxTreenipvk.LisaaTreeniGUIController">
+   <children>
+      <HBox layoutX="21.0" layoutY="26.0" prefHeight="40.0" prefWidth="166.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Treenin nimi" textAlignment="RIGHT" wrappingWidth="151.41015625" />
+         </children>
+      </HBox>
+      <HBox layoutX="187.0" layoutY="26.0" prefHeight="40.0" prefWidth="166.0">
+         <children>
+            <TextField fx:id="nimi" prefHeight="25.0" prefWidth="129.0" />
+         </children>
+      </HBox>
+      <HBox layoutX="14.0" layoutY="66.0" prefHeight="25.0" prefWidth="166.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Harjoitteet" textAlignment="CENTER" wrappingWidth="166.13671875" />
+         </children>
+      </HBox>
+      <HBox layoutX="180.0" layoutY="66.0" prefHeight="25.0" prefWidth="166.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lisättävä" textAlignment="CENTER" wrappingWidth="166.13671875" />
+         </children>
+      </HBox>
+      <HBox layoutX="29.0" layoutY="91.0" prefHeight="205.0" prefWidth="151.0">
+         <children>
+            <ListChooser fx:id="harjoitteet" />
+         </children>
+      </HBox>
+      <HBox layoutX="188.0" layoutY="91.0" prefHeight="205.0" prefWidth="151.0">
+         <children>
+            <ListChooser fx:id="lisattava" />
+         </children>
+      </HBox>
+      <HBox layoutX="29.0" layoutY="311.0" prefHeight="25.0" prefWidth="151.0">
+         <children>
+            <Button fx:id="OK" mnemonicParsing="false" onAction="#handleOK" prefHeight="25.0" prefWidth="151.0" text="OK" />
+         </children>
+      </HBox>
+      <HBox layoutX="188.0" layoutY="311.0" prefHeight="25.0" prefWidth="151.0">
+         <children>
+            <Button fx:id="tyhjenna" mnemonicParsing="false" onAction="#handleTyhjenna" prefHeight="25.0" prefWidth="163.0" text="Tyhjennä" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

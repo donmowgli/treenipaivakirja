@@ -205,7 +205,7 @@ public class Sarja implements Muokattava, Cloneable, Comparable<Sarja> {
      */
     public void parse(String jono) {
         String[] arvot = jono.split("\\|");
-        this.sarid = Integer.parseInt(arvot[0]);
+        this.rekisteroi(); //this.sarid= Integer.parseInt(arvot[0]);
         this.harid = Integer.parseInt(arvot[1]);
         this.tyopaino = Double.parseDouble(arvot[2]);
         this.toistot = Integer.parseInt(arvot[3]);

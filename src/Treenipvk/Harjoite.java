@@ -169,7 +169,7 @@ public class Harjoite implements Muokattava, Cloneable, Comparable<Harjoite> {
     public void parse(String jono) {
         String[] arvot = jono.split("\\|");
         this.nimi = arvot[0];
-        this.harid = Integer.parseInt(arvot[1]);
+        this.rekisteroi(); //this.harid = Integer.parseInt(arvot[1]);
         this.trid = Integer.parseInt(arvot[2]);
         this.sarlkm = Integer.parseInt(arvot[3]);
         this.kanta = Boolean.parseBoolean(arvot[4]);
