@@ -114,10 +114,8 @@ public class Tarkistus {
      * @return palauttaa totuusarvon, onko sama merkkijono
      */
     public boolean vertaa(String jono, String maski) {
-        if(jono.equalsIgnoreCase(maski)) {
+        if(maski.toLowerCase().contains(jono.toLowerCase())) {
             return true;
-        }else if(jono.contains("\s")) {
-            return vertaa(jono.replaceFirst("\s", maski.substring(jono.indexOf("\s"))), maski);
         }
         return false;
     }
