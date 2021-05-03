@@ -56,11 +56,16 @@ public class Paivakirja {
     }
     
     /**
-     * Poistetaan haluttu treeni treeneistä
+     * Poistetaan haluttu treeni treeneistä, ja siihen viittaavat harjoitteet ja siten myös sarjat
      * @param treeni treeni-olio, joka halutaan poistaa
      */
     public void poista(Treeni treeni) {
         treenit.poista(treeni.getId());
+        for (Harjoite harjoite : this.getHarjoitteet()) {
+            if (treeni.getId() == harjoite.getViite()) {
+                poista(harjoite);
+            }
+        }
     }
     
     /**
@@ -135,11 +140,16 @@ public class Paivakirja {
     }
     
     /**
-     * Poistetaan harjoite harjoitteista
+     * Poistetaan harjoite harjoitteista ja siten myös harjoitteeseen lliittyvät sarjat
      * @param harjoite harjoite, joka halutaan poistaa
      */
     public void poista(Harjoite harjoite) {
         harjoitteet.poista(harjoite.getId());
+        for (Sarja sarja : this.getSarjat()) {
+            if (harjoite.getId() == sarja.getViite()) {
+                poista(sarja);
+            }
+        }
     }
     
     /**

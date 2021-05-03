@@ -205,11 +205,12 @@ public class Sarja implements Muokattava, Cloneable, Comparable<Sarja> {
      */
     public void parse(String jono) {
         String[] arvot = jono.split("\\|");
-        this.rekisteroi(); //this.sarid= Integer.parseInt(arvot[0]);
+        this.sarid= Integer.parseInt(arvot[0]);
         this.harid = Integer.parseInt(arvot[1]);
         this.tyopaino = Double.parseDouble(arvot[2]);
         this.toistot = Integer.parseInt(arvot[3]);
         this.toteutuneet = Integer.parseInt(arvot[4]);
+        if (seuraavaNro < this.sarid) {seuraavaNro = this.sarid + 1;}
     }
     
     /** Pääohjelma testaamaan luokkaa

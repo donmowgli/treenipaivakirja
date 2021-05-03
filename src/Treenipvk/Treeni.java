@@ -156,11 +156,12 @@ public class Treeni implements Muokattava, Cloneable, Comparable<Treeni> {
     public void parse(String jono) {
         String[] arvot = jono.split("\\|");
         this.nimi = arvot[0];
-        this.rekisteroi(); //this.trid = Integer.parseInt(arvot[1]);
+        this.trid = Integer.parseInt(arvot[1]);
         this.kanta = Boolean.parseBoolean(arvot[3]);
         if (arvot[2].equals("null")) {
             this.pvm = null;
         } else this.pvm = LocalDate.parse(arvot[2]);
+        if (seuraavaNro < this.trid) {seuraavaNro = this.trid + 1;}
     }
     
     /**

@@ -35,10 +35,9 @@ public class LisaaHarjoiteGUIController {
     @FXML private TextField nimi;
     @FXML private TextField lkm;
     
-    @SuppressWarnings("all")
-    private void alusta(Paivakirja paivakirja, Muokattava muokattava) {
-        this.paivakirja = paivakirja;
-        this.muokattava = muokattava;
+    private void alusta(Paivakirja pvk, Muokattava tietue) {
+        this.paivakirja = pvk;
+        this.muokattava = tietue;
         if (muokattava != null) {
             ArrayList<String> arvot = muokattava.getArvot();
             this.nimi.setText(arvot.get(0));;
@@ -88,7 +87,6 @@ public class LisaaHarjoiteGUIController {
      * @param muokattava jos muokataan, niin muokattava objekti
      * @return palauttaa täytetyn ja muokatun päiväkirjaolion
      */
-    @SuppressWarnings("all")
     public static Paivakirja avaa(Stage modalityStage, Paivakirja paivakirja, Muokattava muokattava) {
         try {
             URL url = LisaaHarjoiteGUIController.class.getResource("LisaaHarjoiteView.fxml");
@@ -106,7 +104,6 @@ public class LisaaHarjoiteGUIController {
             ctrl.alusta(paivakirja, muokattava);
             stage.showAndWait();
             stage = new Stage();
-            //ctrl.getResult(); //mitä vittua tällä tehdään
             return paivakirja;
             
         } catch (IOException e) {

@@ -48,11 +48,11 @@ public class Treenit {
      * <pre name="test">
      * Treenit treenit = new Treenit();
      * treenit.getTreeniLkm() === 0;
-     * Treeni treeni1 = new Treeni("testi1", null); testi1.rekisteroi(); treenit.lisaa(treeni1);
+     * Treeni treeni1 = new Treeni("testi1", null); treeni1.rekisteroi(); treenit.lisaaTreeni(treeni1);
      * treenit.getTreeniLkm() === 1;
-     * Treeni treeni2 = new Treeni("testi2", null); testi2.rekisteroi(); treenit.lisaa(treeni2);
+     * Treeni treeni2 = new Treeni("testi2", null); treeni2.rekisteroi(); treenit.lisaaTreeni(treeni2);
      * treenit.getTreeniLkm() === 2;
-     * Treeni treeni3 = new Treeni("testi3", null); testi3.rekisteroi(); treenit.lisaa(treeni3);
+     * Treeni treeni3 = new Treeni("testi3", null); treeni3.rekisteroi(); treenit.lisaaTreeni(treeni3);
      * treenit.getTreeniLkm() === 3;
      * </pre>
      */
@@ -199,7 +199,7 @@ public class Treenit {
         this.treenit = new Treeni[0];
         this.lkm = 0;
         for (int i = 0; i < vLkm; i++) {
-            if(vanha[i].getTrid() == id) {
+            if (vanha[i].getTrid() == id) {
                 continue;
             }
             this.lisaaTreeni(vanha[i]);
