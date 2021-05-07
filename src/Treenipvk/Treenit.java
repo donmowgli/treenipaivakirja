@@ -76,9 +76,9 @@ public class Treenit {
      * @example
      * <pre name="test">
      * Treenit treenit = new Treenit();
-     * Treeni treeni1 = new Treeni("testi1", null); testi1.rekisteroi(); treenit.lisaa(treeni1);
-     * Treeni treeni2 = new Treeni("testi2", null); testi2.rekisteroi(); treenit.lisaa(treeni2);
-     * Treeni treeni3 = new Treeni("testi3", null); testi3.rekisteroi(); treenit.lisaa(treeni3);
+     * Treeni treeni1 = new Treeni("testi1", null); treeni1.rekisteroi(); treenit.lisaaTreeni(treeni1);
+     * Treeni treeni2 = new Treeni("testi2", null); treeni2.rekisteroi(); treenit.lisaaTreeni(treeni2);
+     * Treeni treeni3 = new Treeni("testi3", null); treeni3.rekisteroi(); treenit.lisaaTreeni(treeni3);
      * treenit.getTreeni(1).getId() === 1;
      * treenit.getTreeni(2).getId() === 2;
      * treenit.getTreeni(3).getId() === 3;
@@ -136,12 +136,12 @@ public class Treenit {
      * @example
      * <pre name="test">
      * Treenit treenit = new Treenit();
-     * Treeni treeni1 = new Treeni("testi1", null); testi1.rekisteroi(); treenit.lisaa(treeni1);
-     * Treeni treeni2 = new Treeni("testi2", null); testi2.rekisteroi(); treenit.lisaa(treeni2);
-     * Treeni treeni3 = new Treeni("testi3", null); testi3.rekisteroi(); treenit.lisaa(treeni3);
+     * Treeni treeni1 = new Treeni("testi1", null); treeni1.rekisteroi(); treenit.lisaaTreeni(treeni1);
+     * Treeni treeni2 = new Treeni("testi2", null); treeni2.rekisteroi(); treenit.lisaaTreeni(treeni2);
+     * Treeni treeni3 = new Treeni("testi3", null); treeni3.rekisteroi(); treenit.lisaaTreeni(treeni3);
      * treenit.etsi("testi1").get(0).getNimi() === "testi1";
-     * treenit.etsi("testi2").get(1).getNimi() === "testi2";
-     * treenit.etsi("testi3").get(2).getNimi() === "testi3";
+     * treenit.etsi("testi2").get(0).getNimi() === "testi2";
+     * treenit.etsi("testi3").get(0).getNimi() === "testi3";
      * treenit.etsi("testi").isEmpty() === true;
      * </pre>
      */
@@ -161,11 +161,12 @@ public class Treenit {
      * @return palauttaa listan kaikista Treeneistä, joiden Pvm-arvo vastaa hakuehtoa
      * @example
      * <pre name="test">
+     * #import java.time.LocalDate;
      * Treenit treenit = new Treenit();
-     * Treeni treeni1 = new Treeni("testi1", LocalDate.now()); testi1.rekisteroi(); treenit.lisaa(treeni1);
-     * Treeni treeni2 = new Treeni("testi2", LocalDate.now()); testi2.rekisteroi(); treenit.lisaa(treeni2);
-     * Treeni treeni3 = new Treeni("testi3", LocalDate.now()); testi3.rekisteroi(); treenit.lisaa(treeni3);
-     * treenit.etsiPvm(treenit.pvmToString()).get(0).getNimi() === "testi1";
+     * Treeni treeni1 = new Treeni("testi1", LocalDate.now()); treeni1.rekisteroi(); treenit.lisaaTreeni(treeni1);
+     * Treeni treeni2 = new Treeni("testi2", LocalDate.now()); treeni2.rekisteroi(); treenit.lisaaTreeni(treeni2);
+     * Treeni treeni3 = new Treeni("testi3", LocalDate.now()); treeni3.rekisteroi(); treenit.lisaaTreeni(treeni3);
+     * treenit.etsiPvm(treeni1.pvmToString()).get(0).getNimi() === "testi1";
      * </pre>
      */
     public ArrayList<Treeni> etsiPvm(String hakuehto){
@@ -186,9 +187,9 @@ public class Treenit {
      * @example
      * <pre name="test">
      * Treenit treenit = new Treenit();
-     * Treeni treeni1 = new Treeni("testi1", null); testi1.rekisteroi(); treenit.lisaa(treeni1);
-     * Treeni treeni2 = new Treeni("testi2", null); testi2.rekisteroi(); treenit.lisaa(treeni2);
-     * Treeni treeni3 = new Treeni("testi3", null); testi3.rekisteroi(); treenit.lisaa(treeni3);
+     * Treeni treeni1 = new Treeni("testi1", null); treeni1.rekisteroi(); treenit.lisaaTreeni(treeni1);
+     * Treeni treeni2 = new Treeni("testi2", null); treeni2.rekisteroi(); treenit.lisaaTreeni(treeni2);
+     * Treeni treeni3 = new Treeni("testi3", null); treeni3.rekisteroi(); treenit.lisaaTreeni(treeni3);
      * treenit.poista(1);
      * treenit.getTreeni(1) === null; 
      * </pre>

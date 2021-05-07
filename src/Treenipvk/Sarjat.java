@@ -55,9 +55,9 @@ public class Sarjat implements Iterable<Sarja>{
      * @example
      * <pre name="test">
      * Sarjat sarjat = new Sarjat();
-     * Sarja sarja1 = new Sarja(); sarja1.rekisteroi(); sarja1.setHarid(0); sarjat.lisaa(sarja1);
-     * Sarja sarja2 = new Sarja(); sarja2.rekisteroi(); sarja1.setHarid(1); sarjat.lisaa(sarja2);
-     * Sarja sarja3 = new Sarja(); sarja3.rekisteroi(); sarja1.setHarid(1); sarjat.lisaa(sarja3);
+     * Sarja sarja1 = new Sarja(); sarja1.rekisteroi(); sarja1.setHarid(0); sarjat.lisaaSarja(sarja1);
+     * Sarja sarja2 = new Sarja(); sarja2.rekisteroi(); sarja1.setHarid(1); sarjat.lisaaSarja(sarja2);
+     * Sarja sarja3 = new Sarja(); sarja3.rekisteroi(); sarja1.setHarid(1); sarjat.lisaaSarja(sarja3);
      * sarjat.getSarja(1).getId() === 1;
      * sarjat.getSarja(2).getId() === 2;
      * sarjat.getSarja(3).getId() === 3;
@@ -78,13 +78,14 @@ public class Sarjat implements Iterable<Sarja>{
      * @return palauttaa listana vastaavat sarjat.
      * @example
      * <pre name="test">
+     * #import java.util.ArrayList;
      * Sarjat sarjat = new Sarjat();
-     * Sarja sarja1 = new Sarja(); sarja1.rekisteroi(); sarja1.setHarid(0); sarjat.lisaa(sarja1);
-     * Sarja sarja2 = new Sarja(); sarja2.rekisteroi(); sarja1.setHarid(1); sarjat.lisaa(sarja2);
-     * Sarja sarja3 = new Sarja(); sarja3.rekisteroi(); sarja1.setHarid(1); sarjat.lisaa(sarja3);
-     * ArrayList<Sarja> found = sarjat.getSarjat(1);
-     * found.get(0).getHarid === 1;
-     * found.get(1).getHarid === 1;
+     * Sarja sarja1 = new Sarja(); sarja1.rekisteroi(); sarja1.setHarid(0); sarjat.lisaaSarja(sarja1);
+     * Sarja sarja2 = new Sarja(); sarja2.rekisteroi(); sarja2.setHarid(1); sarjat.lisaaSarja(sarja2);
+     * Sarja sarja3 = new Sarja(); sarja3.rekisteroi(); sarja3.setHarid(1); sarjat.lisaaSarja(sarja3);
+     * ArrayList<Sarja> found = new ArrayList<>(sarjat.getSarjat(1));
+     * found.get(0).getHarid() === 1;
+     * found.get(1).getHarid() === 1;
      * </pre>
      */
     public List<Sarja> getSarjat(int harid){
@@ -175,9 +176,9 @@ public class Sarjat implements Iterable<Sarja>{
      * @example
      * <pre name="test">
      * Sarjat sarjat = new Sarjat();
-     * Sarja sarja1 = new Sarja(); sarja1.rekisteroi(); sarjat.lisaa(sarja1);
-     * Sarja sarja2 = new Sarja(); sarja2.rekisteroi(); sarjat.lisaa(sarja2);
-     * Sarja sarja3 = new Sarja(); sarja3.rekisteroi(); sarjat.lisaa(sarja3);
+     * Sarja sarja1 = new Sarja(); sarja1.rekisteroi(); sarjat.lisaaSarja(sarja1);
+     * Sarja sarja2 = new Sarja(); sarja2.rekisteroi(); sarjat.lisaaSarja(sarja2);
+     * Sarja sarja3 = new Sarja(); sarja3.rekisteroi(); sarjat.lisaaSarja(sarja3);
      * int id = sarja2.getId();
      * sarjat.poista(id);
      * sarjat.getSarja(id) === null;
@@ -198,14 +199,13 @@ public class Sarjat implements Iterable<Sarja>{
      * @example
      * <pre name= "test">
      * #PACKAGEIMPORT
-     * #import java.util*;
      *  
      *  Sarjat sarjat = new Sarjat();
-     *  Sarja sarja1 = new Sarja(80, 6); sarja1.rekisteroi(); sarjat.lisaa(sarja1);
-     *  Sarja sarja2 = new Sarja(70, 8); sarja2.rekisteroi(); sarjat.lisaa(sarja2);
-     *  Sarja sarja3 = new Sarja(60, 10); sarja3.rekisteroi(); sarjat.lisaa(sarja3);
-     *  Sarja sarja4 = new Sarja(50, 12); sarja4.rekisteroi(); sarjat.lisaa(sarja4);
-     *  Sarja sarja5 = new Sarja(40, 16); sarja5.rekisteroi(); sarjat.lisaa(sarja5);
+     *  Sarja sarja1 = new Sarja(80, 6); sarja1.rekisteroi(); sarjat.lisaaSarja(sarja1);
+     *  Sarja sarja2 = new Sarja(70, 8); sarja2.rekisteroi(); sarjat.lisaaSarja(sarja2);
+     *  Sarja sarja3 = new Sarja(60, 10); sarja3.rekisteroi(); sarjat.lisaaSarja(sarja3);
+     *  Sarja sarja4 = new Sarja(50, 12); sarja4.rekisteroi(); sarjat.lisaaSarja(sarja4);
+     *  Sarja sarja5 = new Sarja(40, 16); sarja5.rekisteroi(); sarjat.lisaaSarja(sarja5);
      *  
      *  Iterator<Sarja> i = sarjat.iterator();
      *  i.next() === sarja1;

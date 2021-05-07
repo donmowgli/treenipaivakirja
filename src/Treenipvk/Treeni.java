@@ -111,7 +111,7 @@ public class Treeni implements Muokattava, Cloneable, Comparable<Treeni> {
      *      Treeni treeni2 = new Treeni();
      *      treeni1.rekisteroi();
      *      treeni2.rekisteroi();
-     *      treeni1.trid === treeni2.trid - 1;
+     *      treeni1.getId() === treeni2.getId() - 1;
      * </pre>
      */
     public int rekisteroi() {
@@ -169,10 +169,11 @@ public class Treeni implements Muokattava, Cloneable, Comparable<Treeni> {
      * @return palauttaa kloonin halutusta Treenistä
      * @example
      * <pre name="test">
+     * #import java.time.LocalDate;
      * Treeni treeni1 = new Treeni("testi", LocalDate.now());
      * Treeni treeni2 = treeni1.clone();
-     * treeni1.nimi.equals(treeni2.nimi) === true;
-     * treeni1.pvm.equals(treeni2.pvm) === true;
+     * treeni1.getNimi().equals(treeni2.getNimi()) === true;
+     * treeni1.getPvm().equals(treeni2.getPvm()) === true;
      * </pre>
      */
     @Override

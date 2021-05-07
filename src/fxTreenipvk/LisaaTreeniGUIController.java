@@ -44,6 +44,7 @@ public class LisaaTreeniGUIController {
         this.muokattava = muokattava;
         harjoitteet.clear();
         harjoitteet.setOnMouseClicked(e ->{ if (e.getClickCount() > 1) lisaaListaan(harjoitteet.getSelectedObject()); });
+        lisattava.setOnMouseClicked(e ->{ if (e.getClickCount() > 1) poistaListasta(lisattava.getSelectedObject()); });
         lisattava.clear();
         naytaValittavat();
         if (muokattava != null) {naytaLisattavat();}
@@ -51,6 +52,10 @@ public class LisaaTreeniGUIController {
     
     private void lisaaListaan(Harjoite harjoite) {
         lisattava.add(harjoite.getNimi(), harjoite);
+    }
+    
+    private void poistaListasta(Harjoite harjoite) {
+        lisattava.getObjects().remove(harjoite);
     }
     
     /**

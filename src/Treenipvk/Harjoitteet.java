@@ -48,7 +48,7 @@ public class Harjoitteet implements Iterable<Harjoite> {
      * @param harjoite harjoitteisiin lisättävä harjoite
      */
     public void lisaaHarjoite(Harjoite harjoite) {
-        harjoitteet.add(harjoite);
+        this.harjoitteet.add(harjoite);
     }
     
     /**
@@ -58,12 +58,12 @@ public class Harjoitteet implements Iterable<Harjoite> {
      * @example
      * <pre name="test">
      * Harjoitteet harjoitteet = new Harjoitteet();
-     * Harjoite harjoite1 = new Harjoite("testi1", 3); harjoite1.rekisteroi(); harjoite1.setTrid(1); harjoitteet.lisaa(harjoite1);
-     * Harjoite harjoite2 = new Harjoite("testi2", 3); harjoite2.rekisteroi(); harjoite2.setTrid(2); harjoitteet.lisaa(harjoite2);
-     * Harjoite harjoite3 = new Harjoite("testi3", 3); harjoite3.rekisteroi(); harjoite3.setTrid(2); harjoitteet.lisaa(harjoite3);
-     * harjoitteet.getHarjoite("1").getId() === 1;
-     * harjoitteet.getHarjoite("2").getId() === 2;
-     * harjoitteet.getHarjoite("3").getId() === 3;
+     * Harjoite harjoite1 = new Harjoite("testi1", 0, 3); harjoite1.rekisteroi(); harjoite1.setTrid(1); harjoitteet.lisaaHarjoite(harjoite1);
+     * Harjoite harjoite2 = new Harjoite("testi2", 0, 3); harjoite2.rekisteroi(); harjoite2.setTrid(2); harjoitteet.lisaaHarjoite(harjoite2);
+     * Harjoite harjoite3 = new Harjoite("testi3", 0, 3); harjoite3.rekisteroi(); harjoite3.setTrid(3); harjoitteet.lisaaHarjoite(harjoite3);
+     * harjoitteet.getHarjoite(1).getId() === 1;
+     * harjoitteet.getHarjoite(2).getId() === 2;
+     * harjoitteet.getHarjoite(3).getId() === 3;
      * </pre>
      */
     public Harjoite getHarjoite(int id) {
@@ -82,9 +82,9 @@ public class Harjoitteet implements Iterable<Harjoite> {
      * @example
      * <pre name="test">
      * Harjoitteet harjoitteet = new Harjoitteet();
-     * Harjoite harjoite1 = new Harjoite("testi1", 3); harjoite1.rekisteroi(); harjoite1.setTrid(1); harjoitteet.lisaa(harjoite1);
-     * Harjoite harjoite2 = new Harjoite("testi2", 3); harjoite2.rekisteroi(); harjoite2.setTrid(2); harjoitteet.lisaa(harjoite2);
-     * Harjoite harjoite3 = new Harjoite("testi3", 3); harjoite3.rekisteroi(); harjoite3.setTrid(2); harjoitteet.lisaa(harjoite3);
+     * Harjoite harjoite1 = new Harjoite("testi1", 0, 3); harjoite1.rekisteroi(); harjoite1.setTrid(1); harjoitteet.lisaaHarjoite(harjoite1);
+     * Harjoite harjoite2 = new Harjoite("testi2", 0, 3); harjoite2.rekisteroi(); harjoite2.setTrid(2); harjoitteet.lisaaHarjoite(harjoite2);
+     * Harjoite harjoite3 = new Harjoite("testi3", 0, 3); harjoite3.rekisteroi(); harjoite3.setTrid(2); harjoitteet.lisaaHarjoite(harjoite3);
      * harjoitteet.getHarjoite("testi1").getNimi() === "testi1";
      * harjoitteet.getHarjoite("testi2").getNimi() === "testi2";
      * harjoitteet.getHarjoite("testi3").getNimi() === "testi3";
@@ -114,12 +114,12 @@ public class Harjoitteet implements Iterable<Harjoite> {
      * @example
      * <pre name="test">
      * Harjoitteet harjoitteet = new Harjoitteet();
-     * Harjoite harjoite1 = new Harjoite("testi1", 3); harjoite1.rekisteroi(); harjoite1.setTrid(1); harjoitteet.lisaa(harjoite1);
-     * Harjoite harjoite2 = new Harjoite("testi2", 3); harjoite2.rekisteroi(); harjoite2.setTrid(2); harjoitteet.lisaa(harjoite2);
-     * Harjoite harjoite3 = new Harjoite("testi3", 3); harjoite3.rekisteroi(); harjoite3.setTrid(2); harjoitteet.lisaa(harjoite3);
-     * harjoitteet.getHarjoitteet(2);
-     * harjoitteet.getHarjoitteet().get(0).getNimi === "testi2";
-     * harjoitteet.getHarjoitteet().get(2).getNimi === "testi3";
+     * Harjoite harjoite1 = new Harjoite("testi1", 0, 3); harjoite1.rekisteroi(); harjoite1.setTrid(1); harjoitteet.lisaaHarjoite(harjoite1);
+     * Harjoite harjoite2 = new Harjoite("testi2", 0, 3); harjoite2.rekisteroi(); harjoite2.setTrid(2); harjoitteet.lisaaHarjoite(harjoite2);
+     * Harjoite harjoite3 = new Harjoite("testi3", 0, 3); harjoite3.rekisteroi(); harjoite3.setTrid(2); harjoitteet.lisaaHarjoite(harjoite3);
+     * harjoitteet.getHarjoitteet().get(0).getNimi() === "testi1";
+     * harjoitteet.getHarjoitteet().get(1).getNimi() === "testi2";
+     * harjoitteet.getHarjoitteet().get(2).getNimi() === "testi3";
      * </pre>
      */
     public List<Harjoite> getHarjoitteet(int trid){
@@ -162,9 +162,9 @@ public class Harjoitteet implements Iterable<Harjoite> {
      * @example
      * <pre name="test">
      * Harjoitteet harjoitteet = new Harjoitteet();
-     * Harjoite harjoite1 = new Harjoite("testi1", 3); harjoite1.rekisteroi(); harjoitteet.lisaa(harjoite1);
-     * Harjoite harjoite2 = new Harjoite("testi2", 3); harjoite2.rekisteroi(); harjoitteet.lisaa(harjoite2);
-     * Harjoite harjoite3 = new Harjoite("testi3", 3); harjoite3.rekisteroi(); harjoitteet.lisaa(harjoite3);
+     * Harjoite harjoite1 = new Harjoite("testi1", 0, 3); harjoite1.rekisteroi(); harjoitteet.lisaaHarjoite(harjoite1);
+     * Harjoite harjoite2 = new Harjoite("testi2", 0, 3); harjoite2.rekisteroi(); harjoitteet.lisaaHarjoite(harjoite2);
+     * Harjoite harjoite3 = new Harjoite("testi3", 0, 3); harjoite3.rekisteroi(); harjoitteet.lisaaHarjoite(harjoite3);
      * harjoitteet.etsi(harjoite1.getNimi()).get(0).getNimi() === "testi1";
      * </pre>
      */
@@ -224,12 +224,12 @@ public class Harjoitteet implements Iterable<Harjoite> {
      * @example
      * <pre name="test">
      * Harjoitteet harjoitteet = new Harjoitteet();
-     * Harjoite harjoite1 = new Harjoite("testi1", 3); harjoite1.rekisteroi(); harjoitteet.lisaa(harjoite1);
-     * Harjoite harjoite2 = new Harjoite("testi2", 3); harjoite2.rekisteroi(); harjoitteet.lisaa(harjoite2);
-     * Harjoite harjoite3 = new Harjoite("testi3", 3); harjoite3.rekisteroi(); harjoitteet.lisaa(harjoite3);
+     * Harjoite harjoite1 = new Harjoite("testi1", 0, 3); harjoite1.rekisteroi(); harjoitteet.lisaaHarjoite(harjoite1);
+     * Harjoite harjoite2 = new Harjoite("testi2", 0, 3); harjoite2.rekisteroi(); harjoitteet.lisaaHarjoite(harjoite2);
+     * Harjoite harjoite3 = new Harjoite("testi3", 0, 3); harjoite3.rekisteroi(); harjoitteet.lisaaHarjoite(harjoite3);
      * int id = harjoite1.getId();
      * harjoitteet.poista(id);
-     * harjoitteet.getHarjoite(is) === null;
+     * harjoitteet.getHarjoite(id) === null;
      * </pre>
      */
     public void poista(int id) {
@@ -247,14 +247,13 @@ public class Harjoitteet implements Iterable<Harjoite> {
      * @example
      * <pre name= "test">
      * #PACKAGEIMPORT
-     * #import java.util*;
      *  
      *  Harjoite harjoitteet = new Harjoitteet();
-     *  Harjoite harjoite1 = new Harjoite("testi1", 3); harjoite1.rekisteroi(); harjoitteet.lisaa(harjoite1);
-     *  Harjoite harjoite2 = new Harjoite("testi2", 4); harjoite2.rekisteroi(); harjoitteet.lisaa(harjoite2);
-     *  Harjoite harjoite3 = new Harjoite("testi3", 5); harjoite3.rekisteroi(); harjoitteet.lisaa(harjoite3);
-     *  Harjoite harjoite4 = new Harjoite("testi4", 6); harjoite4.rekisteroi(); harjoitteet.lisaa(harjoite4);
-     *  Harjoite harjoite5 = new Harjoite("testi5", 7); harjoite5.rekisteroi(); harjoitteet.lisaa(harjoite5);
+     *  Harjoite harjoite1 = new Harjoite("testi1", 0, 3); harjoite1.rekisteroi(); harjoitteet.lisaaHarjoite(harjoite1);
+     *  Harjoite harjoite2 = new Harjoite("testi2", 0, 4); harjoite2.rekisteroi(); harjoitteet.lisaaHarjoite(harjoite2);
+     *  Harjoite harjoite3 = new Harjoite("testi3", 0, 5); harjoite3.rekisteroi(); harjoitteet.lisaaHarjoite(harjoite3);
+     *  Harjoite harjoite4 = new Harjoite("testi4", 0, 6); harjoite4.rekisteroi(); harjoitteet.lisaaHarjoite(harjoite4);
+     *  Harjoite harjoite5 = new Harjoite("testi5", 0, 7); harjoite5.rekisteroi(); harjoitteet.lisaaHarjoite(harjoite5);
      *  
      *  Iterator<Harjoite> i = harjoitteet.iterator();
      *  i.next() === harjoite1;

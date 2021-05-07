@@ -48,12 +48,12 @@ public class Tarkistus {
      * @return palauttaa virheviestin, null jos virhettä ei ole
      * @example
      * <pre name="test">
-     * tarkistaInteger(1243) === null;
-     * tarkistaInteger("21.12") === "Käytä numeroarvojen kohdalla vain numeroita!";
-     * tarkistaInteger("21.12") === "Käytä numeroarvojen kohdalla vain numeroita!";
-     * tarkistaInteger("21.1e") === "Käytä numeroarvojen kohdalla vain numeroita!";
-     * tarkistaInteger("2f.12") === "Käytä numeroarvojen kohdalla vain numeroita!";
-     * tarkistaInteger("2.2.2") === "Käytä numeroarvojen kohdalla vain numeroita!";
+     * Tarkistus tarkistus = new Tarkistus();
+     * tarkistus.tarkistaInteger("21.12") === "Käytä numeroarvojen kohdalla vain numeroita!";
+     * tarkistus.tarkistaInteger("21.12") === "Käytä numeroarvojen kohdalla vain numeroita!";
+     * tarkistus.tarkistaInteger("21.1e") === "Käytä numeroarvojen kohdalla vain numeroita!";
+     * tarkistus.tarkistaInteger("2f.12") === "Käytä numeroarvojen kohdalla vain numeroita!";
+     * tarkistus.tarkistaInteger("2.2.2") === "Käytä numeroarvojen kohdalla vain numeroita!";
      * </pre>
      */
     public String tarkistaInteger(String jono) {
@@ -66,16 +66,17 @@ public class Tarkistus {
      * @return palauttaa virheviestin, null jos virhettä ei ole
      * @example
      * <pre name="test">
-     * tarkistaDouble("21.12") === null;
-     * tarkistaDouble("21.12") === null;
-     * tarkistaDouble("21.1e") === "Käytä numeroarvojen kohdalla vain numeroita!";
-     * tarkistaDouble("2f.12") === "Käytä numeroarvojen kohdalla vain numeroita!";
-     * tarkistaDouble("2.2.2") === "Erottele numerot desimaaleista vain yhdellä pisteellä!";
+     * Tarkistus tarkistus = new Tarkistus();
+     * tarkistus.tarkistaDouble("21.12") === null;
+     * tarkistus.tarkistaDouble("21.12") === null;
+     * tarkistus.tarkistaDouble("21.1e") === "Käytä numeroarvojen kohdalla vain numeroita!";
+     * tarkistus.tarkistaDouble("2f.12") === "Käytä numeroarvojen kohdalla vain numeroita!";
+     * tarkistus.tarkistaDouble("2.2.2") === "Erottele numerot desimaaleista vain yhdellä pisteellä!";
      * </pre>
      */
     public String tarkistaDouble(String jono) {
         if(etsi(jono, numerotDouble) == false) return "Käytä numeroarvojen kohdalla vain numeroita!";
-        if(jono.split(".").length > 2) return "Erottele numerot desimaaleista vain yhdellä pisteellä!";
+        if(jono.split("\\.").length > 2) return "Erottele numerot desimaaleista vain yhdellä pisteellä!";
         return null;
     }
     
@@ -84,13 +85,14 @@ public class Tarkistus {
      * @return palauttaa virheilmoituksen merkkijonona, palauttaa null jos toimii
      * @example
      * <pre name="test">
-     * tarkistaPvm("1.1.2021") === null;
-     * tarkistaPvm("1.2.2019") === null;
-     * tarkistaPvm("2.3.2000") === null;
-     * tarkistaPvm("1.1.1.2021") === "Tarkista arvojen erotukset ja että kaikki arvot on täytetty!";
-     * tarkistaPvm("2.12.2000") === "Kuukauden pitää olla alle 13!";
-     * tarkistaPvm("30.2.2021") === "Päivämäärä liian suuri asettamallesi kuukaudelle!";
-     * tarkistaPvm("30.2.2121") === "Et voi kirjata merkintöjä tulevaisuuteen!";
+     * Tarkistus tarkistus = new Tarkistus();
+     * tarkistus.tarkistaPvm("1.1.2021") === null;
+     * tarkistus.tarkistaPvm("1.2.2019") === null;
+     * tarkistus.tarkistaPvm("2.3.2000") === null;
+     * tarkistus.tarkistaPvm("1.1.1.2021") === "Tarkista arvojen erotukset ja että kaikki arvot on täytetty!";
+     * tarkistus.tarkistaPvm("2.13.2000") === "Kuukauden pitää olla alle 13!";
+     * tarkistus.tarkistaPvm("30.2.2021") === "Päivämäärä liian suuri asettamallesi kuukaudelle!";
+     * tarkistus.tarkistaPvm("28.2.2121") === "Et voi kirjata merkintöjä tulevaisuuteen!";
      * </pre>
      */
     public String tarkistaPvm(String jono) {
@@ -102,7 +104,7 @@ public class Tarkistus {
         int kk = Integer.parseInt(arvot[1]);
         int vv = Integer.parseInt(arvot[2]);
         if(kk > 12) {return "Kuukauden pitää olla alle 13!";}
-        if(pv > kuukaudet[kk]) {return "Päivämäärä liian suuri asettamallesi kuukaudelle!";}
+        if(pv > kuukaudet[kk - 1]) {return "Päivämäärä liian suuri asettamallesi kuukaudelle!";}
         if(vv > LocalDate.now().getYear() || kk > LocalDate.now().getMonthValue()) {return "Et voi kirjata merkintöjä tulevaisuuteen!";}
         if(kk == LocalDate.now().getMonthValue() && pv > LocalDate.now().getDayOfMonth()) {return "Et voi kirjata merkintöjä tulevaisuuteen!";}
         return null;

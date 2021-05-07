@@ -34,11 +34,12 @@ public class Paivakirja {
      * @throws SailoException jos tietorakenteen kanssa ongelmia
      * @example
      * <pre name="test">
+     * #THROWS SailoException
      *  Paivakirja paivakirja = new Paivakirja();
      *  Treeni treeni1 = new Treeni(); treeni1.rekisteroi();
      *  Treeni treeni2 = new Treeni(); treeni2.rekisteroi();
-     *  paivakirja.lisaa(treeni1); kerho.getTreeneja() === 1;
-     *  paivakirja.lisaa(treeni2); kerho.getTreeneja() === 2;
+     *  paivakirja.lisaa(treeni1); paivakirja.getTreeneja() === 1;
+     *  paivakirja.lisaa(treeni2); paivakirja.getTreeneja() === 2;
      *  </pre>
      */
     public void lisaa(Treeni treeni) throws SailoException {
@@ -121,8 +122,8 @@ public class Paivakirja {
      *  Paivakirja paivakirja = new Paivakirja();
      *  Harjoite harjoite1 = new Harjoite(); harjoite1.rekisteroi();
      *  Harjoite harjoite2 = new Harjoite(); harjoite2.rekisteroi();
-     *  paivakirja.lisaa(harjoite1); kerho.getHarjoitteita() === 1;
-     *  paivakirja.lisaa(harjoite2); kerho.getHarjoitteita() === 2;
+     *  paivakirja.lisaa(harjoite1); paivakirja.getHarjoitteita() === 1;
+     *  paivakirja.lisaa(harjoite2); paivakirja.getHarjoitteita() === 2;
      *  </pre>
      */
     public void lisaa(Harjoite harjoite) {
@@ -204,8 +205,8 @@ public class Paivakirja {
      *  Paivakirja paivakirja = new Paivakirja();
      *  Sarja sarja1 = new Sarja(); sarja1.rekisteroi();
      *  Sarja sarja2 = new Sarja(); sarja2.rekisteroi();
-     *  paivakirja.lisaa(sarja1); kerho.getSarjoja() === 1;
-     *  paivakirja.lisaa(sarja2); kerho.getSarjoja() === 2;
+     *  paivakirja.lisaa(sarja1); paivakirja.getSarjoja() === 1;
+     *  paivakirja.lisaa(sarja2); paivakirja.getSarjoja() === 2;
      *  </pre>
      */
     public void lisaa(Sarja sarja) {

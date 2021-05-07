@@ -116,11 +116,11 @@ public class Sarja implements Muokattava, Cloneable, Comparable<Sarja> {
      * @return palauttaa sarjan id:n eli sarid-oliomuuttujan.
      * @example
      * <pre name="test">
-     *      Sarja sarja1 = new sarja();
-     *      Sarja sarja2 = new sarja();
+     *      Sarja sarja1 = new Sarja();
+     *      Sarja sarja2 = new Sarja();
      *      sarja1.rekisteroi();
      *      sarja2.rekisteroi();
-     *      sarja1.sarid === sarja2.sarid - 1;
+     *      sarja1.getId() === sarja2.getId() - 1;
      * </pre>
      */
     public int rekisteroi() {
@@ -174,8 +174,8 @@ public class Sarja implements Muokattava, Cloneable, Comparable<Sarja> {
      * <pre name="test">
      * Sarja sarja1 = new Sarja(80, 5);
      * Sarja sarja2 = sarja1.clone();
-     * sarja1.tyopaino === sarja2.tyopaino;
-     * sarja1.toistot === sarja2.toistot;
+     * sarja1.getTyopaino() ~~~ sarja2.getTyopaino();
+     * sarja1.getToistot() === sarja2.getToistot();
      * </pre>
      */
     @Override

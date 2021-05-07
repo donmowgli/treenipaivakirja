@@ -134,10 +134,10 @@ public class Harjoite implements Muokattava, Cloneable, Comparable<Harjoite> {
      * @example
      * <pre name="test">
      *      Harjoite harjoite1 = new Harjoite();
-     *      Harjoite harjoite2 ) new Harjoite();
+     *      Harjoite harjoite2 = new Harjoite();
      *      harjoite1.rekisteroi();
      *      harjoite2.rekisteroi();
-     *      harjoite1.harid === harjoite2.harid - 1;
+     *      harjoite1.getId() === harjoite2.getId() - 1;
      * </pre>
      */
     public int rekisteroi() {

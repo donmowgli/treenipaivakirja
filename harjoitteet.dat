@@ -1,20 +1,51 @@
-harjoite1|1|0|2|true
-harjoite2|2|0|5|true
-harjoite3|3|0|8|true
-harjoite1|4|1|2|false
-harjoite3|5|1|8|false
-harjoite1|6|2|2|false
-harjoite2|7|2|5|false
-harjoite3|8|2|8|false
-harjoite1|9|3|2|false
-harjoite3|10|3|8|false
-harjoite1|11|4|2|false
-harjoite3|12|4|8|false
-harjoite1 10 4|13|5|2|false
-harjoite3 10 4|14|5|8|false
-harjoite1|15|6|2|false
-harjoite2|16|6|5|false
-harjoite3|17|6|8|false
-harjoite1|18|5|2|false
-harjoite2|19|5|5|false
-harjoite3|20|5|8|false
+Penkki (Voima)|1|0|4|true
+Ylöstyöntö (Voima)|2|0|4|true
+Vinopenkki|3|0|3|true
+Ylöstyöntö käsipainoilla|4|0|3|true
+Ojentajaprässi|5|0|3|true
+Dippi|6|0|3|true
+Leuat|7|0|3|true
+Ylätaljaveto kapea|8|0|3|true
+Alataljaveto leveä|9|0|3|true
+Kulmasoutu|10|0|3|true
+Skottipenkki|11|0|4|true
+Hauisprässi|12|0|3|true
+Kyykky|13|0|3|true
+Maastaveto|14|0|3|true
+Etukyykky|15|0|3|true
+Askelkyykky|16|0|3|true
+Pohjeprässi|17|0|4|true
+Penkki (Voima)|18|1|4|false
+Ylöstyöntö (Voima)|19|1|4|false
+Vinopenkki|20|1|3|false
+Ylöstyöntö käsipainoilla|21|1|3|false
+Ojentajaprässi|22|1|3|false
+Dippi|23|1|3|false
+Leuat|24|2|3|false
+Ylätaljaveto kapea|25|2|3|false
+Alataljaveto leveä|26|2|3|false
+Kulmasoutu|27|2|3|false
+Skottipenkki|28|2|4|false
+Hauisprässi|29|2|3|false
+Kyykky|30|3|3|false
+Maastaveto|31|3|3|false
+Etukyykky|32|3|3|false
+Askelkyykky|33|3|3|false
+Pohjeprässi|34|3|4|false
+Penkki (Voima)|35|4|4|false
+Ylöstyöntö (Voima)|36|4|4|false
+Vinopenkki|37|4|3|false
+Ylöstyöntö käsipainoilla|38|4|3|false
+Ojentajaprässi|39|4|3|false
+Dippi|40|4|3|false
+Leuat|41|5|3|false
+Ylätaljaveto kapea|42|5|3|false
+Alataljaveto leveä|43|5|3|false
+Kulmasoutu|44|5|3|false
+Skottipenkki|45|5|4|false
+Hauisprässi|46|5|3|false
+Kyykky|47|6|3|false
+Maastaveto|48|6|3|false
+Etukyykky|49|6|3|false
+Askelkyykky|50|6|3|false
+Pohjeprässi|51|6|4|false
